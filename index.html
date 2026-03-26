@@ -779,6 +779,170 @@ function PaketView(){
   </div>);
 }
 
+
+// ═══ RÅDGIVAREN — "Jämför med det du har idag" ═══
+function AdvisorView(){
+  const[step,setStep]=useState(1);
+  // Current services
+  const[curMobOp,setCurMobOp]=useState(null);const[curMobPrice,setCurMobPrice]=useState(null);const[curPersons,setCurPersons]=useState(1);
+  const[curBbOp,setCurBbOp]=useState(null);const[curBbPrice,setCurBbPrice]=useState(null);
+  const[curTvOp,setCurTvOp]=useState(null);const[curTvPrice,setCurTvPrice]=useState(null);
+  const[curStreaming,setCurStreaming]=useState([]);
+  // Wants
+  const[wSurf,setWSurf]=useState("obegr");const[wPhone,setWPhone]=useState(false);const[wSport,setWSport]=useState(false);
+
+  const allOps=["telia","tele2","tre","telenor","hallon","comviq","fello","vimla","halebop","chilimobil"];
+  const bundleOps=["telia","tele2","telenor","tre"];
+  const famExtra={telia:239,tele2:169,tre:149,telenor:199};
+  const stPicks=[
+    {id:"netflix",name:"Netflix",price:149},{id:"hbomax",name:"HBO Max",price:119},{id:"disneyplus",name:"Disney+",price:109},
+    {id:"viaplaytotal",name:"Viaplay Total",price:449,note:true},{id:"prime",name:"Amazon Prime",price:69},
+    {id:"skyshowtime",name:"SkyShowtime",price:89},{id:"tv4sport",name:"TV4 Sport",price:249,note:true},
+    {id:"appletv",name:"Apple TV+",price:99},{id:"discoveryplus",name:"Discovery+",price:79},
+  ];
+  const toggleCS=id=>setCurStreaming(p=>p.includes(id)?p.filter(x=>x!==id):[...p,id]);
+
+  const curTotal=(curMobPrice||0)+(curBbPrice||0)+(curTvPrice||0)+curStreaming.reduce((s,id)=>{const f=stPicks.find(x=>x.id===id);return s+(f?f.price:0);},0);
+
+  // Calculate alternatives
+  const alts=useMemo(()=>{
+    if(step<3)return[];
+    const surfMin=wSurf==="10gb"?5:wSurf==="30gb"?20:9999;
+    return bundleOps.map(op=>{
+      const plans=PLANS.filter(p=>p.operator===op&&p.data>=surfMin).sort((a,b)=>a.price-b.price);
+      if(!plans.length)return null;
+      const mob=plans[0];
+      let mP=mob.campaignPrice||mob.price;
+      if(curPersons>1)mP=mP+(curPersons-1)*(famExtra[op]||199);
+      // Bredband
+      const bbs=BROADBAND.filter(b=>b.operator===op).sort((a,b)=>(a.campaignPrice||a.price)-(b.campaignPrice||b.price));
+      const bb=bbs[0];const bP=bb?(bb.campaignPrice||bb.price):0;
+      const disc=bb?BUNDLE_DISCOUNTS[op]||0:0;
+      // TV
+      const tvs=TV_PLANS.filter(t=>t.operator===op&&t.type!=="streaming");
+      let tv=null,tP=0;
+      if(tvs.length){
+        if(wSport)tv=tvs.find(t=>t.size==="sport")||tvs[tvs.length-1];
+        else tv=tvs.find(t=>t.size==="mellan")||tvs.find(t=>t.size==="bas")||tvs[0];
+        if(tv)tP=tv.campaignPrice||tv.price;
+      }
+      // Streaming included
+      const inc=new Set();
+      if(op==="telia"&&mob.name){
+        if(mob.name.includes("3-i-1")){["netflix","hbomax","disneyplus"].forEach(s=>inc.add(s));}
+        else if(mob.name.includes("Netflix"))inc.add("netflix");
+        else if(mob.name.includes("Disney"))inc.add("disneyplus");
+        else if(mob.name.includes("HBO"))inc.add("hbomax");
+      }
+      if(tv&&tv.streamIncludes)tv.streamIncludes.forEach(s=>inc.add(s));
+      const strP=curStreaming.reduce((s,id)=>{if(inc.has(id))return s;const f=stPicks.find(x=>x.id===id);return s+(f?f.price:0);},0);
+      const total=mP+bP+tP+strP-disc;
+      const saving=curTotal-total;
+      return{op,mob,bb,tv,mP,bP,tP,strP,disc,total,saving,inc,yearSaving:saving*12};
+    }).filter(Boolean).sort((a,b)=>a.total-b.total);
+  },[step,curTotal,curPersons,wSurf,wSport,curStreaming]);
+
+  const BackBtn=({onBack})=>(<button onClick={onBack} style={{display:"flex",alignItems:"center",gap:6,marginBottom:16,background:C.dark,border:`1.5px solid ${C.cyan}40`,color:C.cyan,padding:"10px 20px",borderRadius:12,cursor:"pointer",fontFamily:"inherit",fontSize:13,fontWeight:700}}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Tillbaka</button>);
+
+  return(<div>
+    <section style={{textAlign:"center",padding:"36px 20px 20px"}}><h2 style={{fontSize:"clamp(24px,4vw,40px)",fontWeight:800,letterSpacing:"-0.03em",marginBottom:6,color:C.text}}>Kolla <span style={{background:`linear-gradient(135deg,${C.mint},${C.cyan})`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>ditt pris</span></h2><p style={{fontSize:14,color:C.subtle}}>Fyll i vad du betalar — se hur mycket du kan spara.</p></section>
+
+    {/* Step 1: Vad har du idag? */}
+    {step===1&&<div>
+      <div style={{fontSize:14,fontWeight:700,color:C.text,marginBottom:14}}>Vad har du idag?</div>
+      {/* Mobil */}
+      <div style={{marginBottom:16}}>
+        <div style={{fontSize:12,fontWeight:600,color:C.muted,marginBottom:6}}>Mobiloperatör</div>
+        <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:8}}>{allOps.map(op=>(<button key={op} onClick={()=>setCurMobOp(curMobOp===op?null:op)} style={{padding:"6px 14px",borderRadius:10,border:curMobOp===op?`1.5px solid ${opColor(op)}`:`1px solid ${C.surface}`,background:curMobOp===op?"rgba(255,255,255,0.04)":"transparent",color:curMobOp===op?opColor(op):C.subtle,fontSize:11,fontWeight:600,cursor:"pointer",fontFamily:"inherit"}}>{opName(op)}</button>))}</div>
+        {curMobOp&&<div style={{display:"flex",flexDirection:"column",gap:8}}>
+          <div style={{display:"flex",gap:6,flexWrap:"wrap",alignItems:"center"}}>
+            <span style={{fontSize:11,color:C.subtle}}>Antal SIM-kort:</span>
+            {[1,2,3,4,5].map(n=>(<button key={n} onClick={()=>setCurPersons(n)} style={{width:28,height:28,borderRadius:8,border:curPersons===n?`1px solid ${C.violet}`:`1px solid ${C.surface}`,background:curPersons===n?"rgba(139,92,246,0.08)":"transparent",color:curPersons===n?C.violet:C.subtle,fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"'DM Mono',monospace"}}>{n}</button>))}
+          </div>
+          <div style={{display:"flex",gap:6,alignItems:"center"}}>
+            <span style={{fontSize:11,color:C.subtle}}>Vad betalar du totalt för mobil?</span>
+            <input type="number" placeholder="kr/mån" value={curMobPrice||""} onChange={e=>setCurMobPrice(Number(e.target.value)||null)} style={{width:90,padding:"5px 10px",borderRadius:8,border:`1px solid ${C.surface}`,background:"rgba(255,255,255,0.03)",color:C.text,fontSize:13,fontWeight:700,fontFamily:"'DM Mono',monospace",outline:"none"}}/>
+            <span style={{fontSize:10,color:C.subtle}}>kr/mån</span>
+          </div>
+        </div>}
+      </div>
+      {/* Bredband */}
+      <div style={{marginBottom:16}}>
+        <div style={{fontSize:12,fontWeight:600,color:C.muted,marginBottom:6}}>Vad betalar du totalt för bredband?</div>
+        <div style={{display:"flex",gap:6,alignItems:"center"}}>
+          <button onClick={()=>{setCurBbOp(null);setCurBbPrice(0);}} style={{padding:"6px 14px",borderRadius:10,border:curBbPrice===0?`1px solid ${C.mint}`:`1px solid ${C.surface}`,background:curBbPrice===0?"rgba(6,214,160,0.06)":"transparent",color:curBbPrice===0?C.mint:C.subtle,fontSize:11,fontWeight:600,cursor:"pointer",fontFamily:"inherit"}}>Har inget</button>
+          <input type="number" placeholder="kr/mån" value={curBbPrice||""} onChange={e=>setCurBbPrice(Number(e.target.value)||null)} style={{width:90,padding:"5px 10px",borderRadius:8,border:`1px solid ${C.surface}`,background:"rgba(255,255,255,0.03)",color:C.text,fontSize:13,fontWeight:700,fontFamily:"'DM Mono',monospace",outline:"none"}}/>
+          <span style={{fontSize:10,color:C.subtle}}>kr/mån</span>
+        </div>
+      </div>
+      {/* TV */}
+      <div style={{marginBottom:16}}>
+        <div style={{fontSize:12,fontWeight:600,color:C.muted,marginBottom:6}}>Vad betalar du totalt för TV?</div>
+        <div style={{display:"flex",gap:6,alignItems:"center"}}>
+          <button onClick={()=>{setCurTvOp(null);setCurTvPrice(0);}} style={{padding:"6px 14px",borderRadius:10,border:curTvPrice===0?`1px solid ${C.mint}`:`1px solid ${C.surface}`,background:curTvPrice===0?"rgba(6,214,160,0.06)":"transparent",color:curTvPrice===0?C.mint:C.subtle,fontSize:11,fontWeight:600,cursor:"pointer",fontFamily:"inherit"}}>Har inget</button>
+          <input type="number" placeholder="kr/mån" value={curTvPrice||""} onChange={e=>setCurTvPrice(Number(e.target.value)||null)} style={{width:90,padding:"5px 10px",borderRadius:8,border:`1px solid ${C.surface}`,background:"rgba(255,255,255,0.03)",color:C.text,fontSize:13,fontWeight:700,fontFamily:"'DM Mono',monospace",outline:"none"}}/>
+          <span style={{fontSize:10,color:C.subtle}}>kr/mån</span>
+        </div>
+      </div>
+      {/* Streaming */}
+      <div style={{marginBottom:20}}>
+        <div style={{fontSize:12,fontWeight:600,color:C.muted,marginBottom:6}}>Vilka streamingtjänster betalar du för?</div>
+        <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>{stPicks.map(s=>(<button key={s.id} onClick={()=>toggleCS(s.id)} style={{padding:"5px 12px",borderRadius:10,border:curStreaming.includes(s.id)?`1px solid ${C.cyan}`:`1px solid ${C.surface}`,background:curStreaming.includes(s.id)?"rgba(0,180,216,0.08)":"transparent",color:curStreaming.includes(s.id)?C.text:C.subtle,fontSize:11,fontWeight:600,cursor:"pointer",fontFamily:"inherit"}}>{s.name} {s.price} kr{s.note?" *":""}</button>))}</div>
+        <div style={{fontSize:9,color:C.subtle,marginTop:6,lineHeight:1.5}}>* Obundet pris. Viaplay Total 349 kr med 12 mån bindning. TV4 Sport 249 kr obundet.</div>
+      </div>
+      {/* Summary */}
+      <div style={{padding:"14px 18px",borderRadius:12,background:"rgba(255,255,255,0.02)",border:`1px solid ${C.surface}`,marginBottom:16,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+        <span style={{fontSize:13,fontWeight:600,color:C.text}}>Du betalar idag:</span>
+        <span style={{fontSize:24,fontWeight:800,color:"#f87171",fontFamily:"'DM Mono',monospace"}}>{curTotal} kr/mån</span>
+      </div>
+      <button onClick={()=>setStep(2)} disabled={!curMobOp||!curMobPrice} style={{width:"100%",padding:"14px",borderRadius:12,background:curMobOp&&curMobPrice?`linear-gradient(135deg,${C.mint},${C.cyan})`:"rgba(255,255,255,0.04)",color:curMobOp&&curMobPrice?C.ink:C.subtle,fontSize:14,fontWeight:800,cursor:curMobOp&&curMobPrice?"pointer":"not-allowed",fontFamily:"inherit",border:"none"}}>Fortsätt →</button>
+    </div>}
+
+    {/* Step 2: Vad behöver du? */}
+    {step===2&&<div><BackBtn onBack={()=>setStep(1)}/>
+      <div style={{fontSize:14,fontWeight:700,color:C.text,marginBottom:16}}>Vad behöver du?</div>
+      <div style={{marginBottom:16}}>
+        <div style={{fontSize:12,fontWeight:600,color:C.muted,marginBottom:8}}>Surfmängd</div>
+        <div style={{display:"flex",gap:10}}>
+          {[{id:"10gb",l:"10 GB"},{id:"30gb",l:"30 GB"},{id:"obegr",l:"Obegr."}].map(s=>(<button key={s.id} onClick={()=>setWSurf(s.id)} style={{padding:"10px 20px",borderRadius:12,border:wSurf===s.id?`1.5px solid ${C.mint}`:`1px solid ${C.surface}`,background:wSurf===s.id?"rgba(6,214,160,0.08)":"transparent",color:wSurf===s.id?C.mint:C.subtle,fontSize:14,fontWeight:700,cursor:"pointer",fontFamily:"'DM Mono',monospace"}}>{s.l}</button>))}
+        </div>
+      </div>
+      <div style={{display:"flex",gap:12,marginBottom:20}}>
+        <button onClick={()=>setWSport(!wSport)} style={{padding:"10px 20px",borderRadius:12,border:wSport?`1.5px solid ${C.violet}`:`1px solid ${C.surface}`,background:wSport?"rgba(139,92,246,0.08)":"transparent",color:wSport?C.violet:C.subtle,fontSize:13,fontWeight:600,cursor:"pointer",fontFamily:"inherit"}}>Jag vill ha sport</button>
+      </div>
+      <button onClick={()=>setStep(3)} style={{width:"100%",padding:"14px",borderRadius:12,background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:14,fontWeight:800,cursor:"pointer",fontFamily:"inherit",border:"none"}}>Visa vad jag kan spara →</button>
+    </div>}
+
+    {/* Step 3: Resultat */}
+    {step===3&&<div><BackBtn onBack={()=>setStep(2)}/>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
+        <div style={{fontSize:14,fontWeight:700,color:C.text}}>Dina alternativ</div>
+        <div style={{fontSize:12,color:C.subtle}}>Idag: <span style={{color:"#f87171",fontWeight:700,fontFamily:"'DM Mono',monospace"}}>{curTotal} kr/mån</span></div>
+      </div>
+      {alts.length===0&&<div style={{padding:20,textAlign:"center",color:C.subtle}}>Du har redan ett bra pris! Vi hittade inga billigare alternativ.</div>}
+      {alts.map(a=>(<div key={a.op} style={{background:"rgba(255,255,255,0.02)",border:`1px solid ${C.surface}`,borderRadius:16,padding:20,marginBottom:12}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
+          <div style={{fontSize:15,fontWeight:800,color:C.text}}>{opName(a.op)}</div>
+          <div style={{fontSize:11,fontWeight:800,color:C.ink,background:`linear-gradient(135deg,${C.mint},${C.cyan})`,padding:"4px 14px",borderRadius:20}}>Spara {a.saving} kr/mån</div>
+        </div>
+        <div style={{display:"flex",flexDirection:"column",gap:4,marginBottom:12}}>
+          <div style={{display:"flex",justifyContent:"space-between",fontSize:12,padding:"6px 10px",borderRadius:8,background:"rgba(255,255,255,0.01)"}}><span style={{color:C.subtle}}>Mobil{curPersons>1?` (${curPersons} pers)`:""}: {a.mob.name}</span><span style={{color:C.mint,fontWeight:700,fontFamily:"'DM Mono',monospace"}}>{a.mP} kr</span></div>
+          {a.bb&&<div style={{display:"flex",justifyContent:"space-between",fontSize:12,padding:"6px 10px",borderRadius:8,background:"rgba(255,255,255,0.01)"}}><span style={{color:C.subtle}}>Bredband: {a.bb.name}</span><span style={{color:C.cyan,fontWeight:700,fontFamily:"'DM Mono',monospace"}}>{a.bP} kr</span></div>}
+          {a.tv&&<div style={{display:"flex",justifyContent:"space-between",fontSize:12,padding:"6px 10px",borderRadius:8,background:"rgba(255,255,255,0.01)"}}><span style={{color:C.subtle}}>TV: {a.tv.name}</span><span style={{color:C.violet,fontWeight:700,fontFamily:"'DM Mono',monospace"}}>{a.tP} kr</span></div>}
+          {a.strP>0&&<div style={{display:"flex",justifyContent:"space-between",fontSize:12,padding:"6px 10px",borderRadius:8,background:"rgba(255,255,255,0.01)"}}><span style={{color:C.subtle}}>Streaming</span><span style={{color:C.cyan,fontWeight:700,fontFamily:"'DM Mono',monospace"}}>{a.strP} kr</span></div>}
+          {a.inc.size>0&&<div style={{display:"flex",gap:4,flexWrap:"wrap",padding:"4px 10px"}}>{[...a.inc].map(id=>{const f=stPicks.find(x=>x.id===id);return f?<span key={id} style={{fontSize:9,fontWeight:700,color:C.success,padding:"2px 8px",borderRadius:8,background:"rgba(34,197,94,0.08)"}}>{f.name} INGÅR</span>:null;})}</div>}
+          {a.disc>0&&<div style={{display:"flex",justifyContent:"space-between",fontSize:12,padding:"6px 10px",borderRadius:8,background:"rgba(34,197,94,0.06)"}}><span style={{color:C.success,fontWeight:600}}>Samlingsrabatt</span><span style={{color:C.success,fontWeight:700,fontFamily:"'DM Mono',monospace"}}>-{a.disc} kr</span></div>}
+        </div>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",paddingTop:12,borderTop:`1px solid ${C.surface}`}}>
+          <div><span style={{fontSize:28,fontWeight:800,color:C.text,fontFamily:"'DM Mono',monospace"}}>{a.total}</span><span style={{fontSize:11,color:C.subtle,marginLeft:4}}>kr/mån</span><div style={{fontSize:11,color:C.success,fontWeight:700}}>= {a.yearSaving.toLocaleString("sv")} kr/år i besparing</div></div>
+          <a href={getUrl(a.op)} target="_blank" rel="noopener noreferrer sponsored" style={{padding:"10px 22px",borderRadius:12,textDecoration:"none",background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:12,fontWeight:800}}>Gå till {opName(a.op)} →</a>
+        </div>
+      </div>))}
+    </div>}
+  </div>);
+}
+
+
 // ═══ PAGE JÄMFÖR — 6 TABS ═══
 function PageJamfor(){
   const[mode,setMode]=useState("mobil");
@@ -790,7 +954,7 @@ function PageJamfor(){
   useEffect(()=>{const h=()=>{if(br.current)setSticky(br.current.getBoundingClientRect().top<=60);};window.addEventListener("scroll",h,{passive:true});return()=>window.removeEventListener("scroll",h);},[]);
   const applyChip=c=>{if(chip===c){setChip(null);setSb("price_asc");return;}setChip(c);if(c==="billigast")setSb("price_asc");if(c==="varde")setSb("value");};
   const fl=useMemo(()=>{let r=PLANS.filter(p=>p.categories.includes(cat));if(sq.trim()){const q=sq.toLowerCase();r=r.filter(p=>p.name.toLowerCase().includes(q)||p.operator.includes(q)||p.network.toLowerCase().includes(q));}if(!nM){r=r.filter(p=>{let pr=p.price;if(isF&&p.perExtra)pr+=( fc.adults-1+fc.children)*p.perExtra;return pr<=pm;});}if(nS)r=r.filter(p=>p.data>=9999);else if(dm>0)r=r.filter(p=>p.data>=dm);if(fg)r=r.filter(p=>p.fiveG);if(ops.length>0)r=r.filter(p=>ops.includes(p.operator));if(chip==="kampanj")r=r.filter(p=>p.campaignPrice!==null);r.sort((a,b)=>{const g=p=>{if(isF&&p.perExtra)return p.price+(fc.adults-1+fc.children)*p.perExtra;return p.price;};switch(sb){case"price_asc":return g(a)-g(b);case"price_desc":return g(b)-g(a);case"data_desc":return b.data-a.data;case"value":return g(a)/Math.max(a.data,1)-g(b)/Math.max(b.data,1);default:return 0;}});return r;},[cat,pm,dm,fg,ops,sb,fc,isF,sq,nM,nS,chip]);
-  const MODES=[{id:"mobil",l:"Mobil"},{id:"bredband",l:"Bredband"},{id:"tv",l:"TV"},{id:"streaming",l:"Streaming"},{id:"telefoner",l:"Telefoner"},{id:"paket",l:"Allt-i-ett"}];
+  const MODES=[{id:"mobil",l:"Mobil"},{id:"bredband",l:"Bredband"},{id:"tv",l:"TV"},{id:"streaming",l:"Streaming"},{id:"telefoner",l:"Telefoner"},{id:"paket",l:"Allt-i-ett"},{id:"radgivare",l:"Kolla ditt pris"}];
   return(<div>
     {mode==="mobil"?(
     <div>
@@ -800,27 +964,33 @@ function PageJamfor(){
         <h1 style={{fontSize:"clamp(32px,6vw,60px)",fontWeight:800,lineHeight:1.05,letterSpacing:"-0.04em",marginBottom:16,color:C.text,position:"relative",zIndex:1}}>Alla <span style={{background:`linear-gradient(135deg,${C.mint},${C.cyan},${C.violet})`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>operatörer.</span><br/>Ett ställe.</h1>
         <p style={{fontSize:"clamp(15px,2vw,18px)",color:C.subtle,maxWidth:500,marginBottom:36,lineHeight:1.5,position:"relative",zIndex:1}}>Hitta, jämför och teckna — helt digitalt.<br/>Mobil, bredband, TV, streaming och telefoner.</p>
         <div style={{display:"flex",gap:6,flexWrap:"wrap",justifyContent:"center",marginBottom:40,position:"relative",zIndex:1}}>{MODES.map(m=>(<button key={m.id} onClick={()=>setMode(m.id)} style={{padding:"10px 20px",borderRadius:24,border:mode===m.id?"none":`1px solid ${C.surface}`,cursor:"pointer",fontFamily:"inherit",fontSize:13,fontWeight:700,background:mode===m.id?`linear-gradient(135deg,${C.mint},${C.cyan})`:C.dark,color:mode===m.id?C.ink:C.muted}}>{m.l}</button>))}</div>
-        <div style={{position:"absolute",bottom:40,left:"50%",transform:"translateX(-50%)",animation:"scrollBounce 2s ease-in-out infinite",opacity:.4}}><svg width="20" height="20" fill="none" stroke={C.subtle} strokeWidth="2"><path d="M5 8l5 5 5-5"/></svg></div>
+        <div style={{position:"absolute",bottom:32,left:"50%",transform:"translateX(-50%)",animation:"scrollBounce 2s ease-in-out infinite",opacity:.4}}><svg width="20" height="20" fill="none" stroke={C.subtle} strokeWidth="2"><path d="M5 8l5 5 5-5"/></svg></div>
       </section>
       {/* ═══ TAGLINE ═══ */}
       <div style={{textAlign:"center",marginBottom:18,animation:"fadeIn .5s ease-out .4s both"}}><p style={{fontSize:"clamp(13px,1.8vw,15px)",fontWeight:500,color:C.subtle,letterSpacing:"0.01em"}}>Allt inom abonnemang — <span style={{color:C.text,fontWeight:700}}>samlat på ett ställe</span></p></div>
       {/* ═══ FEATURE GRID — 6 boxes, Allt-i-ett pulsates ═══ */}
       <section style={{display:"grid",gridTemplateColumns:"repeat(6,1fr)",gap:10,marginBottom:20,animation:"fadeIn .6s ease-out .5s both"}} className="fgrid">
         {[
-          {id:"mobil",l:"Mobilabb",desc:"Enbart SIM-kort",col:C.mint,bg:"rgba(6,214,160,0.06)",icon:"M4 4a2 2 0 012-2h12a2 2 0 012 2v1H4V4zM2 7h20v10a2 2 0 01-2 2H4a2 2 0 01-2-2V7z",pulse:false},
-          {id:"telefoner",l:"Telefoner",desc:"iPhone, Samsung m.fl.",col:"#E8345A",bg:"rgba(232,52,90,0.06)",icon:"M8 2h8a2 2 0 012 2v16a2 2 0 01-2 2H8a2 2 0 01-2-2V4a2 2 0 012-2zM11 18h2",pulse:false},
-          {id:"bredband",l:"Bredband",desc:"Fiber och 5G Hem",col:C.cyan,bg:"rgba(0,180,216,0.06)",icon:"M2 12h20M6 12v6M12 12v6M18 12v6M4 8l8-4 8 4",pulse:false},
-          {id:"tv",l:"TV",desc:"Kanaler och baspaket",col:"#FF6B00",bg:"rgba(255,107,0,0.06)",icon:"M3 5h18v11H3zM8 20h8M12 16v4",pulse:false},
-          {id:"streaming",l:"Streaming",desc:"Film, serier, sport",col:C.violet,bg:"rgba(139,92,246,0.06)",icon:"M5 3l14 9-14 9V3z",pulse:false},
-          {id:"paket",l:"Allt-i-ett",desc:"Bygg hela paketet",col:C.success,bg:"rgba(6,214,160,0.06)",icon:"M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5",pulse:true},
-        ].map(f=>(<div key={f.id} onClick={()=>setMode(f.id==="paket"?"paket":f.id)} style={{background:f.bg,border:`1.5px solid ${f.col}20`,borderRadius:14,padding:"20px 10px",cursor:"pointer",transition:"all .25s",textAlign:"center",display:"flex",flexDirection:"column",alignItems:"center",gap:8,animation:f.pulse?"featurePulse 2.5s ease-in-out infinite":"none"}} onMouseEnter={e=>{e.currentTarget.style.borderColor=f.col+"66";e.currentTarget.style.transform="translateY(-4px)";e.currentTarget.style.boxShadow=`0 8px 24px ${f.col}15`;if(f.pulse)e.currentTarget.style.animation="none";}} onMouseLeave={e=>{e.currentTarget.style.borderColor=f.col+"20";e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="none";if(f.pulse)e.currentTarget.style.animation="featurePulse 2.5s ease-in-out infinite";}}>
-          <div style={{width:40,height:40,borderRadius:12,background:`${f.col}15`,display:"flex",alignItems:"center",justifyContent:"center"}}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={f.col} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d={f.icon}/></svg></div>
+          {id:"mobil",l:"Mobilabb",desc:"Enbart SIM-kort",col:C.mint,icon:"M4 4a2 2 0 012-2h12a2 2 0 012 2v1H4V4zM2 7h20v10a2 2 0 01-2 2H4a2 2 0 01-2-2V7z",pulse:false},
+          {id:"telefoner",l:"Telefoner",desc:"iPhone, Samsung m.fl.",col:"#E8345A",icon:"M8 2h8a2 2 0 012 2v16a2 2 0 01-2 2H8a2 2 0 01-2-2V4a2 2 0 012-2zM11 18h2",pulse:false},
+          {id:"bredband",l:"Bredband",desc:"Fiber och 5G Hem",col:C.cyan,icon:"M2 12h20M6 12v6M12 12v6M18 12v6M4 8l8-4 8 4",pulse:false},
+          {id:"tv",l:"TV",desc:"Kanaler och baspaket",col:"#FF6B00",icon:"M3 5h18v11H3zM8 20h8M12 16v4",pulse:false},
+          {id:"streaming",l:"Streaming",desc:"Film, serier, sport",col:C.violet,icon:"M5 3l14 9-14 9V3z",pulse:false},
+          {id:"paket",l:"Allt-i-ett",desc:"Bygg hela paketet",col:C.success,icon:"M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5",pulse:true},
+        ].map(f=>(<div key={f.id} onClick={()=>setMode(f.id==="paket"?"paket":f.id)} style={{background:"rgba(255,255,255,0.03)",backdropFilter:"blur(16px)",WebkitBackdropFilter:"blur(16px)",border:`1px solid rgba(255,255,255,0.08)`,borderRadius:16,padding:"20px 10px",cursor:"pointer",transition:"all .3s",textAlign:"center",display:"flex",flexDirection:"column",alignItems:"center",gap:8,animation:f.pulse?"featurePulse 2.5s ease-in-out infinite":"none",boxShadow:"0 4px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05)"}} onMouseEnter={e=>{e.currentTarget.style.background="rgba(255,255,255,0.06)";e.currentTarget.style.borderColor=f.col+"44";e.currentTarget.style.transform="translateY(-4px)";e.currentTarget.style.boxShadow=`0 12px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 20px ${f.col}10`;if(f.pulse)e.currentTarget.style.animation="none";}} onMouseLeave={e=>{e.currentTarget.style.background="rgba(255,255,255,0.03)";e.currentTarget.style.borderColor="rgba(255,255,255,0.08)";e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="0 4px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05)";if(f.pulse)e.currentTarget.style.animation="featurePulse 2.5s ease-in-out infinite";}}>
+          <div style={{width:40,height:40,borderRadius:12,background:`${f.col}12`,border:`1px solid ${f.col}20`,display:"flex",alignItems:"center",justifyContent:"center"}}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={f.col} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d={f.icon}/></svg></div>
           <div style={{fontSize:13,fontWeight:800,color:C.text}}>{f.l}</div>
           <div style={{fontSize:10,color:C.subtle,lineHeight:1.3}}>{f.desc}</div>
           <div style={{fontSize:10,fontWeight:700,color:f.col,marginTop:2}}>{f.pulse?"Starta →":"Jämför →"}</div>
         </div>))}
       </section>
-      {/* FAMILY BANNER */}
+      {/* ═══ KOLLA DITT PRIS CTA ═══ */}
+      <div onClick={()=>setMode("radgivare")} style={{maxWidth:520,margin:"0 auto 18px",background:"linear-gradient(145deg,rgba(6,214,160,0.06),rgba(0,180,216,0.04))",border:"1.5px solid rgba(6,214,160,0.2)",borderRadius:16,padding:"16px 20px",cursor:"pointer",transition:"all .25s",display:"flex",alignItems:"center",gap:14,animation:"fadeIn .6s ease-out .55s both"}} onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(6,214,160,0.5)";e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 8px 24px rgba(6,214,160,0.08)";}} onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(6,214,160,0.2)";e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="none";}}>
+        <div style={{width:40,height:40,borderRadius:12,background:"rgba(6,214,160,0.12)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={C.mint} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18"/><path d="M7 16l4-6 4 3 5-7"/></svg></div>
+        <div style={{flex:1}}><div style={{fontSize:14,fontWeight:800,color:C.text}}>Kolla ditt pris</div><div style={{fontSize:11,color:C.subtle,marginTop:2}}>Fyll i vad du betalar — se hur mycket du kan spara</div></div>
+        <span style={{fontSize:13,fontWeight:700,color:C.mint,flexShrink:0}}>Testa →</span>
+      </div>
+            {/* FAMILY BANNER */}
       {cat!=="familj"&&<div onClick={()=>setCat("familj")} style={{display:"flex",alignItems:"center",gap:12,maxWidth:480,margin:"0 auto 18px",background:C.dark,border:"1px solid rgba(139,92,246,0.15)",borderRadius:12,padding:"10px 16px",cursor:"pointer",transition:"all .2s"}} className="family-banner" onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(139,92,246,0.35)";}} onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(139,92,246,0.15)";}}>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={C.violet} strokeWidth="1.5" style={{flexShrink:0}}><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
         <span style={{fontSize:12,fontWeight:700,color:C.text,flex:1}}>Familjekalkylator</span>
@@ -850,6 +1020,7 @@ function PageJamfor(){
       {mode==="streaming"&&<StreamingView/>}
       {mode==="telefoner"&&<PhoneView/>}
       {mode==="paket"&&<PaketView/>}
+      {mode==="radgivare"&&<AdvisorView/>}
     </div>)}
   </div>);
 }
