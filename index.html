@@ -237,42 +237,52 @@ function ByytLogo({size=40,onClick}){return(<div onClick={onClick} style={{displ
 
 function PlanCard({plan,familyConfig,isFamily,index}){
   const[h,sH]=useState(false);const[ex,setEx]=useState(false);const oc=opColor(plan.operator);const on=opName(plan.operator);
-  const dl=plan.data>=9999?"Obegr.":`${plan.data} GB`;
+  const dl=plan.data>=9999?"Obegränsad":`${plan.data} GB`;
   let tp=plan.price,fb=null;
   if(isFamily&&plan.perExtra){const e=familyConfig.adults-1+familyConfig.children;tp=plan.price+e*plan.perExtra;fb={b:plan.price,e,pe:plan.perExtra,t:tp};}
   const hc=plan.campaignPrice!==null;const bd=BUNDLE_DISCOUNTS[plan.operator]||0;const isTip=BYYT_TIPS.includes(plan.id);
-  return(<div onMouseEnter={()=>sH(true)} onMouseLeave={()=>sH(false)} style={{background:"rgba(255,255,255,0.03)",backdropFilter:"blur(16px)",WebkitBackdropFilter:"blur(16px)",border:`1px solid ${isTip?"rgba(6,214,160,0.25)":h?"rgba(255,255,255,0.12)":"rgba(255,255,255,0.06)"}`,borderRadius:16,padding:"14px 18px",transition:"all 0.2s",transform:h?"translateY(-1px)":"none",boxShadow:h?"0 8px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.06)":"inset 0 1px 0 rgba(255,255,255,0.04)",animation:`cardIn .3s ease-out ${index*.02}s both`,cursor:"pointer"}} onClick={()=>setEx(!ex)}>
-    <div style={{display:"flex",alignItems:"center",gap:14}}>
-      {/* Operator color dot + name */}
-      <div style={{minWidth:90}}>
-        <div style={{display:"flex",alignItems:"center",gap:6}}><span style={{width:8,height:8,borderRadius:"50%",background:oc,flexShrink:0}}/><span style={{fontSize:12,fontWeight:700,color:oc}}>{on}</span></div>
-        <div style={{fontSize:13,fontWeight:600,color:C.text,marginTop:2}}>{plan.name.replace(on+" ","")}</div>
+  const price=hc?plan.campaignPrice:tp;
+  return(<div onMouseEnter={()=>sH(true)} onMouseLeave={()=>sH(false)} onClick={()=>setEx(!ex)} style={{background:h?"rgba(255,255,255,0.05)":"rgba(255,255,255,0.025)",border:`1px solid ${isTip?"rgba(6,214,160,0.2)":h?"rgba(255,255,255,0.1)":"rgba(255,255,255,0.05)"}`,borderRadius:12,padding:"12px 16px",transition:"all 0.2s",cursor:"pointer",animation:`cardIn .2s ease-out ${index*.02}s both`}}>
+    <div style={{display:"flex",alignItems:"center"}}>
+      {/* Left: Operator */}
+      <div style={{width:100,flexShrink:0}}>
+        <div style={{display:"flex",alignItems:"center",gap:6}}>
+          <div style={{width:8,height:8,borderRadius:"50%",background:oc}}/>
+          <span style={{fontSize:13,fontWeight:700,color:oc}}>{on}</span>
+        </div>
+        <div style={{fontSize:11,color:C.muted,marginTop:2,paddingLeft:14}}>{plan.name.replace(on+" ","")}</div>
       </div>
-      {/* Data + Network */}
-      <div style={{display:"flex",alignItems:"center",gap:8,flex:1}}>
-        <span style={{fontSize:14,fontWeight:800,color:C.cyan,fontFamily:"'DM Mono',monospace"}}>{dl}</span>
-        <span style={{fontSize:10,color:C.subtle}}>{plan.network}</span>
-        {plan.fiveG&&<span style={{fontSize:8,fontWeight:700,padding:"1px 5px",borderRadius:8,background:`linear-gradient(135deg,${C.cyan},${C.violet})`,color:"#fff"}}>5G</span>}
-        {isTip&&<span style={{fontSize:8,fontWeight:700,color:C.mint,padding:"1px 6px",borderRadius:8,background:"rgba(6,214,160,0.1)"}}>Byyt-tipset</span>}
-        {hc&&<span style={{fontSize:9,fontWeight:700,color:C.mint,padding:"1px 6px",borderRadius:8,background:"rgba(6,214,160,0.08)"}}>Kampanj</span>}
+      {/* Middle: Data + badges */}
+      <div style={{flex:1,display:"flex",alignItems:"center",gap:8,paddingLeft:8}}>
+        <span style={{fontSize:15,fontWeight:800,color:C.cyan,fontFamily:"'DM Mono',monospace",letterSpacing:"-0.02em"}}>{dl}</span>
+        {plan.fiveG&&<span style={{fontSize:8,fontWeight:700,padding:"2px 6px",borderRadius:6,background:`linear-gradient(135deg,${C.cyan},${C.violet})`,color:"#fff",lineHeight:1}}>5G</span>}
+        {isTip&&<span style={{fontSize:8,fontWeight:700,padding:"2px 6px",borderRadius:6,background:"rgba(6,214,160,0.1)",color:C.mint,lineHeight:1}}>Byyt-tipset</span>}
+        {hc&&<span style={{fontSize:8,fontWeight:700,padding:"2px 6px",borderRadius:6,background:"rgba(6,214,160,0.08)",color:C.mint,lineHeight:1}}>Kampanj</span>}
       </div>
-      {/* Price */}
-      <div style={{textAlign:"right",minWidth:80}}>
-        <div style={{fontSize:24,fontWeight:800,fontFamily:"'DM Mono',monospace",color:hc?C.mint:C.text,lineHeight:1}}>{hc?plan.campaignPrice:tp}</div>
-        <div style={{fontSize:10,color:C.subtle}}>kr/mån{hc&&<span style={{textDecoration:"line-through",marginLeft:4}}>{tp}</span>}</div>
+      {/* Right: Price */}
+      <div style={{textAlign:"right",flexShrink:0}}>
+        <div style={{display:"flex",alignItems:"baseline",justifyContent:"flex-end",gap:4}}>
+          <span style={{fontSize:24,fontWeight:800,fontFamily:"'DM Mono',monospace",color:hc?C.mint:C.text,lineHeight:1}}>{price}</span>
+          <span style={{fontSize:10,color:C.subtle,fontWeight:500}}>kr/mån</span>
+        </div>
+        {hc&&<div style={{fontSize:10,color:C.subtle,textDecoration:"line-through",marginTop:1}}>{tp} kr</div>}
       </div>
     </div>
-    {/* Expanded details */}
-    {ex&&<div style={{marginTop:12,paddingTop:12,borderTop:"1px solid rgba(255,255,255,0.06)",animation:"fadeIn .15s"}} onClick={e=>e.stopPropagation()}>
-      <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:8}}>{plan.perks.map((p,i)=>(<span key={i} style={{fontSize:9,fontWeight:600,padding:"2px 8px",borderRadius:10,background:"rgba(6,214,160,0.06)",color:C.mint}}>{p}</span>))}</div>
-      {bd>0&&!isFamily&&<div style={{fontSize:10,fontWeight:600,color:"#a78bfa",marginBottom:6}}>Spara {bd} kr/mån med bredband hos {on}</div>}
-      {hc&&<div style={{fontSize:10,color:C.subtle,marginBottom:6}}>Kampanj {plan.campaignMonths} mån — 12 mån totalt: <strong style={{color:C.mint}}>{plan.campaignPrice*plan.campaignMonths+plan.price*(12-plan.campaignMonths)} kr</strong></div>}
-      {fb&&<div style={{fontSize:10,color:"#a78bfa",marginBottom:6}}>{fb.b}+{fb.e}×{fb.pe}=<strong style={{color:C.text}}>{fb.t} kr/mån</strong></div>}
+    {/* Expand hint */}
+    {!ex&&<div style={{textAlign:"center",marginTop:6,paddingTop:4,borderTop:"1px solid rgba(255,255,255,0.03)"}}><span style={{fontSize:10,fontWeight:600,color:C.cyan,opacity:0.6}}>Visa detaljer</span></div>}
+    {/* Expanded */}
+    {ex&&<div style={{marginTop:10,paddingTop:10,borderTop:`1px solid rgba(255,255,255,0.06)`,animation:"fadeIn .15s"}} onClick={e=>e.stopPropagation()}>
+      <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:8}}>{plan.perks.map((p,i)=>(<span key={i} style={{fontSize:9,fontWeight:600,padding:"3px 8px",borderRadius:8,background:"rgba(6,214,160,0.06)",color:C.mint}}>{p}</span>))}</div>
+      <div style={{display:"flex",flexWrap:"wrap",gap:12,fontSize:11,color:C.muted,marginBottom:8}}>
+        <span>{plan.network}-nätet</span>
+        <span>{plan.speedMbps} Mbit/s</span>
+        {bd>0&&!isFamily&&<span style={{color:"#a78bfa"}}>Spara {bd} kr/mån med bredband</span>}
+      </div>
+      {hc&&<div style={{fontSize:10,color:C.subtle,marginBottom:6}}>Kampanjpris i {plan.campaignMonths} mån, sedan {tp} kr. Totalt 12 mån: <strong style={{color:C.mint}}>{plan.campaignPrice*plan.campaignMonths+plan.price*(12-plan.campaignMonths)} kr</strong></div>}
+      {fb&&<div style={{fontSize:10,color:"#a78bfa",marginBottom:6}}>Familjepris: {fb.b} + {fb.e} × {fb.pe} = <strong style={{color:C.text}}>{fb.t} kr/mån</strong></div>}
       {plan.bindingOffer&&<div style={{fontSize:10,color:"#a78bfa",marginBottom:6}}>{plan.bindingOffer}</div>}
-      <div style={{display:"flex",alignItems:"center",gap:6,fontSize:10,color:C.subtle,marginBottom:8}}><span>{plan.speedMbps} Mbit/s</span><span>·</span><span>{plan.network}-nätet</span></div>
-      <a href={plan.affiliateUrl} target="_blank" rel="noopener noreferrer sponsored" style={{display:"inline-block",padding:"8px 20px",borderRadius:10,background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:12,fontWeight:800,textDecoration:"none"}}>Besök {on} →</a>
+      <a href={plan.affiliateUrl} target="_blank" rel="noopener noreferrer sponsored" style={{display:"inline-block",padding:"8px 20px",borderRadius:10,background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:12,fontWeight:800,textDecoration:"none",marginTop:2}}>Gå till {on} →</a>
     </div>}
-    {!ex&&<div style={{fontSize:10,color:C.cyan,fontWeight:600,textAlign:"center",marginTop:6,opacity:.7}}>▼ Detaljer</div>}
   </div>);
 }
 
@@ -1059,7 +1069,7 @@ function PageJamfor(){
       </div>
 
       {/* CARDS — full width, single column */}
-      {fl.length===0?<div style={{textAlign:"center",padding:"48px",color:C.subtle}}>Inga abonnemang matchar filtret</div>:<div style={{display:"flex",flexDirection:"column",gap:8}}>{fl.map((p,i)=>(<PlanCard key={p.id} plan={p} familyConfig={fc} isFamily={isF} index={i}/>))}</div>}
+      {fl.length===0?<div style={{textAlign:"center",padding:"48px",color:C.subtle}}>Inga abonnemang matchar filtret</div>:<div style={{display:"flex",flexDirection:"column",gap:6}}>{fl.map((p,i)=>(<PlanCard key={p.id} plan={p} familyConfig={fc} isFamily={isF} index={i}/>))}</div>}
       <NetworkMap/>
     </div>):(
     <div>
