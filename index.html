@@ -506,21 +506,22 @@ function PaketView(){
   const toggleStr=id=>setSstr(p=>p.includes(id)?p.filter(x=>x!==id):[...p,id]);
   const strTotal=sstr.reduce((s,id)=>{const f=streamPicks.find(x=>x.id===id);return s+(f?f.price:0);},0);
 
-  const res=useMemo(()=>{if(!sm||!sb)return[];return bOps.map(op=>{
+  const res=useMemo(()=>{if(!sm)return[];return bOps.map(op=>{
     const mp=mO.filter(p=>p.operator===op),bp=bO.filter(b=>b.operator===op);
-    if(!mp.length||!bp.length)return null;
+    if(!mp.length)return null;
     const bM=mp.find(p=>p.data>=(sm?.data||0))||mp[mp.length-1];
-    const bB=bp.find(b=>b.speedDown>=(sb?.speedDown||0))||bp[bp.length-1];
-    if(!bM||!bB)return null;
+    if(!bM)return null;
+    let bB=null,bP=0;
+    if(sb&&bp.length){bB=bp.find(b=>b.speedDown>=(sb?.speedDown||0))||bp[bp.length-1];if(bB)bP=bB.campaignPrice||bB.price;}
     let mP=bM.campaignPrice||bM.price;
     if(isFam&&bM.perExtra)mP=mP+(famN-1)*(bM.perExtra||famExtra[op]||199);
     else if(isFam)mP=mP+(famN-1)*(famExtra[op]||199);
-    const bP=bB.campaignPrice||bB.price,d=BUNDLE_DISCOUNTS[op]||0;
+    const d=(sb&&sb.operator===op)?BUNDLE_DISCOUNTS[op]||0:0;
     let tP=0,bT=null;
     if(stv){const tp=tO.filter(t=>t.operator===op);bT=tp.find(t=>t.channels>=(stv?.channels||0))||tp[tp.length-1];if(bT)tP=bT.campaignPrice||bT.price;}
     let phP=0,phNames=[];
     phones.forEach(ph=>{const opPrice=ph.ops.find(o=>o.o===op);if(opPrice){phP+=opPrice.p;phNames.push(ph.name);}});
-    return{op,bM,bB,bT,phNames,mP,bP,tP,phP,strTotal,d,total:mP+bP+tP+phP+strTotal-d,is5g:bB.type==="5g"};
+    return{op,bM,bB,bT,phNames,mP,bP,tP,phP,strTotal,d,total:mP+bP+tP+phP+strTotal-d,is5g:bB&&bB.type==="5g"};
   }).filter(Boolean).sort((a,b)=>a.total-b.total);},[sm,sb,stv,phones,sstr,strTotal,isFam,famN]);
 
   const Dot=({n,l,a,done})=>(<div style={{display:"flex",alignItems:"center",gap:5}}><div style={{width:24,height:24,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:700,background:done?C.mint:a?"rgba(6,214,160,0.15)":C.surface,color:done?C.ink:a?C.mint:C.subtle}}>{done?"✓":n}</div><span style={{fontSize:11,fontWeight:600,color:a?C.text:C.subtle}}>{l}</span></div>);
@@ -589,7 +590,8 @@ function PaketView(){
 
     {/* Step 4: Bredband */}
     {step===4&&<div>
-      <div style={{fontSize:12,fontWeight:600,color:C.subtle,marginBottom:10}}>Välj bredband {selOp&&<span style={{color:C.mint}}>— spara {BUNDLE_DISCOUNTS[selOp]||0} kr/mån med {opName(selOp)}</span>}</div>
+      <SkipBtn label="Jag har redan bredband — hoppa över →" onSkip={()=>{setSb(null);setStep(5);}}/>
+      <div style={{fontSize:12,fontWeight:600,color:C.subtle,marginBottom:10}}>Eller välj bredband {selOp&&<span style={{color:C.mint}}>— spara {BUNDLE_DISCOUNTS[selOp]||0} kr/mån med {opName(selOp)}</span>}</div>
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(190px,1fr))",gap:8}}>{bbS.slice(0,12).map(b=>(<Pick key={b.id} item={b} sel={sb?.id===b.id} onP={()=>{setSb(b);setStep(5);}} l1={opName(b.operator)+(b.type==="5g"?" (5G)":"")} l2={b.speedDown>=1000?"1 Gbit":b.speedDown+" Mbit"} col={C.cyan} discount={b.operator===selOp?(BUNDLE_DISCOUNTS[selOp]||0):0}/>))}</div>
       <BackBtn onBack={()=>{setStep(3);setSb(null);}}/>
     </div>}
