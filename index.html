@@ -166,6 +166,20 @@ const TV_PLANS=[
 ];
 
 // ═══ STREAMING DATA (from prices.json) ═══
+// ═══ AFFILIATE URLS ═══
+const URLS={
+  telia:"https://www.telia.se/",tele2:"https://www.tele2.se/",tre:"https://www.tre.se/",telenor:"https://www.telenor.se/",
+  hallon:"https://www.hallon.se/",comviq:"https://www.comviq.se/",fello:"https://fello.se/",vimla:"https://vimla.se/",
+  halebop:"https://www.halebop.se/",chilimobil:"https://www.chilimobil.se/",
+  allente:"https://www.allente.se/",boxer:"https://www.boxer.se/",sappa:"https://www.sappa.se/",
+  netflix:"https://www.netflix.com/se/",hbomax:"https://www.hbomax.com/se/",disneyplus:"https://www.disneyplus.com/sv-se",
+  viaplayfilm:"https://viaplay.se/",viaplaytotal:"https://viaplay.se/",prime:"https://www.amazon.se/prime",
+  skyshowtime:"https://www.skyshowtime.com/sv",tv4play:"https://www.tv4play.se/",tv4sport:"https://www.tv4play.se/sport",
+  tv4hockey:"https://www.tv4play.se/sport",appletv:"https://tv.apple.com/se",discoveryplus:"https://www.discoveryplus.com/se",
+  svtplay:"https://www.svtplay.se/",
+};
+const getUrl=(id)=>URLS[id]||"#";
+
 const STREAMING=[
 {id:"netflix",name:"Netflix",tiers:[{n:"Med reklam",p:109},{n:"Standard",p:149},{n:"Premium",p:199}],focus:"Bredast utbud",sport:false},
 {id:"hbomax",name:"HBO Max",tiers:[{n:"Med reklam",p:79},{n:"Standard",p:119},{n:"Premium",p:189}],focus:"Kvalitetsserier",sport:false},
@@ -352,15 +366,15 @@ function StreamingView(){
           <div style={{fontSize:11,color:C.cyan}}>{cheapest.name}</div>
           {isOpen&&<div style={{marginTop:12,borderTop:`1px solid ${C.surface}`,paddingTop:12,display:"flex",flexDirection:"column",gap:6,animation:"fadeIn .15s"}} onClick={e=>e.stopPropagation()}>
             <div style={{fontSize:10,fontWeight:600,color:C.subtle,textTransform:"uppercase"}}>Alla sätt att se {sc.sport}</div>
-            {sc.ways.map((w,i)=>(<div key={i} style={{display:"flex",alignItems:"center",gap:10,padding:"10px 12px",borderRadius:10,background:i===0?"rgba(6,214,160,0.06)":"rgba(255,255,255,0.02)",border:i===0?`1px solid rgba(6,214,160,0.2)`:`1px solid ${C.surface}`}}>
+            {sc.ways.map((w,i)=>(<a key={i} href={w.op?getUrl(w.op):getUrl(w.name.toLowerCase().includes("viaplay")?"viaplaytotal":w.name.toLowerCase().includes("tv4")?"tv4sport":"svtplay")} target="_blank" rel="noopener noreferrer sponsored" style={{display:"flex",alignItems:"center",gap:10,padding:"10px 12px",borderRadius:10,background:i===0?"rgba(6,214,160,0.06)":"rgba(255,255,255,0.02)",border:i===0?`1px solid rgba(6,214,160,0.2)`:`1px solid ${C.surface}`,textDecoration:"none",transition:"all .15s"}} onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(0,180,216,0.3)";}} onMouseLeave={e=>{e.currentTarget.style.borderColor=i===0?"rgba(6,214,160,0.2)":C.surface;}}>
               {w.op&&<span style={{width:8,height:8,borderRadius:"50%",background:opColor(w.op),flexShrink:0}}/>}
               <div style={{flex:1}}>
                 <div style={{fontSize:12,fontWeight:600,color:C.text}}>{w.name}</div>
                 {w.note&&<div style={{fontSize:10,color:C.subtle}}>{w.note}</div>}
               </div>
               <div style={{textAlign:"right"}}><span style={{fontSize:16,fontWeight:800,color:w.price===0?C.success:i===0?C.mint:C.text,fontFamily:"'DM Mono',monospace"}}>{w.price===0?"Gratis":w.price+" kr"}</span><div style={{fontSize:9,color:w.type==="operatör"?C.cyan:C.subtle}}>{w.type==="operatör"?"via operatör":"fristående"}</div></div>
-              {i===0&&<span style={{fontSize:9,fontWeight:700,color:C.mint,padding:"1px 6px",borderRadius:10,background:"rgba(6,214,160,0.08)"}}>Billigast</span>}
-            </div>))}
+              <span style={{fontSize:10,fontWeight:700,color:i===0?C.mint:C.cyan,flexShrink:0}}>{w.price===0?"Se →":"Teckna →"}</span>
+            </a>))}
           </div>}
           {!isOpen&&<div style={{fontSize:11,color:C.cyan,marginTop:6,textAlign:"center"}}>{sc.ways.length} alternativ — klicka för att se alla →</div>}
         </div>);})}
@@ -375,14 +389,17 @@ function StreamingView(){
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><span style={{fontSize:16,fontWeight:800,color:C.text}}>{s.name}</span><span style={{fontSize:11,color:C.subtle}}>{s.focus}</span></div>
           {/* Prisplaner */}
           <div style={{display:"flex",flexDirection:"column",gap:4,marginTop:10}}>{s.tiers.map((t,i)=>(<div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"6px 10px",borderRadius:8,background:i===0?"rgba(6,214,160,0.06)":"rgba(255,255,255,0.02)"}}><span style={{fontSize:12,color:C.muted}}>{t.n}</span><span style={{fontSize:16,fontWeight:800,color:t.p===0?C.success:i===0?C.mint:C.text,fontFamily:"'DM Mono',monospace"}}>{t.p===0?"Gratis":t.p+" kr"}</span></div>))}</div>
+          {/* CTA */}
+          <a href={getUrl(s.id)} target="_blank" rel="noopener noreferrer sponsored" onClick={e=>e.stopPropagation()} style={{display:"block",marginTop:10,padding:"10px",borderRadius:10,textAlign:"center",background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:12,fontWeight:800,textDecoration:"none"}}>Teckna {s.name} →</a>
           {/* Via operatör — expanderbar */}
           {isOpen&&viaOp&&<div style={{marginTop:12,borderTop:`1px solid ${C.surface}`,paddingTop:12,animation:"fadeIn .15s"}} onClick={e=>e.stopPropagation()}>
             <div style={{fontSize:10,fontWeight:700,color:C.cyan,textTransform:"uppercase",marginBottom:8}}>Billigare via operatör</div>
-            {viaOp.bundles.map((b,i)=>(<div key={i} style={{display:"flex",alignItems:"center",gap:10,padding:"10px 12px",borderRadius:10,background:"rgba(0,180,216,0.04)",border:`1px solid ${C.surface}`,marginBottom:4}}>
+            {viaOp.bundles.map((b,i)=>(<a key={i} href={getUrl(b.op)} target="_blank" rel="noopener noreferrer sponsored" style={{display:"flex",alignItems:"center",gap:10,padding:"10px 12px",borderRadius:10,background:"rgba(0,180,216,0.04)",border:`1px solid ${C.surface}`,marginBottom:4,textDecoration:"none",transition:"all .15s"}} onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(0,180,216,0.3)";}} onMouseLeave={e=>{e.currentTarget.style.borderColor=C.surface;}}>
               <span style={{width:8,height:8,borderRadius:"50%",background:opColor(b.op),flexShrink:0}}/>
               <div style={{flex:1}}><div style={{fontSize:12,fontWeight:600,color:opColor(b.op)}}>{b.name}</div><div style={{fontSize:10,color:C.subtle}}>{b.note}</div></div>
-              <div style={{textAlign:"right"}}><span style={{fontSize:16,fontWeight:800,color:C.mint,fontFamily:"'DM Mono',monospace"}}>{b.campaign||b.price} kr</span>{b.campaign&&<div style={{fontSize:9,color:C.subtle,textDecoration:"line-through"}}>{b.price} kr</div>}<div style={{fontSize:9,color:C.cyan}}>via operatör</div></div>
-            </div>))}
+              <div style={{textAlign:"right"}}><span style={{fontSize:16,fontWeight:800,color:C.mint,fontFamily:"'DM Mono',monospace"}}>{b.campaign||b.price} kr</span>{b.campaign&&<div style={{fontSize:9,color:C.subtle,textDecoration:"line-through"}}>{b.price} kr</div>}</div>
+              <span style={{fontSize:10,fontWeight:700,color:C.cyan,flexShrink:0}}>Välj →</span>
+            </a>))}
           </div>}
           {!isOpen&&viaOp&&<div style={{fontSize:11,color:C.cyan,marginTop:8,textAlign:"center"}}>Finns billigare via operatör — klicka →</div>}
           {!isOpen&&!viaOp&&<div style={{fontSize:11,color:C.subtle,marginTop:8,textAlign:"center"}}>Klicka för mer info</div>}
@@ -413,6 +430,7 @@ function StreamingView(){
           <div style={{display:"flex",alignItems:"baseline",gap:6}}><span style={{fontSize:24,fontWeight:800,color:tv.campaign?C.mint:C.text,fontFamily:"'DM Mono',monospace"}}>{tv.campaign||tv.price}</span><span style={{fontSize:11,color:C.subtle}}>kr/mån</span>{tv.campaign&&<span style={{fontSize:10,color:C.subtle,textDecoration:"line-through"}}>{tv.price} kr</span>}</div>
           {tv.streaming.length>0&&<div style={{display:"flex",gap:3,flexWrap:"wrap"}}>{tv.streaming.map((s,j)=>(<span key={j} style={{fontSize:9,fontWeight:600,padding:"2px 6px",borderRadius:10,background:"rgba(0,180,216,0.06)",color:C.cyan}}>{s}</span>))}</div>}
           <div style={{fontSize:10,color:C.subtle}}>{tv.note}</div>
+          <a href={getUrl(tv.op)} target="_blank" rel="noopener noreferrer sponsored" style={{display:"block",marginTop:4,padding:"9px",borderRadius:10,textAlign:"center",background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:11,fontWeight:800,textDecoration:"none"}}>Välj hos {opName(tv.op)} →</a>
         </div>))}
       </div>
     </div>}
@@ -421,28 +439,43 @@ function StreamingView(){
 
 // ═══ PHONE VIEW ═══
 function PhoneView(){
-  const[brand,setBrand]=useState("alla");const[sel,setSel]=useState(null);const[so,setSo]=useState("price_asc");
+  const[brand,setBrand]=useState("alla");const[sel,setSel]=useState(null);const[detOp,setDetOp]=useState(null);const[so,setSo]=useState("price_asc");
+  const[famMode,setFamMode]=useState(false);const[famCount,setFamCount]=useState(2);
   const brands=["alla","Apple","Samsung","Google","OnePlus"];
   const filtered=useMemo(()=>{let r=[...PHONES];if(brand!=="alla")r=r.filter(p=>p.brand===brand);r.sort((a,b)=>{const aMin=Math.min(...a.ops.map(o=>o.p)),bMin=Math.min(...b.ops.map(o=>o.p));return so==="price_asc"?aMin-bMin:so==="price_desc"?bMin-aMin:b.retail-a.retail;});return r;},[brand,so]);
+  const famExtra={telia:239,tele2:169,tre:149,telenor:199,hallon:99,comviq:145,halebop:169};
+  const n=famMode?famCount:1;
   return(<div>
     <section style={{textAlign:"center",padding:"36px 20px 20px"}}><h2 style={{fontSize:"clamp(24px,4vw,40px)",fontWeight:800,letterSpacing:"-0.03em",marginBottom:6,color:C.text}}>Jämför <span style={{background:`linear-gradient(135deg,${C.mint},${C.cyan})`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>telefoner</span></h2><p style={{fontSize:14,color:C.subtle}}>Välj telefon — se billigaste operatören med abonnemang.</p></section>
+    <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:12,marginBottom:16}}>
+      <button onClick={()=>{setFamMode(false);setDetOp(null);}} style={{padding:"8px 18px",borderRadius:10,border:!famMode?`1.5px solid ${C.cyan}`:`1px solid ${C.surface}`,background:!famMode?"rgba(0,180,216,0.08)":"transparent",color:!famMode?C.text:C.subtle,fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"inherit"}}>1 person</button>
+      <button onClick={()=>{setFamMode(true);setDetOp(null);}} style={{padding:"8px 18px",borderRadius:10,border:famMode?`1.5px solid ${C.violet}`:`1px solid ${C.surface}`,background:famMode?"rgba(139,92,246,0.08)":"transparent",color:famMode?C.text:C.subtle,fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"inherit"}}>Familj</button>
+      {famMode&&<div style={{display:"flex",alignItems:"center",gap:6}}><button onClick={()=>setFamCount(Math.max(2,famCount-1))} style={{width:24,height:24,borderRadius:8,border:`1px solid ${C.surface}`,background:"transparent",color:C.text,fontSize:14,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>−</button><span style={{fontSize:16,fontWeight:800,color:C.violet,fontFamily:"'DM Mono',monospace",width:20,textAlign:"center"}}>{famCount}</span><button onClick={()=>setFamCount(Math.min(5,famCount+1))} style={{width:24,height:24,borderRadius:8,border:`1px solid rgba(139,92,246,0.3)`,background:"rgba(139,92,246,0.06)",color:C.violet,fontSize:14,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>+</button><span style={{fontSize:11,color:C.subtle}}>telefoner</span></div>}
+    </div>
     <div style={{display:"flex",gap:8,justifyContent:"center",marginBottom:14,flexWrap:"wrap"}}>{brands.map(b=>(<button key={b} onClick={()=>setBrand(b)} style={{padding:"10px 20px",borderRadius:12,border:brand===b?`1.5px solid ${C.cyan}`:`1px solid ${C.surface}`,cursor:"pointer",fontFamily:"inherit",fontSize:13,fontWeight:brand===b?700:500,background:brand===b?"rgba(0,180,216,0.08)":"rgba(255,255,255,0.02)",color:brand===b?C.text:C.subtle}}>{b==="alla"?"Alla":b}</button>))}</div>
     <div style={{display:"flex",gap:6,justifyContent:"center",marginBottom:16}}>{[{id:"price_asc",l:"Billigast"},{id:"price_desc",l:"Dyrast"},{id:"retail",l:"Butikspris"}].map(s=>(<button key={s.id} onClick={()=>setSo(s.id)} style={{padding:"5px 12px",borderRadius:20,border:so===s.id?`1px solid ${C.cyan}`:`1px solid ${C.surface}`,background:so===s.id?"rgba(0,180,216,0.06)":"transparent",color:so===s.id?C.cyan:C.subtle,fontSize:11,fontWeight:600,cursor:"pointer",fontFamily:"inherit"}}>{s.l}</button>))}</div>
-    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(300px,1fr))",gap:12}}>{filtered.map(phone=>{const cheapest=phone.ops[0];const saving=phone.retail-cheapest.p*24;return(<div key={phone.id} style={{background:C.dark,border:`1px solid ${sel===phone.id?"rgba(0,180,216,0.3)":C.surface}`,borderRadius:16,padding:"20px",display:"flex",flexDirection:"column",gap:12,cursor:"pointer",transition:"all .2s"}} onClick={()=>setSel(sel===phone.id?null:phone.id)}>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(320px,1fr))",gap:12}}>{filtered.map(phone=>{const cheapest=phone.ops[0];const saving=phone.retail-cheapest.p*24;return(<div key={phone.id} style={{background:C.dark,border:`1px solid ${sel===phone.id?"rgba(0,180,216,0.3)":C.surface}`,borderRadius:16,padding:"20px",display:"flex",flexDirection:"column",gap:12,cursor:"pointer",transition:"all .2s"}} onClick={()=>{setSel(sel===phone.id?null:phone.id);setDetOp(null);}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
         <div><div style={{fontSize:11,fontWeight:600,color:C.subtle}}>{phone.brand}</div><div style={{fontSize:16,fontWeight:800,color:C.text}}>{phone.name}</div><div style={{fontSize:11,color:C.subtle}}>{phone.storage}</div></div>
-        <div style={{textAlign:"right"}}><div style={{fontSize:11,color:C.subtle}}>Från</div><div style={{fontSize:28,fontWeight:800,color:C.mint,fontFamily:"'DM Mono',monospace",lineHeight:1}}>{cheapest.p}</div><div style={{fontSize:11,color:C.subtle}}>kr/mån</div></div>
+        <div style={{textAlign:"right"}}><div style={{fontSize:11,color:C.subtle}}>{n>1?`${n}× Från`:"Från"}</div><div style={{fontSize:28,fontWeight:800,color:C.mint,fontFamily:"'DM Mono',monospace",lineHeight:1}}>{cheapest.p*n}</div><div style={{fontSize:11,color:C.subtle}}>kr/mån{n>1&&<span> ({cheapest.p}/st)</span>}</div></div>
       </div>
-      {saving>0&&<div style={{fontSize:10,fontWeight:700,color:C.success,padding:"3px 10px",borderRadius:20,background:"rgba(34,197,94,0.08)",border:"1px solid rgba(34,197,94,0.2)",alignSelf:"flex-start"}}>Bindningsrabatt — spara {saving.toLocaleString("sv")} kr vs butik</div>}
-      <div style={{display:"flex",alignItems:"center",gap:8}}><span style={{fontSize:11,color:C.subtle}}>Butikspris:</span><span style={{fontSize:13,fontWeight:700,color:C.muted,fontFamily:"'DM Mono',monospace"}}>{phone.retail.toLocaleString("sv")} kr</span><span style={{fontSize:11,color:C.subtle,marginLeft:"auto"}}>Billigast: <span style={{color:opColor(cheapest.o),fontWeight:700}}>{opName(cheapest.o)}</span></span></div>
-      {sel===phone.id&&<div style={{display:"flex",flexDirection:"column",gap:6,animation:"fadeIn .15s",borderTop:`1px solid ${C.surface}`,paddingTop:12}}>
-        <div style={{fontSize:11,fontWeight:600,color:C.subtle,textTransform:"uppercase"}}>Alla operatörer (24 mån bindning)</div>
-        {phone.ops.map((op,i)=>{const tot=op.p*24;return(<div key={op.o} style={{display:"flex",alignItems:"center",gap:10,padding:"8px 12px",borderRadius:10,background:i===0?"rgba(6,214,160,0.06)":"rgba(255,255,255,0.02)",border:i===0?`1px solid rgba(6,214,160,0.2)`:`1px solid ${C.surface}`}}>
-          <span style={{width:8,height:8,borderRadius:"50%",background:opColor(op.o),flexShrink:0}}/>
-          <span style={{fontSize:12,fontWeight:600,color:opColor(op.o),width:70}}>{opName(op.o)}</span>
-          <span style={{fontSize:16,fontWeight:800,color:i===0?C.mint:C.text,fontFamily:"'DM Mono',monospace"}}>{op.p} kr/mån</span>
-          <span style={{fontSize:10,color:C.subtle,marginLeft:"auto"}}>Totalt {tot.toLocaleString("sv")} kr</span>
-          {i===0&&<span style={{fontSize:9,fontWeight:700,color:C.mint,padding:"1px 6px",borderRadius:10,background:"rgba(6,214,160,0.08)"}}>Billigast</span>}
+      {saving>0&&<div style={{fontSize:10,fontWeight:700,color:C.success,padding:"3px 10px",borderRadius:20,background:"rgba(34,197,94,0.08)",border:"1px solid rgba(34,197,94,0.2)",alignSelf:"flex-start"}}>Bindningsrabatt — spara {(saving*n).toLocaleString("sv")} kr vs butik</div>}
+      {sel===phone.id&&<div style={{display:"flex",flexDirection:"column",gap:6,animation:"fadeIn .15s",borderTop:`1px solid ${C.surface}`,paddingTop:12}} onClick={e=>e.stopPropagation()}>
+        <div style={{fontSize:11,fontWeight:600,color:C.subtle,textTransform:"uppercase"}}>Alla operatörer (24 mån){n>1&&` · ${n} telefoner`}</div>
+        {phone.ops.map((op,i)=>{const total=op.p*n;const isDetail=detOp===phone.id+"-"+op.o;return(<div key={op.o}>
+          <div onClick={()=>setDetOp(isDetail?null:phone.id+"-"+op.o)} style={{display:"flex",alignItems:"center",gap:10,padding:"8px 12px",borderRadius:isDetail?"10px 10px 0 0":10,background:i===0?"rgba(6,214,160,0.06)":"rgba(255,255,255,0.02)",border:i===0?`1px solid rgba(6,214,160,0.2)`:`1px solid ${C.surface}`,cursor:"pointer",transition:"all .15s"}}>
+            <span style={{width:8,height:8,borderRadius:"50%",background:opColor(op.o),flexShrink:0}}/>
+            <span style={{fontSize:12,fontWeight:600,color:opColor(op.o),minWidth:60}}>{opName(op.o)}</span>
+            <span style={{fontSize:16,fontWeight:800,color:i===0?C.mint:C.text,fontFamily:"'DM Mono',monospace",flex:1}}>{total} kr/mån</span>
+            <span style={{fontSize:10,color:C.subtle}}>{isDetail?"▲":"▼"} Detaljer</span>
+          </div>
+          {isDetail&&<div style={{padding:"10px 12px",background:"rgba(255,255,255,0.01)",border:`1px solid ${C.surface}`,borderTop:"none",borderRadius:"0 0 10px 10px",animation:"fadeIn .1s",display:"flex",flexDirection:"column",gap:6}}>
+            <div style={{display:"flex",justifyContent:"space-between",fontSize:11}}><span style={{color:C.subtle}}>{n}× {phone.name} (delbetalning)</span><span style={{color:C.text,fontWeight:700,fontFamily:"'DM Mono',monospace"}}>{n}× {op.p} kr</span></div>
+            <div style={{display:"flex",justifyContent:"space-between",fontSize:11}}><span style={{color:C.subtle}}>Inkl. mobilabb ({op.plan||"surf"})</span><span style={{color:C.muted}}>ingår</span></div>
+            <div style={{display:"flex",justifyContent:"space-between",fontSize:11}}><span style={{color:C.subtle}}>Bindning</span><span style={{color:C.muted}}>24 mån</span></div>
+            {n>1&&<div style={{display:"flex",justifyContent:"space-between",fontSize:11}}><span style={{color:C.subtle}}>Per telefon</span><span style={{color:C.cyan,fontWeight:700,fontFamily:"'DM Mono',monospace"}}>{op.p} kr/mån</span></div>}
+            <a href={getUrl(op.o)} target="_blank" rel="noopener noreferrer sponsored" style={{display:"block",marginTop:4,padding:"9px",borderRadius:8,textAlign:"center",background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:12,fontWeight:800,textDecoration:"none"}}>Välj hos {opName(op.o)} →</a>
+          </div>}
         </div>);})}
       </div>}
       {sel!==phone.id&&<div style={{fontSize:11,color:C.cyan,textAlign:"center"}}>Klicka för att se alla operatörer →</div>}
@@ -450,15 +483,18 @@ function PhoneView(){
   </div>);
 }
 
-// ═══ ALLT-I-ETT VIEW — 5 STEG ═══
+// ═══ ALLT-I-ETT VIEW — FAMILJ + 6 STEG ═══
 function PaketView(){
-  const[sm,setSm]=useState(null);const[sp,setSp]=useState(null);const[sb,setSb]=useState(null);const[stv,setStv]=useState(null);const[sstr,setSstr]=useState([]);const[step,setStep]=useState(1);const[phBrand,setPhBrand]=useState(null);
+  const[isFam,setIsFam]=useState(null);const[famN,setFamN]=useState(2);
+  const[sm,setSm]=useState(null);const[phones,setPhones]=useState([]);const[sb,setSb]=useState(null);const[stv,setStv]=useState(null);const[sstr,setSstr]=useState([]);const[step,setStep]=useState(0);const[phBrand,setPhBrand]=useState(null);
   const bOps=["telia","tele2","telenor","tre"];
-  const mO=PLANS.filter(p=>p.categories.includes("privat")&&bOps.includes(p.operator)).sort((a,b)=>a.price-b.price);
+  const famExtra={telia:239,tele2:169,tre:149,telenor:199};
+  const mO=PLANS.filter(p=>p.categories.includes(isFam?"familj":"privat")&&bOps.includes(p.operator)).sort((a,b)=>a.price-b.price);
   const pO=PHONES.filter(ph=>ph.ops.some(o=>bOps.includes(o.o))).sort((a,b)=>Math.min(...a.ops.map(o=>o.p))-Math.min(...b.ops.map(o=>o.p)));
   const bO=BROADBAND.filter(b=>bOps.includes(b.operator)).sort((a,b)=>(a.campaignPrice||a.price)-(b.campaignPrice||b.price));
-  const tO=TV_PLANS.filter(t=>bOps.includes(t.operator)).sort((a,b)=>(a.campaignPrice||a.price)-(b.campaignPrice||b.price));
+  const tO=TV_PLANS.filter(t=>bOps.includes(t.operator)&&t.type!=="streaming").sort((a,b)=>(a.campaignPrice||a.price)-(b.campaignPrice||b.price));
   const selOp=sm?.operator||null;
+  const pCount=isFam?famN:1;
   const bbS=useMemo(()=>{if(!selOp)return bO;return[...bO.filter(b=>b.operator===selOp),...bO.filter(b=>b.operator!==selOp)];},[selOp,bO]);
   const tvS=useMemo(()=>{if(!selOp)return tO;return[...tO.filter(t=>t.operator===selOp),...tO.filter(t=>t.operator!==selOp)];},[selOp,tO]);
   const streamPicks=[
@@ -476,103 +512,123 @@ function PaketView(){
     const bM=mp.find(p=>p.data>=(sm?.data||0))||mp[mp.length-1];
     const bB=bp.find(b=>b.speedDown>=(sb?.speedDown||0))||bp[bp.length-1];
     if(!bM||!bB)return null;
-    const mP=bM.campaignPrice||bM.price,bP=bB.campaignPrice||bB.price,d=BUNDLE_DISCOUNTS[op]||0;
+    let mP=bM.campaignPrice||bM.price;
+    if(isFam&&bM.perExtra)mP=mP+(famN-1)*(bM.perExtra||famExtra[op]||199);
+    else if(isFam)mP=mP+(famN-1)*(famExtra[op]||199);
+    const bP=bB.campaignPrice||bB.price,d=BUNDLE_DISCOUNTS[op]||0;
     let tP=0,bT=null;
     if(stv){const tp=tO.filter(t=>t.operator===op);bT=tp.find(t=>t.channels>=(stv?.channels||0))||tp[tp.length-1];if(bT)tP=bT.campaignPrice||bT.price;}
-    let phP=0,phN=null;
-    if(sp){const opPrice=sp.ops.find(o=>o.o===op);if(opPrice){phP=opPrice.p;phN=sp.name;}}
-    return{op,bM,bB,bT,phN,mP,bP,tP,phP,strTotal,d,total:mP+bP+tP+phP+strTotal-d,is5g:bB.type==="5g"};
-  }).filter(Boolean).sort((a,b)=>a.total-b.total);},[sm,sb,stv,sp,sstr,strTotal]);
+    let phP=0,phNames=[];
+    phones.forEach(ph=>{const opPrice=ph.ops.find(o=>o.o===op);if(opPrice){phP+=opPrice.p;phNames.push(ph.name);}});
+    return{op,bM,bB,bT,phNames,mP,bP,tP,phP,strTotal,d,total:mP+bP+tP+phP+strTotal-d,is5g:bB.type==="5g"};
+  }).filter(Boolean).sort((a,b)=>a.total-b.total);},[sm,sb,stv,phones,sstr,strTotal,isFam,famN]);
 
   const Dot=({n,l,a,done})=>(<div style={{display:"flex",alignItems:"center",gap:5}}><div style={{width:24,height:24,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:700,background:done?C.mint:a?"rgba(6,214,160,0.15)":C.surface,color:done?C.ink:a?C.mint:C.subtle}}>{done?"✓":n}</div><span style={{fontSize:11,fontWeight:600,color:a?C.text:C.subtle}}>{l}</span></div>);
-  const Pick=({item,sel:s,onP,l1,l2,col,discount})=>(<div onClick={onP} style={{background:s?"rgba(6,214,160,0.06)":C.dark,border:`1px solid ${discount>0&&!s?"rgba(6,214,160,0.35)":s?C.mint:C.surface}`,borderRadius:12,padding:12,cursor:"pointer",transition:"all .15s",position:"relative"}}>{discount>0&&!s&&<div style={{position:"absolute",top:-1,right:12,fontSize:8,fontWeight:700,color:C.ink,background:C.mint,padding:"1px 8px",borderRadius:"0 0 8px 8px"}}>Spara {discount} kr/mån</div>}<div style={{fontSize:10,fontWeight:700,color:C.muted,textTransform:"uppercase",marginBottom:1}}>{l1}</div><div style={{fontSize:12,fontWeight:700,color:C.text,marginBottom:3}}>{item.name||item.n||""}</div><div style={{display:"flex",alignItems:"baseline",gap:3}}><span style={{fontSize:20,fontWeight:800,color:col||C.mint,fontFamily:"'DM Mono',monospace"}}>{item.campaignPrice||item.price||item.p||0}</span><span style={{fontSize:10,color:C.subtle}}>kr/mån</span><span style={{marginLeft:"auto",fontSize:11,fontWeight:700,color:C.cyan,fontFamily:"'DM Mono',monospace"}}>{l2}</span></div></div>);
-  const SkipBtn=({label,onSkip})=>(<button onClick={onSkip} style={{width:"100%",padding:"14px 20px",borderRadius:12,background:"rgba(6,214,160,0.06)",border:`1.5px solid rgba(6,214,160,0.3)`,color:C.mint,fontSize:14,fontWeight:700,cursor:"pointer",fontFamily:"inherit",textAlign:"center",marginBottom:16}}>{label}</button>);
+  const Pick=({item,sel:s,onP,l1,l2,col,discount})=>(<div onClick={onP} style={{background:s?"rgba(6,214,160,0.06)":C.dark,border:`1px solid ${discount>0&&!s?"rgba(6,214,160,0.35)":s?C.mint:C.surface}`,borderRadius:12,padding:12,cursor:"pointer",transition:"all .15s",position:"relative"}}>{discount>0&&!s&&<div style={{position:"absolute",top:-1,right:12,fontSize:8,fontWeight:700,color:C.ink,background:C.mint,padding:"1px 8px",borderRadius:"0 0 8px 8px"}}>Spara {discount} kr/mån</div>}<div style={{fontSize:10,fontWeight:700,color:C.muted,textTransform:"uppercase",marginBottom:1}}>{l1}</div><div style={{fontSize:12,fontWeight:700,color:C.text,marginBottom:3}}>{item.name||""}</div><div style={{display:"flex",alignItems:"baseline",gap:3}}><span style={{fontSize:20,fontWeight:800,color:col||C.mint,fontFamily:"'DM Mono',monospace"}}>{item.campaignPrice||item.price||0}</span><span style={{fontSize:10,color:C.subtle}}>kr/mån</span><span style={{marginLeft:"auto",fontSize:11,fontWeight:700,color:C.cyan,fontFamily:"'DM Mono',monospace"}}>{l2}</span></div></div>);
+  const SkipBtn=({label,onSkip})=>(<button onClick={onSkip} style={{width:"100%",padding:"14px 20px",borderRadius:12,background:"rgba(6,214,160,0.06)",border:"1.5px solid rgba(6,214,160,0.3)",color:C.mint,fontSize:14,fontWeight:700,cursor:"pointer",fontFamily:"inherit",textAlign:"center",marginBottom:16}}>{label}</button>);
   const BackBtn=({onBack})=>(<button onClick={onBack} style={{marginTop:10,background:"transparent",border:`1px solid ${C.surface}`,color:C.subtle,padding:"5px 12px",borderRadius:8,cursor:"pointer",fontFamily:"inherit",fontSize:11}}>← Tillbaka</button>);
+  const resetAll=()=>{setStep(0);setIsFam(null);setSm(null);setPhones([]);setSb(null);setStv(null);setSstr([]);setPhBrand(null);};
 
   return(<div>
-    <section style={{textAlign:"center",padding:"36px 20px 20px"}}><h2 style={{fontSize:"clamp(24px,4vw,40px)",fontWeight:800,letterSpacing:"-0.03em",marginBottom:6,color:C.text}}><span style={{background:`linear-gradient(135deg,${C.mint},${C.cyan})`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Allt-i-ett</span></h2><p style={{fontSize:14,color:C.subtle}}>Mobil + telefon + bredband + TV & streaming — se totalkostnaden.</p></section>
+    <section style={{textAlign:"center",padding:"36px 20px 20px"}}><h2 style={{fontSize:"clamp(24px,4vw,40px)",fontWeight:800,letterSpacing:"-0.03em",marginBottom:6,color:C.text}}><span style={{background:`linear-gradient(135deg,${C.mint},${C.cyan})`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Allt-i-ett</span></h2><p style={{fontSize:14,color:C.subtle}}>Bygg ditt paket steg för steg — se totalkostnaden.</p></section>
     {/* Steps */}
-    <div style={{display:"flex",gap:8,justifyContent:"center",marginBottom:24,flexWrap:"wrap"}}>
-      <Dot n={1} l="Mobil" a={step===1} done={step>1}/>
-      <div style={{width:12,height:1,background:C.surface,margin:"auto"}}/>
-      <Dot n={2} l="Telefon" a={step===2} done={step>2}/>
-      <div style={{width:12,height:1,background:C.surface,margin:"auto"}}/>
-      <Dot n={3} l="Bredband" a={step===3} done={step>3}/>
-      <div style={{width:12,height:1,background:C.surface,margin:"auto"}}/>
-      <Dot n={4} l="TV & Streaming" a={step===4} done={step>4}/>
-      <div style={{width:12,height:1,background:C.surface,margin:"auto"}}/>
-      <Dot n={5} l="Resultat" a={step===5}/>
-    </div>
+    {step>0&&<div style={{display:"flex",gap:6,justifyContent:"center",marginBottom:20,flexWrap:"wrap"}}>
+      <Dot n={1} l={isFam?`Familj (${famN})`:"Singel"} a={step===1} done={step>1}/>
+      <div style={{width:10,height:1,background:C.surface,margin:"auto"}}/>
+      <Dot n={2} l="Mobil" a={step===2} done={step>2}/>
+      <div style={{width:10,height:1,background:C.surface,margin:"auto"}}/>
+      <Dot n={3} l="Telefon" a={step===3} done={step>3}/>
+      <div style={{width:10,height:1,background:C.surface,margin:"auto"}}/>
+      <Dot n={4} l="Bredband" a={step===4} done={step>4}/>
+      <div style={{width:10,height:1,background:C.surface,margin:"auto"}}/>
+      <Dot n={5} l="TV & Streaming" a={step===5} done={step>5}/>
+      <div style={{width:10,height:1,background:C.surface,margin:"auto"}}/>
+      <Dot n={6} l="Resultat" a={step===6}/>
+    </div>}
 
-    {/* Step 1: Mobil */}
-    {step===1&&<div><div style={{fontSize:12,fontWeight:600,color:C.subtle,marginBottom:10}}>Välj mobilabonnemang</div><div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(190px,1fr))",gap:8}}>{mO.slice(0,12).map(p=>(<Pick key={p.id} item={p} sel={sm?.id===p.id} onP={()=>{setSm(p);setStep(2);}} l1={opName(p.operator)} l2={p.data>=9999?"Obegr.":p.data+" GB"} col={C.mint} discount={0}/>))}</div></div>}
-
-    {/* Step 2: Telefon */}
-    {step===2&&<div>
-      <SkipBtn label="Jag har redan telefon — hoppa över →" onSkip={()=>{setSp(null);setPhBrand(null);setStep(3);}}/>
-      <div style={{fontSize:12,fontWeight:600,color:C.subtle,marginBottom:12}}>Eller välj märke</div>
-      <div style={{display:"flex",gap:8,marginBottom:16,flexWrap:"wrap"}}>
-        {["Apple","Samsung","Google","OnePlus"].map(b=>(<button key={b} onClick={()=>setPhBrand(phBrand===b?null:b)} style={{padding:"10px 20px",borderRadius:12,border:phBrand===b?`1.5px solid ${C.cyan}`:`1px solid ${C.surface}`,cursor:"pointer",fontFamily:"inherit",fontSize:13,fontWeight:phBrand===b?700:500,background:phBrand===b?"rgba(0,180,216,0.08)":"rgba(255,255,255,0.02)",color:phBrand===b?C.text:C.subtle}}>{b}</button>))}
+    {/* Step 0: Singel / Familj */}
+    {step===0&&<div style={{display:"flex",gap:12,justifyContent:"center",marginBottom:20}}>
+      <div onClick={()=>{setIsFam(false);setStep(2);}} style={{background:C.dark,border:`1px solid ${C.surface}`,borderRadius:16,padding:"28px 36px",cursor:"pointer",textAlign:"center",transition:"all .2s",flex:"0 1 220px"}} onMouseEnter={e=>{e.currentTarget.style.borderColor=C.cyan+"66";e.currentTarget.style.transform="translateY(-3px)";}} onMouseLeave={e=>{e.currentTarget.style.borderColor=C.surface;e.currentTarget.style.transform="none";}}>
+        <div style={{width:48,height:48,borderRadius:14,background:"rgba(0,180,216,0.1)",display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 12px"}}><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={C.cyan} strokeWidth="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg></div>
+        <div style={{fontSize:16,fontWeight:800,color:C.text}}>Bara mig</div>
+        <div style={{fontSize:11,color:C.subtle,marginTop:4}}>1 person, 1 abonnemang</div>
       </div>
-      {phBrand&&<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))",gap:8,animation:"fadeIn .15s"}}>
-        {pO.filter(ph=>ph.brand===phBrand).map(ph=>{const cheapOp=ph.ops.find(o=>o.o===selOp)||ph.ops[0];const saving=ph.retail-cheapOp.p*24;return(<div key={ph.id} onClick={()=>{setSp(ph);setStep(3);}} style={{background:C.dark,border:`1px solid ${C.surface}`,borderRadius:12,padding:14,cursor:"pointer",transition:"all .15s"}} onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(0,180,216,0.3)";}} onMouseLeave={e=>{e.currentTarget.style.borderColor=C.surface;}}>
-          <div style={{fontSize:14,fontWeight:700,color:C.text,marginBottom:4}}>{ph.name} <span style={{fontSize:10,color:C.subtle}}>{ph.storage}</span></div>
-          <div style={{display:"flex",alignItems:"baseline",gap:4,marginBottom:4}}><span style={{fontSize:22,fontWeight:800,color:C.mint,fontFamily:"'DM Mono',monospace"}}>{cheapOp.p}</span><span style={{fontSize:10,color:C.subtle}}>kr/mån</span><span style={{marginLeft:"auto",fontSize:10,color:C.muted}}>Butik: {ph.retail.toLocaleString("sv")} kr</span></div>
-          {saving>0&&<div style={{fontSize:9,fontWeight:700,color:C.success,padding:"2px 8px",borderRadius:12,background:"rgba(34,197,94,0.08)",display:"inline-block"}}>Bindningsrabatt — spara {saving.toLocaleString("sv")} kr</div>}
-        </div>);})}
-      </div>}
-      <BackBtn onBack={()=>{setStep(1);setSp(null);setPhBrand(null);}}/>
+      <div onClick={()=>{setIsFam(true);setStep(1);}} style={{background:C.dark,border:`1px solid ${C.surface}`,borderRadius:16,padding:"28px 36px",cursor:"pointer",textAlign:"center",transition:"all .2s",flex:"0 1 220px"}} onMouseEnter={e=>{e.currentTarget.style.borderColor=C.violet+"66";e.currentTarget.style.transform="translateY(-3px)";}} onMouseLeave={e=>{e.currentTarget.style.borderColor=C.surface;e.currentTarget.style.transform="none";}}>
+        <div style={{width:48,height:48,borderRadius:14,background:"rgba(139,92,246,0.1)",display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 12px"}}><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={C.violet} strokeWidth="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <div style={{fontSize:16,fontWeight:800,color:C.text}}>Familj</div>
+        <div style={{fontSize:11,color:C.subtle,marginTop:4}}>2–6 personer, dela surf</div>
+      </div>
     </div>}
 
-    {/* Step 3: Bredband */}
+    {/* Step 1: Antal personer (familj) */}
+    {step===1&&<div style={{textAlign:"center"}}>
+      <div style={{fontSize:14,fontWeight:700,color:C.text,marginBottom:16}}>Hur många är ni?</div>
+      <div style={{display:"flex",gap:8,justifyContent:"center",marginBottom:20}}>{[2,3,4,5,6].map(n=>(<button key={n} onClick={()=>{setFamN(n);setStep(2);}} style={{width:52,height:52,borderRadius:14,border:famN===n?`2px solid ${C.violet}`:`1px solid ${C.surface}`,background:famN===n?"rgba(139,92,246,0.1)":C.dark,color:famN===n?C.text:C.subtle,fontSize:20,fontWeight:800,cursor:"pointer",fontFamily:"'DM Mono',monospace"}}>{n}</button>))}</div>
+      <BackBtn onBack={()=>{setStep(0);setIsFam(null);}}/>
+    </div>}
+
+    {/* Step 2: Mobil */}
+    {step===2&&<div><div style={{fontSize:12,fontWeight:600,color:C.subtle,marginBottom:10}}>Välj mobilabonnemang{isFam&&` för ${famN} personer (delad surf)`}</div><div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(190px,1fr))",gap:8}}>{mO.slice(0,12).map(p=>(<Pick key={p.id} item={p} sel={sm?.id===p.id} onP={()=>{setSm(p);setStep(3);}} l1={opName(p.operator)} l2={p.data>=9999?"Obegr.":p.data+" GB"} col={C.mint} discount={0}/>))}</div><BackBtn onBack={()=>{setStep(isFam?1:0);setSm(null);}}/></div>}
+
+    {/* Step 3: Telefon */}
     {step===3&&<div>
-      <div style={{fontSize:12,fontWeight:600,color:C.subtle,marginBottom:10}}>Välj bredband {selOp&&<span style={{color:C.mint}}>— spara {BUNDLE_DISCOUNTS[selOp]||0} kr/mån med {opName(selOp)}</span>}</div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(190px,1fr))",gap:8}}>{bbS.slice(0,12).map(b=>(<Pick key={b.id} item={b} sel={sb?.id===b.id} onP={()=>{setSb(b);setStep(4);}} l1={opName(b.operator)+(b.type==="5g"?" (5G)":"")} l2={b.speedDown>=1000?"1 Gbit":b.speedDown+" Mbit"} col={C.cyan} discount={b.operator===selOp?(BUNDLE_DISCOUNTS[selOp]||0):0}/>))}</div>
-      <BackBtn onBack={()=>{setStep(2);setSb(null);}}/>
+      <SkipBtn label={isFam?"Inga nya telefoner — hoppa över →":"Jag har redan telefon — hoppa över →"} onSkip={()=>{setPhones([]);setPhBrand(null);setStep(4);}}/>
+      <div style={{fontSize:12,fontWeight:600,color:C.subtle,marginBottom:6}}>Välj telefoner individuellt <span style={{color:C.muted}}>(max 5, välj samma modell flera gånger)</span></div>
+      {phones.length>0&&<div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:12,alignItems:"center"}}>
+        {phones.map((ph,i)=>(<div key={i} style={{display:"flex",alignItems:"center",gap:6,padding:"5px 12px",borderRadius:10,background:"rgba(6,214,160,0.06)",border:`1px solid rgba(6,214,160,0.2)`}}><span style={{fontSize:11,fontWeight:600,color:C.text}}>Telefon {i+1}: {ph.name}</span><button onClick={()=>setPhones(phones.filter((_,j)=>j!==i))} style={{background:"none",border:"none",color:"#f87171",fontSize:14,cursor:"pointer",padding:0}}>×</button></div>))}
+        <button onClick={()=>setStep(4)} style={{padding:"8px 18px",borderRadius:10,background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:12,fontWeight:800,cursor:"pointer",border:"none",fontFamily:"inherit"}}>{phones.length} telefon{phones.length>1?"er":""} valda — fortsätt →</button>
+      </div>}
+      <div style={{display:"flex",gap:8,marginBottom:12,flexWrap:"wrap"}}>{["Apple","Samsung","Google","OnePlus"].map(b=>(<button key={b} onClick={()=>setPhBrand(phBrand===b?null:b)} style={{padding:"8px 16px",borderRadius:10,border:phBrand===b?`1.5px solid ${C.cyan}`:`1px solid ${C.surface}`,cursor:"pointer",fontFamily:"inherit",fontSize:12,fontWeight:phBrand===b?700:500,background:phBrand===b?"rgba(0,180,216,0.08)":"transparent",color:phBrand===b?C.text:C.subtle}}>{b}</button>))}</div>
+      {phBrand&&<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(180px,1fr))",gap:8,animation:"fadeIn .15s"}}>{pO.filter(ph=>ph.brand===phBrand).map(ph=>{const cheapOp=ph.ops.find(o=>o.o===selOp)||ph.ops[0];const canAdd=phones.length<5;return(<div key={ph.id} onClick={()=>{if(canAdd)setPhones([...phones,ph]);}} style={{background:C.dark,border:`1px solid ${C.surface}`,borderRadius:12,padding:12,cursor:canAdd?"pointer":"not-allowed",opacity:canAdd?1:.4,transition:"all .15s"}}>
+        <div style={{fontSize:13,fontWeight:700,color:C.text}}>{ph.name}</div>
+        <div style={{fontSize:10,color:C.subtle,marginBottom:4}}>{ph.storage}</div>
+        <div style={{display:"flex",alignItems:"baseline",gap:4}}><span style={{fontSize:18,fontWeight:800,color:C.mint,fontFamily:"'DM Mono',monospace"}}>{cheapOp.p}</span><span style={{fontSize:10,color:C.subtle}}>kr/mån</span></div>
+      </div>);})}</div>}
+      <BackBtn onBack={()=>{setStep(2);setPhones([]);setPhBrand(null);}}/>
     </div>}
 
-    {/* Step 4: TV & Streaming */}
+    {/* Step 4: Bredband */}
     {step===4&&<div>
-      <SkipBtn label="Hoppa över TV & streaming — visa resultat →" onSkip={()=>{setStv(null);setSstr([]);setStep(5);}}/>
-      {/* TV section */}
+      <div style={{fontSize:12,fontWeight:600,color:C.subtle,marginBottom:10}}>Välj bredband {selOp&&<span style={{color:C.mint}}>— spara {BUNDLE_DISCOUNTS[selOp]||0} kr/mån med {opName(selOp)}</span>}</div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(190px,1fr))",gap:8}}>{bbS.slice(0,12).map(b=>(<Pick key={b.id} item={b} sel={sb?.id===b.id} onP={()=>{setSb(b);setStep(5);}} l1={opName(b.operator)+(b.type==="5g"?" (5G)":"")} l2={b.speedDown>=1000?"1 Gbit":b.speedDown+" Mbit"} col={C.cyan} discount={b.operator===selOp?(BUNDLE_DISCOUNTS[selOp]||0):0}/>))}</div>
+      <BackBtn onBack={()=>{setStep(3);setSb(null);}}/>
+    </div>}
+
+    {/* Step 5: TV & Streaming */}
+    {step===5&&<div>
+      <SkipBtn label="Hoppa över TV & streaming — visa resultat →" onSkip={()=>{setStv(null);setSstr([]);setStep(6);}}/>
       <div style={{fontSize:13,fontWeight:700,color:C.text,marginBottom:10}}>TV-paket <span style={{fontSize:11,color:C.subtle}}>(valfritt)</span></div>
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(190px,1fr))",gap:8,marginBottom:20}}>{tvS.slice(0,8).map(t=>(<Pick key={t.id} item={t} sel={stv?.id===t.id} onP={()=>setStv(stv?.id===t.id?null:t)} l1={opName(t.operator)} l2={t.channels+" kan."} col={C.violet} discount={t.operator===selOp?(BUNDLE_DISCOUNTS[selOp]||0):0}/>))}</div>
-      {/* Streaming section */}
-      <div style={{fontSize:13,fontWeight:700,color:C.text,marginBottom:10}}>Streaming-tjänster <span style={{fontSize:11,color:C.subtle}}>(välj fritt, valfritt)</span>{sstr.length>0&&<span style={{fontSize:12,color:C.mint,fontFamily:"'DM Mono',monospace",marginLeft:8}}>+{strTotal} kr/mån</span>}</div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(150px,1fr))",gap:6,marginBottom:16}}>
-        {streamPicks.map(s=>(<div key={s.id} onClick={()=>toggleStr(s.id)} style={{background:sstr.includes(s.id)?"rgba(0,180,216,0.08)":C.dark,border:`1px solid ${sstr.includes(s.id)?C.cyan:C.surface}`,borderRadius:10,padding:"10px 12px",cursor:"pointer",transition:"all .15s"}}>
-          <div style={{fontSize:12,fontWeight:700,color:sstr.includes(s.id)?C.text:C.muted}}>{s.name}</div>
-          <div style={{fontSize:14,fontWeight:800,color:sstr.includes(s.id)?C.cyan:C.subtle,fontFamily:"'DM Mono',monospace"}}>{s.price} kr</div>
-        </div>))}
-      </div>
-      <button onClick={()=>setStep(5)} style={{width:"100%",padding:"14px",borderRadius:12,background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:14,fontWeight:800,cursor:"pointer",fontFamily:"inherit",border:"none"}}>Visa resultat →</button>
-      <BackBtn onBack={()=>{setStep(3);setStv(null);setSstr([]);}}/>
+      <div style={{fontSize:13,fontWeight:700,color:C.text,marginBottom:10}}>Streaming <span style={{fontSize:11,color:C.subtle}}>(välj fritt)</span>{sstr.length>0&&<span style={{fontSize:12,color:C.mint,fontFamily:"'DM Mono',monospace",marginLeft:8}}>+{strTotal} kr/mån</span>}</div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(140px,1fr))",gap:6,marginBottom:16}}>{streamPicks.map(s=>(<div key={s.id} onClick={()=>toggleStr(s.id)} style={{background:sstr.includes(s.id)?"rgba(0,180,216,0.08)":C.dark,border:`1px solid ${sstr.includes(s.id)?C.cyan:C.surface}`,borderRadius:10,padding:"10px 12px",cursor:"pointer"}}><div style={{fontSize:12,fontWeight:700,color:sstr.includes(s.id)?C.text:C.muted}}>{s.name}</div><div style={{fontSize:14,fontWeight:800,color:sstr.includes(s.id)?C.cyan:C.subtle,fontFamily:"'DM Mono',monospace"}}>{s.price} kr</div></div>))}</div>
+      <button onClick={()=>setStep(6)} style={{width:"100%",padding:"14px",borderRadius:12,background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:14,fontWeight:800,cursor:"pointer",fontFamily:"inherit",border:"none"}}>Visa resultat →</button>
+      <BackBtn onBack={()=>{setStep(4);setStv(null);setSstr([]);}}/>
     </div>}
 
-    {/* Step 5: Resultat */}
-    {step===5&&res.length>0&&(()=>{const myOp=res.find(r=>r.op===selOp);const others=res.filter(r=>r.op!==selOp);const sorted=myOp?[myOp,...others]:res;const RCard=({r,isFirst,isMy})=>(<div style={{background:isFirst?"rgba(6,214,160,0.04)":C.dark,border:`1px solid ${isFirst?"rgba(6,214,160,0.25)":isMy?"rgba(0,180,216,0.25)":C.surface}`,borderRadius:16,padding:20,marginBottom:12}}>
+    {/* Step 6: Resultat */}
+    {step===6&&res.length>0&&(()=>{const myOp=res.find(r=>r.op===selOp);const others=res.filter(r=>r.op!==selOp);
+      const RCard=({r,isMy})=>(<div style={{background:isMy?"rgba(0,180,216,0.04)":C.dark,border:`1px solid ${isMy?"rgba(0,180,216,0.25)":C.surface}`,borderRadius:16,padding:20,marginBottom:12}}>
         {isMy&&<div style={{fontSize:9,fontWeight:700,color:C.cyan,padding:"2px 8px",borderRadius:16,background:"rgba(0,180,216,0.08)",display:"inline-block",marginBottom:8}}>Ditt val</div>}
-        {isFirst&&!isMy&&<div style={{fontSize:9,fontWeight:700,color:C.mint,padding:"2px 8px",borderRadius:16,background:"rgba(6,214,160,0.08)",display:"inline-block",marginBottom:8}}>Billigast totalt</div>}
-        <div style={{fontSize:14,fontWeight:800,color:C.text,marginBottom:12}}>{opName(r.op)}{r.is5g&&<span style={{fontSize:10,color:C.cyan,marginLeft:6}}>(5G Hem)</span>}</div>
+        <div style={{fontSize:14,fontWeight:800,color:C.text,marginBottom:4}}>{opName(r.op)}{r.is5g&&<span style={{fontSize:10,color:C.cyan,marginLeft:6}}>(5G Hem)</span>}{isFam&&<span style={{fontSize:10,color:C.violet,marginLeft:6}}>{famN} personer</span>}</div>
         <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(80px,1fr))",gap:6,marginBottom:12}}>
-          <div style={{background:C.surface,borderRadius:8,padding:8}}><div style={{fontSize:8,color:C.subtle}}>Mobil</div><div style={{fontSize:14,fontWeight:800,color:C.mint,fontFamily:"'DM Mono',monospace"}}>{r.mP} kr</div></div>
-          {r.phP>0&&<div style={{background:C.surface,borderRadius:8,padding:8}}><div style={{fontSize:8,color:C.subtle}}>Telefon</div><div style={{fontSize:14,fontWeight:800,color:"#E8345A",fontFamily:"'DM Mono',monospace"}}>{r.phP} kr</div></div>}
+          <div style={{background:C.surface,borderRadius:8,padding:8}}><div style={{fontSize:8,color:C.subtle}}>Mobil{isFam?` (${famN}p)`:""}</div><div style={{fontSize:14,fontWeight:800,color:C.mint,fontFamily:"'DM Mono',monospace"}}>{r.mP} kr</div></div>
+          {r.phP>0&&<div style={{background:C.surface,borderRadius:8,padding:8}}><div style={{fontSize:8,color:C.subtle}}>Telefon{phones.length>1?` (${phones.length}st)`:""}</div><div style={{fontSize:14,fontWeight:800,color:"#E8345A",fontFamily:"'DM Mono',monospace"}}>{r.phP} kr</div></div>}
           <div style={{background:C.surface,borderRadius:8,padding:8}}><div style={{fontSize:8,color:C.subtle}}>Bredband</div><div style={{fontSize:14,fontWeight:800,color:C.cyan,fontFamily:"'DM Mono',monospace"}}>{r.bP} kr</div></div>
           {r.bT&&<div style={{background:C.surface,borderRadius:8,padding:8}}><div style={{fontSize:8,color:C.subtle}}>TV</div><div style={{fontSize:14,fontWeight:800,color:C.violet,fontFamily:"'DM Mono',monospace"}}>{r.tP} kr</div></div>}
           {r.strTotal>0&&<div style={{background:C.surface,borderRadius:8,padding:8}}><div style={{fontSize:8,color:C.subtle}}>Streaming</div><div style={{fontSize:14,fontWeight:800,color:C.cyan,fontFamily:"'DM Mono',monospace"}}>{r.strTotal} kr</div></div>}
-          <div style={{background:C.surface,borderRadius:8,padding:8}}><div style={{fontSize:8,color:C.subtle}}>Rabatt</div><div style={{fontSize:14,fontWeight:800,color:r.d>0?C.success:C.subtle,fontFamily:"'DM Mono',monospace"}}>{r.d>0?`-${r.d}`:"-"}</div></div>
+          <div style={{background:C.surface,borderRadius:8,padding:8}}><div style={{fontSize:8,color:C.subtle}}>Rabatt</div><div style={{fontSize:14,fontWeight:800,color:r.d>0?C.success:C.subtle,fontFamily:"'DM Mono',monospace"}}>{r.d>0?"-"+r.d:"-"}</div></div>
         </div>
-        {r.phN&&<div style={{fontSize:10,color:C.muted,marginBottom:4}}>Telefon: {r.phN}</div>}
-        {sstr.length>0&&<div style={{fontSize:10,color:C.muted,marginBottom:8}}>Streaming: {sstr.map(id=>{const f=streamPicks.find(x=>x.id===id);return f?f.name:id;}).join(", ")}</div>}
-        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-          <div><span style={{fontSize:30,fontWeight:800,color:C.text,fontFamily:"'DM Mono',monospace"}}>{r.total}</span><span style={{fontSize:12,color:C.subtle,marginLeft:4}}>kr/mån</span></div>
-          <a href={r.bM.affiliateUrl} target="_blank" rel="noopener noreferrer" style={{padding:"8px 20px",borderRadius:10,textDecoration:"none",background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:12,fontWeight:800}}>Välj →</a>
+        {r.phNames.length>0&&<div style={{fontSize:10,color:C.muted,marginBottom:4}}>Telefoner: {r.phNames.join(", ")}</div>}
+        {sstr.length>0&&<div style={{fontSize:10,color:C.muted,marginBottom:4}}>Streaming: {sstr.map(id=>{const f=streamPicks.find(x=>x.id===id);return f?f.name:id;}).join(", ")}</div>}
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginTop:8}}>
+          <div><span style={{fontSize:30,fontWeight:800,color:C.text,fontFamily:"'DM Mono',monospace"}}>{r.total}</span><span style={{fontSize:12,color:C.subtle,marginLeft:4}}>kr/mån</span>{isFam&&<div style={{fontSize:11,color:C.muted}}>= {Math.round(r.total/famN)} kr/person</div>}</div>
+          <a href={getUrl(r.op)} target="_blank" rel="noopener noreferrer sponsored" style={{padding:"10px 22px",borderRadius:10,textDecoration:"none",background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:12,fontWeight:800}}>Välj {opName(r.op)} →</a>
         </div>
       </div>);
       return(<div>
-        {myOp&&<div><div style={{fontSize:10,fontWeight:600,color:C.cyan,textTransform:"uppercase",marginBottom:8}}>Baserat på ditt val — {opName(selOp)}</div><RCard r={myOp} isFirst={myOp.total<=others[0]?.total} isMy={true}/></div>}
-        {others.length>0&&<div><div style={{fontSize:10,fontWeight:600,color:C.subtle,textTransform:"uppercase",marginBottom:8,marginTop:myOp?8:0}}>Andra operatörer</div>{others.map((r,i)=>(<RCard key={r.op} r={r} isFirst={!myOp&&i===0} isMy={false}/>))}</div>}
-        <button onClick={()=>{setStep(1);setSm(null);setSp(null);setSb(null);setStv(null);setSstr([]);setPhBrand(null);}} style={{background:"transparent",border:`1px solid ${C.surface}`,color:C.subtle,padding:"5px 12px",borderRadius:8,cursor:"pointer",fontFamily:"inherit",fontSize:11}}>Börja om</button>
+        {myOp&&<div><div style={{fontSize:10,fontWeight:600,color:C.cyan,textTransform:"uppercase",marginBottom:8}}>Baserat på ditt val — {opName(selOp)}</div><RCard r={myOp} isMy={true}/></div>}
+        {others.length>0&&<div><div style={{fontSize:10,fontWeight:600,color:C.subtle,textTransform:"uppercase",marginBottom:8,marginTop:myOp?8:0}}>Andra operatörer</div>{others.map(r=>(<RCard key={r.op} r={r} isMy={false}/>))}</div>}
+        <button onClick={resetAll} style={{background:"transparent",border:`1px solid ${C.surface}`,color:C.subtle,padding:"5px 12px",borderRadius:8,cursor:"pointer",fontFamily:"inherit",fontSize:11}}>Börja om</button>
       </div>);})()}
   </div>);
 }
@@ -593,7 +649,7 @@ function PageJamfor(){
     {mode==="mobil"?(
     <div>
       {/* HERO */}
-      <section style={{minHeight:"calc(100vh - 60px)",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",textAlign:"center",padding:"0 20px",position:"relative"}}>
+      <section style={{minHeight:"75vh",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",textAlign:"center",padding:"0 20px",position:"relative"}}>
         <div style={{position:"absolute",top:"15%",left:"50%",transform:"translateX(-50%)",width:"clamp(300px,60vw,600px)",height:"clamp(300px,60vw,600px)",borderRadius:"50%",background:"radial-gradient(circle,rgba(139,92,246,0.12) 0%,rgba(0,180,216,0.06) 40%,transparent 70%)",animation:"heroGlow 8s ease-in-out infinite",pointerEvents:"none"}}/>
         <h1 style={{fontSize:"clamp(32px,6vw,60px)",fontWeight:800,lineHeight:1.05,letterSpacing:"-0.04em",marginBottom:16,color:C.text,position:"relative",zIndex:1}}>Alla <span style={{background:`linear-gradient(135deg,${C.mint},${C.cyan},${C.violet})`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>operatörer.</span><br/>Ett ställe.</h1>
         <p style={{fontSize:"clamp(15px,2vw,18px)",color:C.subtle,maxWidth:500,marginBottom:36,lineHeight:1.5,position:"relative",zIndex:1}}>Hitta, jämför och teckna — helt digitalt.<br/>Mobil, bredband, TV, streaming och telefoner.</p>
@@ -602,29 +658,22 @@ function PageJamfor(){
       </section>
       {/* ═══ TAGLINE ═══ */}
       <div style={{textAlign:"center",marginBottom:18,animation:"fadeIn .5s ease-out .4s both"}}><p style={{fontSize:"clamp(13px,1.8vw,15px)",fontWeight:500,color:C.subtle,letterSpacing:"0.01em"}}>Allt inom abonnemang — <span style={{color:C.text,fontWeight:700}}>samlat på ett ställe</span></p></div>
-      {/* ═══ FEATURE GRID ═══ */}
-      <section style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:10,marginBottom:14,animation:"fadeIn .6s ease-out .5s both"}} className="fgrid">
+      {/* ═══ FEATURE GRID — 6 boxes, Allt-i-ett pulsates ═══ */}
+      <section style={{display:"grid",gridTemplateColumns:"repeat(6,1fr)",gap:10,marginBottom:20,animation:"fadeIn .6s ease-out .5s both"}} className="fgrid">
         {[
-          {id:"mobil",l:"Mobilabb",desc:"Enbart SIM-kort",col:C.mint,bg:"rgba(6,214,160,0.06)",icon:"M4 4a2 2 0 012-2h12a2 2 0 012 2v1H4V4zM2 7h20v10a2 2 0 01-2 2H4a2 2 0 01-2-2V7z"},
-          {id:"telefoner",l:"Telefoner",desc:"iPhone, Samsung m.fl.",col:"#E8345A",bg:"rgba(232,52,90,0.06)",icon:"M8 2h8a2 2 0 012 2v16a2 2 0 01-2 2H8a2 2 0 01-2-2V4a2 2 0 012-2zM11 18h2"},
-          {id:"bredband",l:"Bredband",desc:"Fiber och 5G Hem",col:C.cyan,bg:"rgba(0,180,216,0.06)",icon:"M2 12h20M6 12v6M12 12v6M18 12v6M4 8l8-4 8 4"},
-          {id:"tv",l:"TV",desc:"Kanaler och baspaket",col:"#FF6B00",bg:"rgba(255,107,0,0.06)",icon:"M3 5h18v11H3zM8 20h8M12 16v4"},
-          {id:"streaming",l:"Streaming",desc:"Film, serier, sport",col:C.violet,bg:"rgba(139,92,246,0.06)",icon:"M5 3l14 9-14 9V3z"},
-        ].map(f=>(<div key={f.id} onClick={()=>setMode(f.id)} style={{background:f.bg,border:`1.5px solid ${f.col}20`,borderRadius:14,padding:"20px 14px",cursor:"pointer",transition:"all .25s",textAlign:"center",display:"flex",flexDirection:"column",alignItems:"center",gap:8}} onMouseEnter={e=>{e.currentTarget.style.borderColor=f.col+"66";e.currentTarget.style.transform="translateY(-4px)";e.currentTarget.style.boxShadow=`0 8px 24px ${f.col}15`;}} onMouseLeave={e=>{e.currentTarget.style.borderColor=f.col+"20";e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="none";}}>
+          {id:"mobil",l:"Mobilabb",desc:"Enbart SIM-kort",col:C.mint,bg:"rgba(6,214,160,0.06)",icon:"M4 4a2 2 0 012-2h12a2 2 0 012 2v1H4V4zM2 7h20v10a2 2 0 01-2 2H4a2 2 0 01-2-2V7z",pulse:false},
+          {id:"telefoner",l:"Telefoner",desc:"iPhone, Samsung m.fl.",col:"#E8345A",bg:"rgba(232,52,90,0.06)",icon:"M8 2h8a2 2 0 012 2v16a2 2 0 01-2 2H8a2 2 0 01-2-2V4a2 2 0 012-2zM11 18h2",pulse:false},
+          {id:"bredband",l:"Bredband",desc:"Fiber och 5G Hem",col:C.cyan,bg:"rgba(0,180,216,0.06)",icon:"M2 12h20M6 12v6M12 12v6M18 12v6M4 8l8-4 8 4",pulse:false},
+          {id:"tv",l:"TV",desc:"Kanaler och baspaket",col:"#FF6B00",bg:"rgba(255,107,0,0.06)",icon:"M3 5h18v11H3zM8 20h8M12 16v4",pulse:false},
+          {id:"streaming",l:"Streaming",desc:"Film, serier, sport",col:C.violet,bg:"rgba(139,92,246,0.06)",icon:"M5 3l14 9-14 9V3z",pulse:false},
+          {id:"paket",l:"Allt-i-ett",desc:"Bygg hela paketet",col:C.success,bg:"rgba(6,214,160,0.06)",icon:"M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5",pulse:true},
+        ].map(f=>(<div key={f.id} onClick={()=>setMode(f.id==="paket"?"paket":f.id)} style={{background:f.bg,border:`1.5px solid ${f.col}20`,borderRadius:14,padding:"20px 10px",cursor:"pointer",transition:"all .25s",textAlign:"center",display:"flex",flexDirection:"column",alignItems:"center",gap:8,animation:f.pulse?"featurePulse 2.5s ease-in-out infinite":"none"}} onMouseEnter={e=>{e.currentTarget.style.borderColor=f.col+"66";e.currentTarget.style.transform="translateY(-4px)";e.currentTarget.style.boxShadow=`0 8px 24px ${f.col}15`;if(f.pulse)e.currentTarget.style.animation="none";}} onMouseLeave={e=>{e.currentTarget.style.borderColor=f.col+"20";e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="none";if(f.pulse)e.currentTarget.style.animation="featurePulse 2.5s ease-in-out infinite";}}>
           <div style={{width:40,height:40,borderRadius:12,background:`${f.col}15`,display:"flex",alignItems:"center",justifyContent:"center"}}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={f.col} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d={f.icon}/></svg></div>
-          <div style={{fontSize:14,fontWeight:800,color:C.text}}>{f.l}</div>
+          <div style={{fontSize:13,fontWeight:800,color:C.text}}>{f.l}</div>
           <div style={{fontSize:10,color:C.subtle,lineHeight:1.3}}>{f.desc}</div>
-          <div style={{fontSize:10,fontWeight:700,color:f.col,marginTop:2}}>Jämför →</div>
+          <div style={{fontSize:10,fontWeight:700,color:f.col,marginTop:2}}>{f.pulse?"Starta →":"Jämför →"}</div>
         </div>))}
       </section>
-      {/* Allt-i-ett */}
-      <div onClick={()=>setMode("paket")} style={{background:"linear-gradient(135deg,rgba(6,214,160,0.05),rgba(0,180,216,0.04))",border:"1.5px solid rgba(6,214,160,0.2)",borderRadius:14,padding:"16px 24px",marginBottom:20,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"space-between",gap:16,transition:"all .25s",animation:"fadeIn .6s ease-out .6s both"}} onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(6,214,160,0.5)";e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 8px 24px rgba(6,214,160,0.08)";}} onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(6,214,160,0.2)";e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="none";}}>
-        <div style={{display:"flex",alignItems:"center",gap:14}}>
-          <div style={{width:44,height:44,borderRadius:12,background:"rgba(6,214,160,0.12)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={C.success} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
-          <div><div style={{fontSize:16,fontWeight:800,color:C.text}}>Allt-i-ett</div><div style={{fontSize:11,color:C.subtle}}>Mobil + telefon + bredband + TV + streaming — jämför totalkostnaden</div></div>
-        </div>
-        <div style={{background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:11,fontWeight:800,padding:"8px 20px",borderRadius:20,whiteSpace:"nowrap",flexShrink:0}}>Starta →</div>
-      </div>
       {/* FAMILY BANNER */}
       {cat!=="familj"&&<div onClick={()=>setCat("familj")} style={{display:"flex",alignItems:"center",gap:12,maxWidth:480,margin:"0 auto 18px",background:C.dark,border:"1px solid rgba(139,92,246,0.15)",borderRadius:12,padding:"10px 16px",cursor:"pointer",transition:"all .2s"}} className="family-banner" onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(139,92,246,0.35)";}} onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(139,92,246,0.15)";}}>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={C.violet} strokeWidth="1.5" style={{flexShrink:0}}><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
@@ -677,6 +726,7 @@ function ByytApp(){
         @keyframes fadeIn{from{opacity:0}to{opacity:1}}
         @keyframes heroGlow{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:.55;transform:scale(1.06)}}
         @keyframes scrollBounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+        @keyframes featurePulse{0%,100%{border-color:rgba(34,197,94,0.15);box-shadow:none}50%{border-color:rgba(34,197,94,0.5);box-shadow:0 0 16px rgba(34,197,94,0.1)}}
         @keyframes filterPulse{0%,100%{border-color:rgba(0,180,216,0.2)}50%{border-color:rgba(0,180,216,0.5)}}
         *{box-sizing:border-box;margin:0;padding:0}
         ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:rgba(139,92,246,.2);border-radius:3px}
