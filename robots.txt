@@ -2,3 +2,6 @@ User-agent: *
 Allow: /
 
 Sitemap: https://byyt.se/sitemap.xml
+
+# Byyt.se - oberoende jämförelsetjänst
+# Kontakt: kontakt@byyt.se
