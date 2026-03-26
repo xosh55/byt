@@ -146,23 +146,25 @@ const BB_OPERATORS=[{id:"telia",name:"Telia",color:"#6C1D9E"},{id:"tele2",name:"
 
 const TV_OPERATORS=[{id:"telia",name:"Telia",color:"#6C1D9E"},{id:"telenor",name:"Telenor",color:"#0096E6"},{id:"tele2",name:"Tele2",color:"#E0E0E0"},{id:"boxer",name:"Boxer",color:"#E8345A"},{id:"allente",name:"Allente",color:"#FF6B00"},{id:"sappa",name:"Sappa",color:"#22C55E"}];
 const TV_PLANS=[
-{id:"tv1",operator:"telia",name:"Telia TV Mini",price:249,campaignPrice:149,campaignMonths:6,channels:20,streaming:["Telia Play"],playService:"Telia Play",type:"fiber",perks:["HD"],channelUrl:"https://www.telia.se/tv",affiliateUrl:"https://www.telia.se/tv"},
-{id:"tv2",operator:"telia",name:"Telia TV Mellan",price:399,campaignPrice:249,campaignMonths:6,channels:36,streaming:["Telia Play","TV4 Play","BritBox"],playService:"Telia Play",type:"fiber",perks:["Sport & film"],channelUrl:"https://www.telia.se/tv",affiliateUrl:"https://www.telia.se/tv"},
-{id:"tv3",operator:"telia",name:"Telia TV Mycket",price:499,campaignPrice:349,campaignMonths:6,channels:45,streaming:["TV4 Play+","HBO Max","Viaplay"],playService:"Telia Play",type:"fiber",perks:["Allt för familjen"],channelUrl:"https://www.telia.se/tv",affiliateUrl:"https://www.telia.se/tv"},
-{id:"tv4",operator:"telia",name:"Telia Stora Sport",price:549,campaignPrice:349,campaignMonths:6,channels:45,streaming:["Viaplay Total","Amazon Prime"],playService:"Telia Play",type:"fiber",perks:["Allsvenskan","PL","F1"],channelUrl:"https://www.telia.se/tv",affiliateUrl:"https://www.telia.se/tv"},
-{id:"tv5",operator:"telia",name:"Telia Största Sport",price:999,campaignPrice:899,campaignMonths:6,channels:45,streaming:["Allt inkluderat"],playService:"Telia Play",type:"fiber",perks:["All sport"],channelUrl:"https://www.telia.se/tv",affiliateUrl:"https://www.telia.se/tv"},
-{id:"tv6",operator:"telenor",name:"Telenor TV Bas",price:299,campaignPrice:99,campaignMonths:6,channels:21,streaming:["Telenor Stream"],playService:"Telenor Stream",type:"fiber",perks:["TV-hubb ingår"],channelUrl:"https://www.telenor.se/handla/tv/",affiliateUrl:"https://www.telenor.se/handla/tv/"},
-{id:"tv7",operator:"telenor",name:"Telenor TV Stor",price:399,campaignPrice:249,campaignMonths:12,channels:50,streaming:["Viaplay Film"],playService:"Telenor Stream",type:"fiber",perks:["Välj 1 streaming"],channelUrl:"https://www.telenor.se/handla/tv/",affiliateUrl:"https://www.telenor.se/handla/tv/"},
-{id:"tv8",operator:"telenor",name:"Telenor TV Premium",price:899,campaignPrice:499,campaignMonths:12,channels:59,streaming:["Viaplay Total","HBO Max"],playService:"Telenor Stream",type:"fiber",perks:["Allt inkluderat"],channelUrl:"https://www.telenor.se/handla/tv/",affiliateUrl:"https://www.telenor.se/handla/tv/"},
-{id:"tv9",operator:"tele2",name:"Tele2 Streaming Flex",price:199,campaignPrice:99,campaignMonths:12,channels:7,streaming:["Disney+","Välj 2"],playService:"Tele2 Play",type:"streaming",perks:["Byt varje mån"],channelUrl:"https://www.tele2.se/tv",affiliateUrl:"https://www.tele2.se/tv"},
-{id:"tv10",operator:"tele2",name:"Tele2 TV Standard",price:299,campaignPrice:199,campaignMonths:12,channels:30,streaming:["Tele2 Play"],playService:"Tele2 Play",type:"fiber",perks:["TV Hub ingår"],channelUrl:"https://www.tele2.se/tv",affiliateUrl:"https://www.tele2.se/tv"},
-{id:"tv11",operator:"tele2",name:"Tele2 TV Flexibel",price:399,campaignPrice:249,campaignMonths:12,channels:50,streaming:["Viaplay","Disney+"],playService:"Tele2 Play",type:"fiber",perks:["Byt varje mån"],channelUrl:"https://www.tele2.se/tv",affiliateUrl:"https://www.tele2.se/tv"},
-{id:"tv12",operator:"tele2",name:"Tele2 TV Premium",price:499,campaignPrice:299,campaignMonths:12,channels:70,streaming:["Viaplay Total","Disney+"],playService:"Tele2 Play",type:"fiber",perks:["All sport"],channelUrl:"https://www.tele2.se/tv",affiliateUrl:"https://www.tele2.se/tv"},
-{id:"tv13",operator:"boxer",name:"Boxer TV Bas",price:299,campaignPrice:99,campaignMonths:12,channels:19,streaming:[],playService:"Tele2 Play",type:"fiber",perks:["TV Hub mini"],channelUrl:"https://www.boxer.se/tv",affiliateUrl:"https://www.boxer.se/tv"},
-{id:"tv14",operator:"boxer",name:"Boxer TV Premium",price:499,campaignPrice:null,campaignMonths:null,channels:55,streaming:["Disney+"],playService:"Tele2 Play",type:"fiber",perks:["3 streaming"],channelUrl:"https://www.boxer.se/tv",affiliateUrl:"https://www.boxer.se/tv"},
-{id:"tv15",operator:"allente",name:"Allente Stream Basic",price:249,campaignPrice:129,campaignMonths:3,channels:19,streaming:[],playService:"Allente-appen",type:"streaming",perks:["Ingen bindning"],channelUrl:"https://www.allente.se",affiliateUrl:"https://www.allente.se"},
-{id:"tv16",operator:"allente",name:"Allente Flex 4",price:449,campaignPrice:255,campaignMonths:3,channels:19,streaming:["Välj 4 tjänster"],playService:"Allente-appen",type:"streaming",perks:["Max flexibilitet"],channelUrl:"https://www.allente.se",affiliateUrl:"https://www.allente.se"},
-{id:"tv17",operator:"sappa",name:"Sappa Play Fem",price:209,campaignPrice:99,campaignMonths:3,channels:15,streaming:[],playService:"Sappa",type:"streaming",perks:["IPTV + kabel"],channelUrl:"https://www.sappa.se",affiliateUrl:"https://www.sappa.se"},
+{id:"tv1",operator:"telia",name:"Telia TV Mini",price:249,campaignPrice:149,campaignMonths:6,channels:20,streaming:["TV4 Play"],playService:"Telia Play",type:"fiber",size:"bas",streamIncludes:[],perks:["HD"],channelUrl:"https://www.telia.se/tv",affiliateUrl:"https://www.telia.se/tv"},
+{id:"tv2",operator:"telia",name:"Telia TV Mellan",price:399,campaignPrice:249,campaignMonths:6,channels:36,streaming:["TV4 Play","BritBox"],playService:"Telia Play",type:"fiber",size:"mellan",streamIncludes:[],perks:["Sport & film"],channelUrl:"https://www.telia.se/tv",affiliateUrl:"https://www.telia.se/tv"},
+{id:"tv3",operator:"telia",name:"Telia TV Mycket",price:499,campaignPrice:349,campaignMonths:6,channels:45,streaming:["TV4 Play+","HBO Max","Viaplay Medium","BritBox"],playService:"Telia Play",type:"fiber",size:"stor",streamIncludes:["hbomax"],perks:["Allt för familjen"],channelUrl:"https://www.telia.se/tv",affiliateUrl:"https://www.telia.se/tv"},
+{id:"tv4",operator:"telia",name:"Telia Lilla Sport",price:549,campaignPrice:349,campaignMonths:6,channels:10,streaming:["Disney+","HBO Max","Amazon Prime","TV4 Sport Fotboll"],playService:"Telia Play",type:"fiber",size:"sport",streamIncludes:["disneyplus","hbomax","prime","tv4sport"],perks:["Allsvenskan"],channelUrl:"https://www.telia.se/tv",affiliateUrl:"https://www.telia.se/tv"},
+{id:"tv4b",operator:"telia",name:"Telia Stora Sport",price:899,campaignPrice:799,campaignMonths:6,channels:45,streaming:["Disney+","Netflix","HBO Max","Amazon Prime","Viaplay Sport","TV4 Sport"],playService:"Telia Play",type:"fiber",size:"sport",streamIncludes:["disneyplus","netflix","hbomax","prime","viaplaytotal","tv4sport"],perks:["PL","CL","F1","Allsvenskan"],channelUrl:"https://www.telia.se/tv",affiliateUrl:"https://www.telia.se/tv"},
+{id:"tv5",operator:"telia",name:"Telia Största Sport",price:1099,campaignPrice:999,campaignMonths:6,channels:45,streaming:["Allt inkluderat"],playService:"Telia Play",type:"fiber",size:"sport",streamIncludes:["disneyplus","netflix","hbomax","prime","viaplaytotal","tv4sport","tv4hockey"],perks:["All sport inkl SHL"],channelUrl:"https://www.telia.se/tv",affiliateUrl:"https://www.telia.se/tv"},
+{id:"tv6",operator:"telenor",name:"Telenor TV Bas",price:299,campaignPrice:99,campaignMonths:6,channels:21,streaming:["Telenor Stream"],playService:"Telenor Stream",type:"fiber",size:"bas",streamIncludes:[],perks:["TV-hubb ingår"],channelUrl:"https://www.telenor.se/handla/tv/",affiliateUrl:"https://www.telenor.se/handla/tv/"},
+{id:"tv7",operator:"telenor",name:"Telenor TV Stor",price:499,campaignPrice:249,campaignMonths:12,channels:50,streaming:["Viaplay Film & Serier"],playService:"Telenor Stream",type:"fiber",size:"mellan",streamIncludes:[],perks:["Välj 1 streaming"],channelUrl:"https://www.telenor.se/handla/tv/",affiliateUrl:"https://www.telenor.se/handla/tv/"},
+{id:"tv8",operator:"telenor",name:"Telenor TV Premium",price:899,campaignPrice:499,campaignMonths:12,channels:59,streaming:["Viaplay Total","HBO Max/SkyShowtime"],playService:"Telenor Stream",type:"fiber",size:"sport",streamIncludes:["viaplaytotal","hbomax"],perks:["PL","CL","F1","NHL"],channelUrl:"https://www.telenor.se/handla/tv/",affiliateUrl:"https://www.telenor.se/handla/tv/"},
+{id:"tv9",operator:"tele2",name:"Tele2 Streaming Flex",price:199,campaignPrice:99,campaignMonths:12,channels:7,streaming:["Disney+","Välj 2"],playService:"Tele2 Play",type:"streaming",size:"bas",streamIncludes:["disneyplus"],perks:["Byt varje mån"],channelUrl:"https://www.tele2.se/tv",affiliateUrl:"https://www.tele2.se/tv"},
+{id:"tv10",operator:"tele2",name:"Tele2 TV Standard",price:299,campaignPrice:199,campaignMonths:12,channels:30,streaming:["Disney+","Tele2 Play"],playService:"Tele2 Play",type:"fiber",size:"bas",streamIncludes:["disneyplus"],perks:["TV Hub ingår"],channelUrl:"https://www.tele2.se/tv",affiliateUrl:"https://www.tele2.se/tv"},
+{id:"tv11",operator:"tele2",name:"Tele2 TV Flexibel",price:399,campaignPrice:249,campaignMonths:12,channels:50,streaming:["Viaplay","Disney+"],playService:"Tele2 Play",type:"fiber",size:"mellan",streamIncludes:["disneyplus"],perks:["Byt varje mån"],channelUrl:"https://www.tele2.se/tv",affiliateUrl:"https://www.tele2.se/tv"},
+{id:"tv12",operator:"tele2",name:"Tele2 TV Premium",price:499,campaignPrice:299,campaignMonths:12,channels:70,streaming:["Viaplay Total","Disney+"],playService:"Tele2 Play",type:"fiber",size:"stor",streamIncludes:["disneyplus","viaplaytotal"],perks:["All sport"],channelUrl:"https://www.tele2.se/tv",affiliateUrl:"https://www.tele2.se/tv"},
+{id:"tv12b",operator:"tele2",name:"Tele2 TV & Streaming Sport",price:1099,campaignPrice:699,campaignMonths:12,channels:32,streaming:["Disney+","Viaplay Total","TV4 Sport"],playService:"Tele2 Play",type:"fiber",size:"sport",streamIncludes:["disneyplus","viaplaytotal","tv4sport"],perks:["PL","CL","F1","Allsvenskan"],channelUrl:"https://www.tele2.se/tv",affiliateUrl:"https://www.tele2.se/tv"},
+{id:"tv13",operator:"boxer",name:"Boxer TV Bas",price:299,campaignPrice:99,campaignMonths:12,channels:19,streaming:[],playService:"Tele2 Play",type:"fiber",size:"bas",streamIncludes:[],perks:["TV Hub mini"],channelUrl:"https://www.boxer.se/tv",affiliateUrl:"https://www.boxer.se/tv"},
+{id:"tv14",operator:"boxer",name:"Boxer TV Premium",price:499,campaignPrice:null,campaignMonths:null,channels:55,streaming:["Disney+"],playService:"Tele2 Play",type:"fiber",size:"stor",streamIncludes:["disneyplus"],perks:["3 streaming"],channelUrl:"https://www.boxer.se/tv",affiliateUrl:"https://www.boxer.se/tv"},
+{id:"tv15",operator:"allente",name:"Allente Stream Basic",price:249,campaignPrice:129,campaignMonths:3,channels:19,streaming:[],playService:"Allente-appen",type:"streaming",size:"bas",streamIncludes:[],perks:["Ingen bindning"],channelUrl:"https://www.allente.se",affiliateUrl:"https://www.allente.se"},
+{id:"tv16",operator:"allente",name:"Allente Flex 4",price:449,campaignPrice:255,campaignMonths:3,channels:19,streaming:["Välj 4 tjänster"],playService:"Allente-appen",type:"streaming",size:"mellan",streamIncludes:[],perks:["Max flexibilitet"],channelUrl:"https://www.allente.se",affiliateUrl:"https://www.allente.se"},
+{id:"tv17",operator:"sappa",name:"Sappa Play Fem",price:209,campaignPrice:99,campaignMonths:3,channels:15,streaming:[],playService:"Sappa",type:"streaming",size:"bas",streamIncludes:[],perks:["IPTV + kabel"],channelUrl:"https://www.sappa.se",affiliateUrl:"https://www.sappa.se"},
 ];
 
 // ═══ STREAMING DATA (from prices.json) ═══
@@ -483,154 +485,296 @@ function PhoneView(){
   </div>);
 }
 
-// ═══ ALLT-I-ETT VIEW — FAMILJ + 6 STEG ═══
+// ═══ ALLT-I-ETT VIEW — v3 ═══
 function PaketView(){
   const[isFam,setIsFam]=useState(null);const[famN,setFamN]=useState(2);
-  const[sm,setSm]=useState(null);const[phones,setPhones]=useState([]);const[sb,setSb]=useState(null);const[stv,setStv]=useState(null);const[sstr,setSstr]=useState([]);const[step,setStep]=useState(0);const[phBrand,setPhBrand]=useState(null);
+  const[surfLvl,setSurfLvl]=useState(null);
+  const[sm,setSm]=useState(null);const[phones,setPhones]=useState([]);const[sb,setSb]=useState(null);
+  const[tvSize,setTvSize]=useState(null);const[wantSport,setWantSport]=useState(null);const[stv,setStv]=useState(null);
+  const[sportPicks,setSportPicks]=useState([]);const[sstr,setSstr]=useState([]);
+  const[step,setStep]=useState(0);const[phBrand,setPhBrand]=useState(null);
   const bOps=["telia","tele2","telenor","tre"];
   const famExtra={telia:239,tele2:169,tre:149,telenor:199};
-  const mO=PLANS.filter(p=>p.categories.includes(isFam?"familj":"privat")&&bOps.includes(p.operator)).sort((a,b)=>a.price-b.price);
+
+  const surfMin=surfLvl==="10gb"?5:surfLvl==="30gb"?20:surfLvl==="obegr"?9999:0;
+  const mO=PLANS.filter(p=>p.categories.includes(isFam?"familj":"privat")&&bOps.includes(p.operator)&&p.data>=surfMin).sort((a,b)=>a.price-b.price);
   const pO=PHONES.filter(ph=>ph.ops.some(o=>bOps.includes(o.o))).sort((a,b)=>Math.min(...a.ops.map(o=>o.p))-Math.min(...b.ops.map(o=>o.p)));
   const bO=BROADBAND.filter(b=>bOps.includes(b.operator)).sort((a,b)=>(a.campaignPrice||a.price)-(b.campaignPrice||b.price));
-  const tO=TV_PLANS.filter(t=>bOps.includes(t.operator)&&t.type!=="streaming").sort((a,b)=>(a.campaignPrice||a.price)-(b.campaignPrice||b.price));
   const selOp=sm?.operator||null;
-  const pCount=isFam?famN:1;
   const bbS=useMemo(()=>{if(!selOp)return bO;return[...bO.filter(b=>b.operator===selOp),...bO.filter(b=>b.operator!==selOp)];},[selOp,bO]);
-  const tvS=useMemo(()=>{if(!selOp)return tO;return[...tO.filter(t=>t.operator===selOp),...tO.filter(t=>t.operator!==selOp)];},[selOp,tO]);
+
+  // TV filtered by size + operator priority
+  const bbOp=sb?.operator||null;
+  const tvBySize=useMemo(()=>{
+    if(!bbOp)return[];
+    let plans=TV_PLANS.filter(t=>t.operator===bbOp&&t.type!=="streaming");
+    if(tvSize==="bas")plans=plans.filter(t=>t.size==="bas");
+    else if(tvSize==="mellan")plans=plans.filter(t=>t.size==="bas"||t.size==="mellan");
+    else if(tvSize==="stor")plans=plans.filter(t=>t.size==="stor"||t.size==="mellan");
+    if(wantSport)plans=[...TV_PLANS.filter(t=>t.operator===bbOp&&t.size==="sport"),...plans.filter(t=>t.size!=="sport")];
+    else plans=plans.filter(t=>t.size!=="sport");
+    plans.sort((a,b)=>(a.campaignPrice||a.price)-(b.campaignPrice||b.price));
+    return plans;
+  },[tvSize,wantSport,bbOp]);
+
+  // INGAR logic
+  const getIncluded=()=>{
+    const inc=new Set();
+    if(sm&&sm.operator==="telia"&&sm.name){
+      if(sm.name.includes("3-i-1")||sm.name.includes("Netflix, HBO")){["netflix","hbomax","disneyplus"].forEach(s=>inc.add(s));}
+      else if(sm.name.includes("Netflix"))inc.add("netflix");
+      else if(sm.name.includes("Disney"))inc.add("disneyplus");
+      else if(sm.name.includes("HBO")||sm.name.includes("Max"))inc.add("hbomax");
+    }
+    if(stv&&stv.streamIncludes){stv.streamIncludes.forEach(s=>inc.add(s));}
+    return inc;
+  };
+
   const streamPicks=[
     {id:"netflix",name:"Netflix",price:149},{id:"hbomax",name:"HBO Max",price:119},{id:"disneyplus",name:"Disney+",price:109},
     {id:"viaplaytotal",name:"Viaplay Total",price:449},{id:"prime",name:"Amazon Prime",price:69},
     {id:"skyshowtime",name:"SkyShowtime",price:89},{id:"tv4sport",name:"TV4 Sport Fotboll",price:249},
+    {id:"tv4hockey",name:"TV4 Sport Hockey",price:249},
     {id:"appletv",name:"Apple TV+",price:99},{id:"discoveryplus",name:"Discovery+",price:79},
   ];
   const toggleStr=id=>setSstr(p=>p.includes(id)?p.filter(x=>x!==id):[...p,id]);
-  const strTotal=sstr.reduce((s,id)=>{const f=streamPicks.find(x=>x.id===id);return s+(f?f.price:0);},0);
+  const included=getIncluded();
+  const strTotal=sstr.reduce((s,id)=>{if(included.has(id))return s;const f=streamPicks.find(x=>x.id===id);return s+(f?f.price:0);},0);
 
   const res=useMemo(()=>{if(!sm)return[];return bOps.map(op=>{
     const mp=mO.filter(p=>p.operator===op),bp=bO.filter(b=>b.operator===op);
     if(!mp.length)return null;
-    const bM=mp.find(p=>p.data>=(sm?.data||0))||mp[mp.length-1];
+    const bM=mp.find(p=>p.data>=surfMin)||mp[mp.length-1];
     if(!bM)return null;
     let bB=null,bP=0;
     if(sb&&bp.length){bB=bp.find(b=>b.speedDown>=(sb?.speedDown||0))||bp[bp.length-1];if(bB)bP=bB.campaignPrice||bB.price;}
     let mP=bM.campaignPrice||bM.price;
-    if(isFam&&bM.perExtra)mP=mP+(famN-1)*(bM.perExtra||famExtra[op]||199);
-    else if(isFam)mP=mP+(famN-1)*(famExtra[op]||199);
-    const d=(sb&&sb.operator===op)?BUNDLE_DISCOUNTS[op]||0:0;
+    if(isFam)mP=mP+(famN-1)*(famExtra[op]||199);
+    const d=(sb&&bB&&bB.operator===op)?BUNDLE_DISCOUNTS[op]||0:0;
     let tP=0,bT=null;
-    if(stv){const tp=tO.filter(t=>t.operator===op);bT=tp.find(t=>t.channels>=(stv?.channels||0))||tp[tp.length-1];if(bT)tP=bT.campaignPrice||bT.price;}
+    if(stv){const tvOps=TV_PLANS.filter(t=>t.operator===op&&t.type!=="streaming");
+      if(tvOps.length){
+        if(stv.operator===op){bT=stv;}
+        else{
+          const stvPrice=stv.campaignPrice||stv.price;
+          const sorted=[...tvOps].sort((a,b)=>Math.abs((a.campaignPrice||a.price)-stvPrice)-Math.abs((b.campaignPrice||b.price)-stvPrice));
+          if(wantSport)bT=sorted.find(t=>t.size==="sport")||sorted[sorted.length-1];
+          else bT=sorted.find(t=>t.size===tvSize)||sorted[0];
+        }
+        if(bT)tP=bT.campaignPrice||bT.price;
+      }
+    }
+    // Per-operator included streaming
+    const opInc=new Set();
+    if(bM.operator==="telia"&&bM.name){
+      if(bM.name.includes("3-i-1")||bM.name.includes("Netflix, HBO")){["netflix","hbomax","disneyplus"].forEach(s=>opInc.add(s));}
+      else if(bM.name.includes("Netflix"))opInc.add("netflix");
+      else if(bM.name.includes("Disney"))opInc.add("disneyplus");
+      else if(bM.name.includes("HBO")||bM.name.includes("Max"))opInc.add("hbomax");
+    }
+    if(bT&&bT.streamIncludes)bT.streamIncludes.forEach(s=>opInc.add(s));
+    const opStrTotal=sstr.reduce((s,id)=>{if(opInc.has(id))return s;const f=streamPicks.find(x=>x.id===id);return s+(f?f.price:0);},0);
     let phP=0,phNames=[];
     phones.forEach(ph=>{const opPrice=ph.ops.find(o=>o.o===op);if(opPrice){phP+=opPrice.p;phNames.push(ph.name);}});
-    return{op,bM,bB,bT,phNames,mP,bP,tP,phP,strTotal,d,total:mP+bP+tP+phP+strTotal-d,is5g:bB&&bB.type==="5g"};
-  }).filter(Boolean).sort((a,b)=>a.total-b.total);},[sm,sb,stv,phones,sstr,strTotal,isFam,famN]);
+    return{op,bM,bB,bT,phNames,mP,bP,tP,phP,strTotal:opStrTotal,opInc,d,total:mP+bP+tP+phP+opStrTotal-d,is5g:bB&&bB.type==="5g"};
+  }).filter(Boolean).sort((a,b)=>a.total-b.total);},[sm,sb,stv,phones,sstr,isFam,famN,surfLvl,tvSize,wantSport]);
 
-  const Dot=({n,l,a,done})=>(<div style={{display:"flex",alignItems:"center",gap:5}}><div style={{width:24,height:24,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:700,background:done?C.mint:a?"rgba(6,214,160,0.15)":C.surface,color:done?C.ink:a?C.mint:C.subtle}}>{done?"✓":n}</div><span style={{fontSize:11,fontWeight:600,color:a?C.text:C.subtle}}>{l}</span></div>);
-  const Pick=({item,sel:s,onP,l1,l2,col,discount})=>(<div onClick={onP} style={{background:s?"rgba(6,214,160,0.06)":C.dark,border:`1px solid ${discount>0&&!s?"rgba(6,214,160,0.35)":s?C.mint:C.surface}`,borderRadius:12,padding:12,cursor:"pointer",transition:"all .15s",position:"relative"}}>{discount>0&&!s&&<div style={{position:"absolute",top:-1,right:12,fontSize:8,fontWeight:700,color:C.ink,background:C.mint,padding:"1px 8px",borderRadius:"0 0 8px 8px"}}>Spara {discount} kr/mån</div>}<div style={{fontSize:10,fontWeight:700,color:C.muted,textTransform:"uppercase",marginBottom:1}}>{l1}</div><div style={{fontSize:12,fontWeight:700,color:C.text,marginBottom:3}}>{item.name||""}</div><div style={{display:"flex",alignItems:"baseline",gap:3}}><span style={{fontSize:20,fontWeight:800,color:col||C.mint,fontFamily:"'DM Mono',monospace"}}>{item.campaignPrice||item.price||0}</span><span style={{fontSize:10,color:C.subtle}}>kr/mån</span><span style={{marginLeft:"auto",fontSize:11,fontWeight:700,color:C.cyan,fontFamily:"'DM Mono',monospace"}}>{l2}</span></div></div>);
+  const Dot=({n,l,a,done})=>(<div style={{display:"flex",alignItems:"center",gap:5}}><div style={{width:22,height:22,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:9,fontWeight:700,background:done?C.mint:a?"rgba(6,214,160,0.15)":C.surface,color:done?C.ink:a?C.mint:C.subtle}}>{done?"✓":n}</div><span style={{fontSize:10,fontWeight:600,color:a?C.text:C.subtle}}>{l}</span></div>);
+  const Pick=({item,sel:s,onP,l1,l2,col,discount,samla})=>(<div onClick={onP} style={{background:s?"rgba(6,214,160,0.06)":C.dark,border:`1px solid ${samla?"rgba(6,214,160,0.5)":discount>0&&!s?"rgba(6,214,160,0.35)":s?C.mint:C.surface}`,borderRadius:14,padding:14,cursor:"pointer",transition:"all .15s",position:"relative"}}>{samla&&<div style={{position:"absolute",top:-1,left:0,right:0,textAlign:"center"}}><span style={{fontSize:9,fontWeight:800,color:C.ink,background:`linear-gradient(135deg,${C.mint},${C.cyan})`,padding:"3px 14px",borderRadius:"0 0 10px 10px",display:"inline-block"}}>SAMLA & FÅ {discount} KR RABATT</span></div>}{discount>0&&!samla&&!s&&<div style={{position:"absolute",top:-1,right:12,fontSize:8,fontWeight:700,color:C.ink,background:C.mint,padding:"1px 8px",borderRadius:"0 0 8px 8px"}}>-{discount} kr</div>}<div style={{fontSize:10,fontWeight:700,color:C.muted,textTransform:"uppercase",marginBottom:2,marginTop:samla?10:0}}>{l1}</div><div style={{fontSize:13,fontWeight:700,color:C.text,marginBottom:4}}>{item.name||""}</div><div style={{display:"flex",alignItems:"baseline",gap:3}}><span style={{fontSize:22,fontWeight:800,color:col||C.mint,fontFamily:"'DM Mono',monospace"}}>{item.campaignPrice||item.price||0}</span><span style={{fontSize:10,color:C.subtle}}>kr/mån</span><span style={{marginLeft:"auto",fontSize:12,fontWeight:700,color:C.cyan,fontFamily:"'DM Mono',monospace"}}>{l2}</span></div></div>);
   const SkipBtn=({label,onSkip})=>(<button onClick={onSkip} style={{width:"100%",padding:"14px 20px",borderRadius:12,background:"rgba(6,214,160,0.06)",border:"1.5px solid rgba(6,214,160,0.3)",color:C.mint,fontSize:14,fontWeight:700,cursor:"pointer",fontFamily:"inherit",textAlign:"center",marginBottom:16}}>{label}</button>);
-  const BackBtn=({onBack})=>(<button onClick={onBack} style={{marginTop:10,background:"transparent",border:`1px solid ${C.surface}`,color:C.subtle,padding:"5px 12px",borderRadius:8,cursor:"pointer",fontFamily:"inherit",fontSize:11}}>← Tillbaka</button>);
-  const resetAll=()=>{setStep(0);setIsFam(null);setSm(null);setPhones([]);setSb(null);setStv(null);setSstr([]);setPhBrand(null);};
+  const BackBtn=({onBack})=>(<button onClick={onBack} style={{display:"flex",alignItems:"center",gap:6,marginBottom:16,background:C.dark,border:`1.5px solid ${C.cyan}40`,color:C.cyan,padding:"10px 20px",borderRadius:12,cursor:"pointer",fontFamily:"inherit",fontSize:13,fontWeight:700}}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Tillbaka</button>);
+  const resetAll=()=>{setStep(0);setIsFam(null);setSm(null);setPhones([]);setSb(null);setStv(null);setSstr([]);setPhBrand(null);setSurfLvl(null);setTvSize(null);setWantSport(null);setSportPicks([]);};
 
   return(<div>
     <section style={{textAlign:"center",padding:"36px 20px 20px"}}><h2 style={{fontSize:"clamp(24px,4vw,40px)",fontWeight:800,letterSpacing:"-0.03em",marginBottom:6,color:C.text}}><span style={{background:`linear-gradient(135deg,${C.mint},${C.cyan})`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Allt-i-ett</span></h2><p style={{fontSize:14,color:C.subtle}}>Bygg ditt paket steg för steg — se totalkostnaden.</p></section>
-    {/* Steps */}
-    {step>0&&<div style={{display:"flex",gap:6,justifyContent:"center",marginBottom:20,flexWrap:"wrap"}}>
-      <Dot n={1} l={isFam?`Familj (${famN})`:"Singel"} a={step===1} done={step>1}/>
-      <div style={{width:10,height:1,background:C.surface,margin:"auto"}}/>
-      <Dot n={2} l="Mobil" a={step===2} done={step>2}/>
-      <div style={{width:10,height:1,background:C.surface,margin:"auto"}}/>
-      <Dot n={3} l="Telefon" a={step===3} done={step>3}/>
-      <div style={{width:10,height:1,background:C.surface,margin:"auto"}}/>
-      <Dot n={4} l="Bredband" a={step===4} done={step>4}/>
-      <div style={{width:10,height:1,background:C.surface,margin:"auto"}}/>
-      <Dot n={5} l="TV & Streaming" a={step===5} done={step>5}/>
-      <div style={{width:10,height:1,background:C.surface,margin:"auto"}}/>
-      <Dot n={6} l="Resultat" a={step===6}/>
+    {step>0&&<div style={{display:"flex",gap:4,justifyContent:"center",marginBottom:20,flexWrap:"wrap"}}>
+      <Dot n={1} l={isFam?`Familj (${famN})`:"Singel"} a={step<=1} done={step>1}/>
+      <div style={{width:8,height:1,background:C.surface,margin:"auto"}}/>
+      <Dot n={2} l="Surf" a={step===2} done={step>2}/>
+      <div style={{width:8,height:1,background:C.surface,margin:"auto"}}/>
+      <Dot n={3} l="Mobil" a={step===3} done={step>3}/>
+      <div style={{width:8,height:1,background:C.surface,margin:"auto"}}/>
+      <Dot n={4} l="Telefon" a={step===4} done={step>4}/>
+      <div style={{width:8,height:1,background:C.surface,margin:"auto"}}/>
+      <Dot n={5} l="Bredband" a={step===5} done={step>5}/>
+      <div style={{width:8,height:1,background:C.surface,margin:"auto"}}/>
+      <Dot n={6} l="TV" a={step>=6&&step<=8} done={step>8}/>
+      <div style={{width:8,height:1,background:C.surface,margin:"auto"}}/>
+      <Dot n={7} l="Resultat" a={step===9}/>
     </div>}
 
     {/* Step 0: Singel / Familj */}
-    {step===0&&<div style={{display:"flex",gap:12,justifyContent:"center",marginBottom:20}}>
+    {step===0&&<div style={{display:"flex",gap:14,justifyContent:"center",flexWrap:"wrap"}}>
       <div onClick={()=>{setIsFam(false);setStep(2);}} style={{background:C.dark,border:`1px solid ${C.surface}`,borderRadius:16,padding:"28px 36px",cursor:"pointer",textAlign:"center",transition:"all .2s",flex:"0 1 220px"}} onMouseEnter={e=>{e.currentTarget.style.borderColor=C.cyan+"66";e.currentTarget.style.transform="translateY(-3px)";}} onMouseLeave={e=>{e.currentTarget.style.borderColor=C.surface;e.currentTarget.style.transform="none";}}>
         <div style={{width:48,height:48,borderRadius:14,background:"rgba(0,180,216,0.1)",display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 12px"}}><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={C.cyan} strokeWidth="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg></div>
-        <div style={{fontSize:16,fontWeight:800,color:C.text}}>Bara mig</div>
-        <div style={{fontSize:11,color:C.subtle,marginTop:4}}>1 person, 1 abonnemang</div>
+        <div style={{fontSize:16,fontWeight:800,color:C.text}}>Bara mig</div><div style={{fontSize:11,color:C.subtle,marginTop:4}}>1 person</div>
       </div>
       <div onClick={()=>{setIsFam(true);setStep(1);}} style={{background:C.dark,border:`1px solid ${C.surface}`,borderRadius:16,padding:"28px 36px",cursor:"pointer",textAlign:"center",transition:"all .2s",flex:"0 1 220px"}} onMouseEnter={e=>{e.currentTarget.style.borderColor=C.violet+"66";e.currentTarget.style.transform="translateY(-3px)";}} onMouseLeave={e=>{e.currentTarget.style.borderColor=C.surface;e.currentTarget.style.transform="none";}}>
         <div style={{width:48,height:48,borderRadius:14,background:"rgba(139,92,246,0.1)",display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 12px"}}><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={C.violet} strokeWidth="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
-        <div style={{fontSize:16,fontWeight:800,color:C.text}}>Familj</div>
-        <div style={{fontSize:11,color:C.subtle,marginTop:4}}>2–6 personer, dela surf</div>
+        <div style={{fontSize:16,fontWeight:800,color:C.text}}>Familj</div><div style={{fontSize:11,color:C.subtle,marginTop:4}}>2–6 personer</div>
       </div>
     </div>}
 
-    {/* Step 1: Antal personer (familj) */}
-    {step===1&&<div style={{textAlign:"center"}}>
+    {/* Step 1: Antal */}
+    {step===1&&<div style={{textAlign:"center"}}><BackBtn onBack={()=>{setStep(0);setIsFam(null);}}/>
       <div style={{fontSize:14,fontWeight:700,color:C.text,marginBottom:16}}>Hur många är ni?</div>
-      <div style={{display:"flex",gap:8,justifyContent:"center",marginBottom:20}}>{[2,3,4,5,6].map(n=>(<button key={n} onClick={()=>{setFamN(n);setStep(2);}} style={{width:52,height:52,borderRadius:14,border:famN===n?`2px solid ${C.violet}`:`1px solid ${C.surface}`,background:famN===n?"rgba(139,92,246,0.1)":C.dark,color:famN===n?C.text:C.subtle,fontSize:20,fontWeight:800,cursor:"pointer",fontFamily:"'DM Mono',monospace"}}>{n}</button>))}</div>
-      <BackBtn onBack={()=>{setStep(0);setIsFam(null);}}/>
+      <div style={{display:"flex",gap:8,justifyContent:"center"}}>{[2,3,4,5,6].map(n=>(<button key={n} onClick={()=>{setFamN(n);setStep(2);}} style={{width:56,height:56,borderRadius:14,border:`1px solid ${C.surface}`,background:C.dark,color:C.text,fontSize:22,fontWeight:800,cursor:"pointer",fontFamily:"'DM Mono',monospace"}}>{n}</button>))}</div>
     </div>}
 
-    {/* Step 2: Mobil */}
-    {step===2&&<div><div style={{fontSize:12,fontWeight:600,color:C.subtle,marginBottom:10}}>Välj mobilabonnemang{isFam&&` för ${famN} personer (delad surf)`}</div><div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(190px,1fr))",gap:8}}>{mO.slice(0,12).map(p=>(<Pick key={p.id} item={p} sel={sm?.id===p.id} onP={()=>{setSm(p);setStep(3);}} l1={opName(p.operator)} l2={p.data>=9999?"Obegr.":p.data+" GB"} col={C.mint} discount={0}/>))}</div><BackBtn onBack={()=>{setStep(isFam?1:0);setSm(null);}}/></div>}
+    {/* Step 2: Surf */}
+    {step===2&&<div style={{textAlign:"center"}}><BackBtn onBack={()=>{setStep(isFam?1:0);setSurfLvl(null);}}/>
+      <div style={{fontSize:14,fontWeight:700,color:C.text,marginBottom:20}}>Hur mycket surf behöver {isFam?"ni":"du"}?</div>
+      <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}>
+        {[{id:"10gb",l:"10 GB",desc:"Mestadels wifi",col:C.subtle},{id:"30gb",l:"30 GB",desc:"Vardagssurfande",col:C.cyan},{id:"obegr",l:"Obegränsad",desc:"Streama fritt",col:C.mint}].map(s=>(<div key={s.id} onClick={()=>{setSurfLvl(s.id);setStep(3);}} style={{background:C.dark,border:`1.5px solid ${C.surface}`,borderRadius:16,padding:"24px 28px",cursor:"pointer",textAlign:"center",transition:"all .2s",flex:"0 1 200px"}} onMouseEnter={e=>{e.currentTarget.style.borderColor=s.col;e.currentTarget.style.transform="translateY(-3px)";}} onMouseLeave={e=>{e.currentTarget.style.borderColor=C.surface;e.currentTarget.style.transform="none";}}>
+          <div style={{fontSize:28,fontWeight:800,color:s.col,fontFamily:"'DM Mono',monospace",marginBottom:6}}>{s.l}</div>
+          <div style={{fontSize:11,color:C.subtle}}>{s.desc}</div>
+        </div>))}
+      </div>
+    </div>}
 
-    {/* Step 3: Telefon */}
-    {step===3&&<div>
-      <SkipBtn label={isFam?"Inga nya telefoner — hoppa över →":"Jag har redan telefon — hoppa över →"} onSkip={()=>{setPhones([]);setPhBrand(null);setStep(4);}}/>
-      <div style={{fontSize:12,fontWeight:600,color:C.subtle,marginBottom:6}}>Välj telefoner individuellt <span style={{color:C.muted}}>(max 5, välj samma modell flera gånger)</span></div>
-      {phones.length>0&&<div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:12,alignItems:"center"}}>
-        {phones.map((ph,i)=>(<div key={i} style={{display:"flex",alignItems:"center",gap:6,padding:"5px 12px",borderRadius:10,background:"rgba(6,214,160,0.06)",border:`1px solid rgba(6,214,160,0.2)`}}><span style={{fontSize:11,fontWeight:600,color:C.text}}>Telefon {i+1}: {ph.name}</span><button onClick={()=>setPhones(phones.filter((_,j)=>j!==i))} style={{background:"none",border:"none",color:"#f87171",fontSize:14,cursor:"pointer",padding:0}}>×</button></div>))}
-        <button onClick={()=>setStep(4)} style={{padding:"8px 18px",borderRadius:10,background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:12,fontWeight:800,cursor:"pointer",border:"none",fontFamily:"inherit"}}>{phones.length} telefon{phones.length>1?"er":""} valda — fortsätt →</button>
+    {/* Step 3: Mobil */}
+    {step===3&&<div><BackBtn onBack={()=>{setStep(2);setSm(null);}}/>
+      <div style={{fontSize:14,fontWeight:700,color:C.text,marginBottom:4}}>Välj mobilabonnemang</div>
+      <div style={{fontSize:11,color:C.subtle,marginBottom:14}}>{surfLvl==="obegr"?"Obegränsad surf":surfLvl==="30gb"?"Minst 30 GB":"Minst 10 GB"}{isFam?` · ${famN} personer`:""}</div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))",gap:10}}>{mO.slice(0,12).map(p=>(<Pick key={p.id} item={p} sel={sm?.id===p.id} onP={()=>{setSm(p);setStep(4);}} l1={opName(p.operator)} l2={p.data>=9999?"Obegr.":p.data+" GB"} col={C.mint} discount={0} samla={false}/>))}</div>
+    </div>}
+
+    {/* Step 4: Telefon */}
+    {step===4&&<div><BackBtn onBack={()=>{setStep(3);setPhones([]);setPhBrand(null);}}/>
+      <SkipBtn label={isFam?"Inga nya telefoner — hoppa över →":"Jag har redan telefon — hoppa över →"} onSkip={()=>{setPhones([]);setPhBrand(null);setStep(5);}}/>
+      <div style={{fontSize:14,fontWeight:700,color:C.text,marginBottom:12}}>Välj telefoner</div>
+      {phones.length>0&&<div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:14,alignItems:"center"}}>
+        {phones.map((ph,i)=>(<div key={i} style={{display:"flex",alignItems:"center",gap:6,padding:"6px 14px",borderRadius:10,background:"rgba(6,214,160,0.06)",border:`1px solid rgba(6,214,160,0.2)`}}><span style={{fontSize:11,fontWeight:600,color:C.text}}>#{i+1} {ph.name}</span><button onClick={()=>setPhones(phones.filter((_,j)=>j!==i))} style={{background:"none",border:"none",color:"#f87171",fontSize:14,cursor:"pointer",padding:0}}>×</button></div>))}
+        <button onClick={()=>setStep(5)} style={{padding:"8px 20px",borderRadius:10,background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:12,fontWeight:800,cursor:"pointer",border:"none",fontFamily:"inherit"}}>{phones.length} valda — fortsätt →</button>
       </div>}
-      <div style={{display:"flex",gap:8,marginBottom:12,flexWrap:"wrap"}}>{["Apple","Samsung","Google","OnePlus"].map(b=>(<button key={b} onClick={()=>setPhBrand(phBrand===b?null:b)} style={{padding:"8px 16px",borderRadius:10,border:phBrand===b?`1.5px solid ${C.cyan}`:`1px solid ${C.surface}`,cursor:"pointer",fontFamily:"inherit",fontSize:12,fontWeight:phBrand===b?700:500,background:phBrand===b?"rgba(0,180,216,0.08)":"transparent",color:phBrand===b?C.text:C.subtle}}>{b}</button>))}</div>
-      {phBrand&&<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(180px,1fr))",gap:8,animation:"fadeIn .15s"}}>{pO.filter(ph=>ph.brand===phBrand).map(ph=>{const cheapOp=ph.ops.find(o=>o.o===selOp)||ph.ops[0];const canAdd=phones.length<5;return(<div key={ph.id} onClick={()=>{if(canAdd)setPhones([...phones,ph]);}} style={{background:C.dark,border:`1px solid ${C.surface}`,borderRadius:12,padding:12,cursor:canAdd?"pointer":"not-allowed",opacity:canAdd?1:.4,transition:"all .15s"}}>
-        <div style={{fontSize:13,fontWeight:700,color:C.text}}>{ph.name}</div>
-        <div style={{fontSize:10,color:C.subtle,marginBottom:4}}>{ph.storage}</div>
-        <div style={{display:"flex",alignItems:"baseline",gap:4}}><span style={{fontSize:18,fontWeight:800,color:C.mint,fontFamily:"'DM Mono',monospace"}}>{cheapOp.p}</span><span style={{fontSize:10,color:C.subtle}}>kr/mån</span></div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:10,marginBottom:14}}>
+        {[{b:"Apple",col:"#94A3B8"},{b:"Samsung",col:"#1428A0"},{b:"Google",col:"#4285F4"},{b:"OnePlus",col:"#F5010C"}].map(({b,col})=>(<div key={b} onClick={()=>setPhBrand(phBrand===b?null:b)} style={{background:phBrand===b?"rgba(0,180,216,0.08)":C.dark,border:phBrand===b?`2px solid ${C.cyan}`:`1px solid ${C.surface}`,borderRadius:14,padding:"16px 12px",cursor:"pointer",textAlign:"center",transition:"all .15s"}}>
+          <div style={{fontSize:15,fontWeight:800,color:phBrand===b?C.text:C.muted}}>{b}</div>
+          <div style={{fontSize:10,color:C.subtle,marginTop:2}}>{pO.filter(ph=>ph.brand===b).length} modeller</div>
+        </div>))}
+      </div>
+      {phBrand&&<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(180px,1fr))",gap:8,animation:"fadeIn .15s"}}>{pO.filter(ph=>ph.brand===phBrand).map(ph=>{const cheapOp=ph.ops.find(o=>o.o===selOp)||ph.ops[0];const canAdd=phones.length<5;return(<div key={ph.id} onClick={()=>{if(canAdd)setPhones([...phones,ph]);}} style={{background:C.dark,border:`1px solid ${C.surface}`,borderRadius:12,padding:14,cursor:canAdd?"pointer":"not-allowed",opacity:canAdd?1:.4,transition:"all .15s"}} onMouseEnter={e=>{if(canAdd)e.currentTarget.style.borderColor="rgba(0,180,216,0.3)";}} onMouseLeave={e=>{e.currentTarget.style.borderColor=C.surface;}}>
+        <div style={{fontSize:14,fontWeight:700,color:C.text}}>{ph.name}</div>
+        <div style={{fontSize:10,color:C.subtle,marginBottom:6}}>{ph.storage}</div>
+        <span style={{fontSize:20,fontWeight:800,color:C.mint,fontFamily:"'DM Mono',monospace"}}>{cheapOp.p}</span><span style={{fontSize:10,color:C.subtle}}> kr/mån</span>
       </div>);})}</div>}
-      <BackBtn onBack={()=>{setStep(2);setPhones([]);setPhBrand(null);}}/>
     </div>}
 
-    {/* Step 4: Bredband */}
-    {step===4&&<div>
-      <SkipBtn label="Jag har redan bredband — hoppa över →" onSkip={()=>{setSb(null);setStep(5);}}/>
-      <div style={{fontSize:12,fontWeight:600,color:C.subtle,marginBottom:10}}>Eller välj bredband {selOp&&<span style={{color:C.mint}}>— spara {BUNDLE_DISCOUNTS[selOp]||0} kr/mån med {opName(selOp)}</span>}</div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(190px,1fr))",gap:8}}>{bbS.slice(0,12).map(b=>(<Pick key={b.id} item={b} sel={sb?.id===b.id} onP={()=>{setSb(b);setStep(5);}} l1={opName(b.operator)+(b.type==="5g"?" (5G)":"")} l2={b.speedDown>=1000?"1 Gbit":b.speedDown+" Mbit"} col={C.cyan} discount={b.operator===selOp?(BUNDLE_DISCOUNTS[selOp]||0):0}/>))}</div>
-      <BackBtn onBack={()=>{setStep(3);setSb(null);}}/>
+    {/* Step 5: Bredband */}
+    {step===5&&<div><BackBtn onBack={()=>{setStep(4);setSb(null);}}/>
+      <SkipBtn label="Jag har redan bredband — hoppa över →" onSkip={()=>{setSb(null);setTvSize(null);setWantSport(null);setStv(null);setStep(8);}}/>
+      <div style={{fontSize:14,fontWeight:700,color:C.text,marginBottom:4}}>Välj bredband</div>
+      {selOp&&<div style={{fontSize:12,color:C.mint,marginBottom:12,fontWeight:600}}>Samla med {opName(selOp)} och få {BUNDLE_DISCOUNTS[selOp]||0} kr rabatt/mån</div>}
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))",gap:10}}>{bbS.slice(0,12).map(b=>{const isSame=b.operator===selOp;const disc=isSame?(BUNDLE_DISCOUNTS[selOp]||0):0;return(<Pick key={b.id} item={b} sel={sb?.id===b.id} onP={()=>{setSb(b);const hasTv=TV_PLANS.some(t=>t.operator===b.operator&&t.type!=="streaming");setStep(hasTv?6:8);}} l1={opName(b.operator)+(b.type==="5g"?" (5G Hem)":"")} l2={b.speedDown>=1000?"1 Gbit":b.speedDown+" Mbit"} col={C.cyan} discount={disc} samla={isSame&&disc>0}/>);})}</div>
     </div>}
 
-    {/* Step 5: TV & Streaming */}
-    {step===5&&<div>
-      <SkipBtn label="Hoppa över TV & streaming — visa resultat →" onSkip={()=>{setStv(null);setSstr([]);setStep(6);}}/>
-      <div style={{fontSize:13,fontWeight:700,color:C.text,marginBottom:10}}>TV-paket <span style={{fontSize:11,color:C.subtle}}>(valfritt)</span></div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(190px,1fr))",gap:8,marginBottom:20}}>{tvS.slice(0,8).map(t=>(<Pick key={t.id} item={t} sel={stv?.id===t.id} onP={()=>setStv(stv?.id===t.id?null:t)} l1={opName(t.operator)} l2={t.channels+" kan."} col={C.violet} discount={t.operator===selOp?(BUNDLE_DISCOUNTS[selOp]||0):0}/>))}</div>
-      <div style={{fontSize:13,fontWeight:700,color:C.text,marginBottom:10}}>Streaming <span style={{fontSize:11,color:C.subtle}}>(välj fritt)</span>{sstr.length>0&&<span style={{fontSize:12,color:C.mint,fontFamily:"'DM Mono',monospace",marginLeft:8}}>+{strTotal} kr/mån</span>}</div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(140px,1fr))",gap:6,marginBottom:16}}>{streamPicks.map(s=>(<div key={s.id} onClick={()=>toggleStr(s.id)} style={{background:sstr.includes(s.id)?"rgba(0,180,216,0.08)":C.dark,border:`1px solid ${sstr.includes(s.id)?C.cyan:C.surface}`,borderRadius:10,padding:"10px 12px",cursor:"pointer"}}><div style={{fontSize:12,fontWeight:700,color:sstr.includes(s.id)?C.text:C.muted}}>{s.name}</div><div style={{fontSize:14,fontWeight:800,color:sstr.includes(s.id)?C.cyan:C.subtle,fontFamily:"'DM Mono',monospace"}}>{s.price} kr</div></div>))}</div>
-      <button onClick={()=>setStep(6)} style={{width:"100%",padding:"14px",borderRadius:12,background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:14,fontWeight:800,cursor:"pointer",fontFamily:"inherit",border:"none"}}>Visa resultat →</button>
-      <BackBtn onBack={()=>{setStep(4);setStv(null);setSstr([]);}}/>
+    {/* Step 6: TV - storlek */}
+    {step===6&&<div><BackBtn onBack={()=>{setStep(5);setTvSize(null);setWantSport(null);setStv(null);}}/>
+      <SkipBtn label="Hoppa över TV — gå till streaming →" onSkip={()=>{setTvSize(null);setWantSport(null);setStv(null);setStep(8);}}/>
+      <div style={{fontSize:14,fontWeight:700,color:C.text,marginBottom:4}}>Hur stort TV-paket?</div>
+      <div style={{fontSize:11,color:C.subtle,marginBottom:16}}>TV via {bbOp?opName(bbOp):"din bredbandsleverantör"}</div>
+      <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}>
+        {[{id:"bas",l:"Bas",desc:"~20 kanaler\nGrundutbud",col:C.subtle},{id:"mellan",l:"Mellan",desc:"~40 kanaler\nFilm & serier",col:C.cyan},{id:"stor",l:"Stort",desc:"~60 kanaler\nAllt för familjen",col:C.violet}].map(s=>(<div key={s.id} onClick={()=>{setTvSize(s.id);setStep(7);}} style={{background:C.dark,border:`1.5px solid ${C.surface}`,borderRadius:16,padding:"22px 24px",cursor:"pointer",textAlign:"center",transition:"all .2s",flex:"0 1 180px"}} onMouseEnter={e=>{e.currentTarget.style.borderColor=s.col;e.currentTarget.style.transform="translateY(-3px)";}} onMouseLeave={e=>{e.currentTarget.style.borderColor=C.surface;e.currentTarget.style.transform="none";}}>
+          <div style={{fontSize:20,fontWeight:800,color:s.col,marginBottom:6}}>{s.l}</div>
+          <div style={{fontSize:11,color:C.subtle,whiteSpace:"pre-line"}}>{s.desc}</div>
+        </div>))}
+      </div>
     </div>}
 
-    {/* Step 6: Resultat */}
-    {step===6&&res.length>0&&(()=>{const myOp=res.find(r=>r.op===selOp);const others=res.filter(r=>r.op!==selOp);
-      const RCard=({r,isMy})=>(<div style={{background:isMy?"rgba(0,180,216,0.04)":C.dark,border:`1px solid ${isMy?"rgba(0,180,216,0.25)":C.surface}`,borderRadius:16,padding:20,marginBottom:12}}>
-        {isMy&&<div style={{fontSize:9,fontWeight:700,color:C.cyan,padding:"2px 8px",borderRadius:16,background:"rgba(0,180,216,0.08)",display:"inline-block",marginBottom:8}}>Ditt val</div>}
-        <div style={{fontSize:14,fontWeight:800,color:C.text,marginBottom:4}}>{opName(r.op)}{r.is5g&&<span style={{fontSize:10,color:C.cyan,marginLeft:6}}>(5G Hem)</span>}{isFam&&<span style={{fontSize:10,color:C.violet,marginLeft:6}}>{famN} personer</span>}</div>
-        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(80px,1fr))",gap:6,marginBottom:12}}>
-          <div style={{background:C.surface,borderRadius:8,padding:8}}><div style={{fontSize:8,color:C.subtle}}>Mobil{isFam?` (${famN}p)`:""}</div><div style={{fontSize:14,fontWeight:800,color:C.mint,fontFamily:"'DM Mono',monospace"}}>{r.mP} kr</div></div>
-          {r.phP>0&&<div style={{background:C.surface,borderRadius:8,padding:8}}><div style={{fontSize:8,color:C.subtle}}>Telefon{phones.length>1?` (${phones.length}st)`:""}</div><div style={{fontSize:14,fontWeight:800,color:"#E8345A",fontFamily:"'DM Mono',monospace"}}>{r.phP} kr</div></div>}
-          <div style={{background:C.surface,borderRadius:8,padding:8}}><div style={{fontSize:8,color:C.subtle}}>Bredband</div><div style={{fontSize:14,fontWeight:800,color:C.cyan,fontFamily:"'DM Mono',monospace"}}>{r.bP} kr</div></div>
-          {r.bT&&<div style={{background:C.surface,borderRadius:8,padding:8}}><div style={{fontSize:8,color:C.subtle}}>TV</div><div style={{fontSize:14,fontWeight:800,color:C.violet,fontFamily:"'DM Mono',monospace"}}>{r.tP} kr</div></div>}
-          {r.strTotal>0&&<div style={{background:C.surface,borderRadius:8,padding:8}}><div style={{fontSize:8,color:C.subtle}}>Streaming</div><div style={{fontSize:14,fontWeight:800,color:C.cyan,fontFamily:"'DM Mono',monospace"}}>{r.strTotal} kr</div></div>}
-          <div style={{background:C.surface,borderRadius:8,padding:8}}><div style={{fontSize:8,color:C.subtle}}>Rabatt</div><div style={{fontSize:14,fontWeight:800,color:r.d>0?C.success:C.subtle,fontFamily:"'DM Mono',monospace"}}>{r.d>0?"-"+r.d:"-"}</div></div>
+    {/* Step 7: Sport? */}
+    {step===7&&<div><BackBtn onBack={()=>{setStep(6);setWantSport(null);setStv(null);}}/>
+      <div style={{fontSize:14,fontWeight:700,color:C.text,marginBottom:16}}>Vill du ha sport i TV-paketet?</div>
+      <div style={{display:"flex",gap:12,justifyContent:"center"}}>
+        <div onClick={()=>{setWantSport(true);setStep(7.5);}} style={{background:C.dark,border:`1.5px solid ${C.surface}`,borderRadius:16,padding:"22px 32px",cursor:"pointer",textAlign:"center",transition:"all .2s",flex:"0 1 200px"}} onMouseEnter={e=>{e.currentTarget.style.borderColor=C.mint;e.currentTarget.style.transform="translateY(-3px)";}} onMouseLeave={e=>{e.currentTarget.style.borderColor=C.surface;e.currentTarget.style.transform="none";}}>
+          <div style={{fontSize:18,fontWeight:800,color:C.mint}}>Ja, visa sportpaket</div>
+          <div style={{fontSize:11,color:C.subtle,marginTop:4}}>Allsvenskan, PL, F1, SHL</div>
         </div>
-        {r.phNames.length>0&&<div style={{fontSize:10,color:C.muted,marginBottom:4}}>Telefoner: {r.phNames.join(", ")}</div>}
-        {sstr.length>0&&<div style={{fontSize:10,color:C.muted,marginBottom:4}}>Streaming: {sstr.map(id=>{const f=streamPicks.find(x=>x.id===id);return f?f.name:id;}).join(", ")}</div>}
-        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginTop:8}}>
-          <div><span style={{fontSize:30,fontWeight:800,color:C.text,fontFamily:"'DM Mono',monospace"}}>{r.total}</span><span style={{fontSize:12,color:C.subtle,marginLeft:4}}>kr/mån</span>{isFam&&<div style={{fontSize:11,color:C.muted}}>= {Math.round(r.total/famN)} kr/person</div>}</div>
-          <a href={getUrl(r.op)} target="_blank" rel="noopener noreferrer sponsored" style={{padding:"10px 22px",borderRadius:10,textDecoration:"none",background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:12,fontWeight:800}}>Välj {opName(r.op)} →</a>
+        <div onClick={()=>{setWantSport(false);setStep(7.5);}} style={{background:C.dark,border:`1.5px solid ${C.surface}`,borderRadius:16,padding:"22px 32px",cursor:"pointer",textAlign:"center",transition:"all .2s",flex:"0 1 200px"}} onMouseEnter={e=>{e.currentTarget.style.borderColor=C.subtle;e.currentTarget.style.transform="translateY(-3px)";}} onMouseLeave={e=>{e.currentTarget.style.borderColor=C.surface;e.currentTarget.style.transform="none";}}>
+          <div style={{fontSize:18,fontWeight:800,color:C.text}}>Nej tack</div>
+          <div style={{fontSize:11,color:C.subtle,marginTop:4}}>Bara kanaler och streaming</div>
         </div>
-      </div>);
+      </div>
+    </div>}
+
+    {/* Step 7.5: Välj TV-paket */}
+    {step===7.5&&<div><BackBtn onBack={()=>{setStep(7);setStv(null);}}/>
+      <div style={{fontSize:14,fontWeight:700,color:C.text,marginBottom:4}}>Välj TV-paket hos {bbOp?opName(bbOp):""}</div>
+      <div style={{fontSize:11,color:C.subtle,marginBottom:12}}>TV levereras via din bredbandsleverantör</div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))",gap:10}}>{tvBySize.slice(0,10).map(t=>{const incl=t.streamIncludes||[];return(<div key={t.id} onClick={()=>{setStv(t);setStep(8);}} style={{background:stv?.id===t.id?"rgba(6,214,160,0.06)":C.dark,border:`1px solid ${stv?.id===t.id?C.mint:C.surface}`,borderRadius:14,padding:14,cursor:"pointer",transition:"all .15s",position:"relative"}}>
+        <div style={{fontSize:10,fontWeight:700,color:opColor(t.operator),textTransform:"uppercase"}}>{opName(t.operator)}</div>
+        <div style={{fontSize:13,fontWeight:700,color:C.text,marginBottom:4}}>{t.name}</div>
+        <div style={{fontSize:9,color:C.subtle,marginBottom:6}}>{t.channels} kanaler{t.perks.length>0&&" · "+t.perks.join(", ")}</div>
+        <div style={{fontSize:22,fontWeight:800,color:C.mint,fontFamily:"'DM Mono',monospace"}}>{t.campaignPrice||t.price}<span style={{fontSize:10,color:C.subtle,fontFamily:"inherit",fontWeight:400}}> kr/mån</span></div>
+        {incl.length>0&&<div style={{display:"flex",gap:3,flexWrap:"wrap",marginTop:6}}>{incl.slice(0,4).map(s=>{const sp=streamPicks.find(x=>x.id===s);return sp?<span key={s} style={{fontSize:8,fontWeight:700,color:C.success,padding:"1px 6px",borderRadius:8,background:"rgba(34,197,94,0.08)"}}>{sp.name} INGÅR</span>:null;})}</div>}
+      </div>);})}</div>
+    </div>}
+
+    {/* Step 8: Streaming */}
+    {step===8&&<div><BackBtn onBack={()=>{const hasTv=bbOp&&TV_PLANS.some(t=>t.operator===bbOp&&t.type!=="streaming");setStep(stv?7.5:hasTv?6:5);setSstr([]);}}/>
+      <SkipBtn label="Hoppa över streaming — visa resultat →" onSkip={()=>{setSstr([]);setStep(9);}}/>
+      <div style={{fontSize:14,fontWeight:700,color:C.text,marginBottom:4}}>Streaming & sport-tillägg</div>
+      {included.size>0&&<div style={{fontSize:11,color:C.mint,marginBottom:10,fontWeight:600}}>Tjänster som ingår i ditt val visas med 0 kr</div>}
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(150px,1fr))",gap:8,marginBottom:16}}>{streamPicks.map(s=>{const free=included.has(s.id);const active=sstr.includes(s.id);return(<div key={s.id} onClick={()=>toggleStr(s.id)} style={{background:free?"rgba(6,214,160,0.1)":active?"rgba(0,180,216,0.08)":C.dark,border:`1px solid ${free?"rgba(6,214,160,0.3)":active?C.cyan:C.surface}`,borderRadius:12,padding:"12px 14px",cursor:"pointer",position:"relative"}}>
+        {free&&<div style={{position:"absolute",top:6,right:8,fontSize:8,fontWeight:800,color:C.mint,background:"rgba(6,214,160,0.15)",padding:"1px 6px",borderRadius:8}}>INGÅR</div>}
+        <div style={{fontSize:13,fontWeight:700,color:active||free?C.text:C.muted}}>{s.name}</div>
+        <div style={{fontSize:16,fontWeight:800,color:free?C.success:active?C.cyan:C.subtle,fontFamily:"'DM Mono',monospace"}}>{free?"0 kr":s.price+" kr"}</div>
+      </div>);})}</div>
+      {strTotal>0&&<div style={{fontSize:12,color:C.cyan,marginBottom:10,fontFamily:"'DM Mono',monospace",fontWeight:700}}>Streaming-tillägg: +{strTotal} kr/mån</div>}
+      <button onClick={()=>setStep(9)} style={{width:"100%",padding:"14px",borderRadius:12,background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:14,fontWeight:800,cursor:"pointer",fontFamily:"inherit",border:"none"}}>Visa resultat →</button>
+    </div>}
+
+    {/* Step 9: Resultat */}
+    {step===9&&res.length>0&&(()=>{const myOp=res.find(r=>r.op===selOp);const others=res.filter(r=>r.op!==selOp);
+      const RCard=({r,isMy})=>{
+        // Check if all services are same operator
+        const allOps=new Set([r.op]);
+        if(r.bB)allOps.add(r.bB.operator||r.op);
+        if(r.bT)allOps.add(r.bT.operator||r.op);
+        const singleOp=allOps.size===1;
+        const surfLabel=surfLvl==="obegr"?"Obegränsad":surfLvl==="30gb"?"30 GB":"10 GB";
+        return(<div style={{background:isMy?"rgba(0,180,216,0.04)":C.dark,border:`1px solid ${isMy?"rgba(0,180,216,0.25)":C.surface}`,borderRadius:16,padding:22,marginBottom:14}}>
+          {isMy&&<div style={{fontSize:9,fontWeight:700,color:C.cyan,padding:"3px 10px",borderRadius:16,background:"rgba(0,180,216,0.08)",display:"inline-block",marginBottom:10}}>Ditt val</div>}
+          <div style={{fontSize:16,fontWeight:800,color:C.text,marginBottom:14}}>{opName(r.op)}{isFam&&<span style={{fontSize:11,color:C.violet,marginLeft:8}}>{famN} personer</span>}</div>
+          <div style={{display:"flex",flexDirection:"column",gap:6,marginBottom:14}}>
+            {/* Mobil */}
+            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 14px",borderRadius:10,background:"rgba(255,255,255,0.02)",border:`1px solid ${C.surface}`}}>
+              <div><div style={{fontSize:12,fontWeight:700,color:C.text}}>Mobilabonnemang</div><div style={{fontSize:10,color:C.subtle}}>{isFam?famN+" SIM-kort · ":""}{surfLabel} · 5G</div></div>
+              <div style={{display:"flex",alignItems:"center",gap:8}}><span style={{fontSize:16,fontWeight:800,color:C.mint,fontFamily:"'DM Mono',monospace"}}>{r.mP} kr</span>{!singleOp&&<a href={getUrl(r.op)} target="_blank" rel="noopener noreferrer sponsored" style={{fontSize:10,fontWeight:700,color:C.cyan,textDecoration:"none"}}>Gå till →</a>}</div>
+            </div>
+            {/* Telefoner */}
+            {r.phP>0&&<div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 14px",borderRadius:10,background:"rgba(255,255,255,0.02)",border:`1px solid ${C.surface}`}}>
+              <div><div style={{fontSize:12,fontWeight:700,color:C.text}}>Telefoner ({phones.length} st)</div><div style={{fontSize:10,color:C.subtle}}>{r.phNames.join(", ")} · 24 mån</div></div>
+              <span style={{fontSize:16,fontWeight:800,color:"#E8345A",fontFamily:"'DM Mono',monospace"}}>{r.phP} kr</span>
+            </div>}
+            {/* Bredband */}
+            {r.bP>0&&<div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 14px",borderRadius:10,background:"rgba(255,255,255,0.02)",border:`1px solid ${C.surface}`}}>
+              <div><div style={{fontSize:12,fontWeight:700,color:C.text}}>Bredband{r.is5g?" (5G Hem)":""}</div><div style={{fontSize:10,color:C.subtle}}>{r.bB?r.bB.speedDown>=1000?"1 Gbit":r.bB.speedDown+" Mbit":""}{r.bB?" · "+opName(r.bB.operator):""}</div></div>
+              <div style={{display:"flex",alignItems:"center",gap:8}}><span style={{fontSize:16,fontWeight:800,color:C.cyan,fontFamily:"'DM Mono',monospace"}}>{r.bP} kr</span>{!singleOp&&r.bB&&<a href={getUrl(r.bB.operator)} target="_blank" rel="noopener noreferrer sponsored" style={{fontSize:10,fontWeight:700,color:C.cyan,textDecoration:"none"}}>Gå till →</a>}</div>
+            </div>}
+            {/* TV */}
+            {r.bT&&<div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 14px",borderRadius:10,background:"rgba(255,255,255,0.02)",border:`1px solid ${C.surface}`}}>
+              <div><div style={{fontSize:12,fontWeight:700,color:C.text}}>{r.bT.name}</div><div style={{fontSize:10,color:C.subtle}}>{r.bT.channels} kanaler{r.bT.perks?" · "+r.bT.perks.join(", "):""}</div></div>
+              <div style={{display:"flex",alignItems:"center",gap:8}}><span style={{fontSize:16,fontWeight:800,color:C.violet,fontFamily:"'DM Mono',monospace"}}>{r.tP} kr</span>{!singleOp&&<a href={getUrl(r.bT.operator)} target="_blank" rel="noopener noreferrer sponsored" style={{fontSize:10,fontWeight:700,color:C.cyan,textDecoration:"none"}}>Gå till →</a>}</div>
+            </div>}
+            {/* Streaming */}
+            {sstr.length>0&&sstr.map(id=>{const f=streamPicks.find(x=>x.id===id);const free=r.opInc&&r.opInc.has(id);if(!f)return null;return(<div key={id} style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"8px 14px",borderRadius:10,background:free?"rgba(6,214,160,0.06)":"rgba(255,255,255,0.02)",border:`1px solid ${free?"rgba(6,214,160,0.15)":C.surface}`}}>
+              <div style={{fontSize:12,fontWeight:600,color:C.text}}>{f.name}{free&&<span style={{fontSize:9,color:C.mint,marginLeft:6,fontWeight:700}}>INGÅR</span>}</div>
+              <div style={{display:"flex",alignItems:"center",gap:8}}><span style={{fontSize:14,fontWeight:800,color:free?C.success:C.cyan,fontFamily:"'DM Mono',monospace"}}>{free?"0 kr":f.price+" kr"}</span>{!free&&<a href={getUrl(id)} target="_blank" rel="noopener noreferrer sponsored" style={{fontSize:10,fontWeight:700,color:C.cyan,textDecoration:"none"}}>Gå till →</a>}</div>
+            </div>);})}
+            {/* Rabatt */}
+            {r.d>0&&<div style={{display:"flex",justifyContent:"space-between",padding:"8px 14px",borderRadius:10,background:"rgba(34,197,94,0.06)",border:"1px solid rgba(34,197,94,0.15)"}}><span style={{fontSize:12,fontWeight:700,color:C.success}}>Samlingsrabatt</span><span style={{fontSize:15,fontWeight:800,color:C.success,fontFamily:"'DM Mono',monospace"}}>-{r.d} kr</span></div>}
+          </div>
+          {/* Total + CTA */}
+          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",paddingTop:10,borderTop:`1px solid ${C.surface}`}}>
+            <div><span style={{fontSize:32,fontWeight:800,color:C.text,fontFamily:"'DM Mono',monospace"}}>{r.total}</span><span style={{fontSize:13,color:C.subtle,marginLeft:4}}>kr/mån</span>{isFam&&<div style={{fontSize:12,color:C.muted}}>= {Math.round(r.total/famN)} kr/person</div>}</div>
+            {singleOp&&<a href={getUrl(r.op)} target="_blank" rel="noopener noreferrer sponsored" style={{padding:"12px 24px",borderRadius:12,textDecoration:"none",background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:13,fontWeight:800}}>Gå till {opName(r.op)} →</a>}
+          </div>
+        </div>);};
       return(<div>
+        <div style={{fontSize:10,fontWeight:600,color:C.subtle,textTransform:"uppercase",marginBottom:6}}>{surfLvl==="obegr"?"Obegränsad":surfLvl==="30gb"?"30 GB":"10 GB"}{isFam?` · ${famN} pers.`:""}{phones.length>0?` · ${phones.length} tel.`:""}{stv?" · TV":""}{sstr.length>0?` · ${sstr.length} streaming`:""}</div>
         {myOp&&<div><div style={{fontSize:10,fontWeight:600,color:C.cyan,textTransform:"uppercase",marginBottom:8}}>Baserat på ditt val — {opName(selOp)}</div><RCard r={myOp} isMy={true}/></div>}
-        {others.length>0&&<div><div style={{fontSize:10,fontWeight:600,color:C.subtle,textTransform:"uppercase",marginBottom:8,marginTop:myOp?8:0}}>Andra operatörer</div>{others.map(r=>(<RCard key={r.op} r={r} isMy={false}/>))}</div>}
-        <button onClick={resetAll} style={{background:"transparent",border:`1px solid ${C.surface}`,color:C.subtle,padding:"5px 12px",borderRadius:8,cursor:"pointer",fontFamily:"inherit",fontSize:11}}>Börja om</button>
+        {others.length>0&&<div><div style={{fontSize:10,fontWeight:600,color:C.subtle,textTransform:"uppercase",marginBottom:8,marginTop:myOp?4:0}}>Andra operatörer</div>{others.map(r=>(<RCard key={r.op} r={r} isMy={false}/>))}</div>}
+        <button onClick={resetAll} style={{background:"transparent",border:`1px solid ${C.surface}`,color:C.subtle,padding:"8px 16px",borderRadius:10,cursor:"pointer",fontFamily:"inherit",fontSize:12,fontWeight:600}}>Börja om</button>
       </div>);})()}
   </div>);
 }
