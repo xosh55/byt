@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Integritetspolicy | Byyt.se</title>
+<meta name="description" content="Så hanterar byyt.se dina personuppgifter. Information om cookies, tracking och dina rättigheter enligt GDPR.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://byyt.se/integritetspolicy.html">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%2306D6A0'/><stop offset='50%25' stop-color='%2300B4D8'/><stop offset='100%25' stop-color='%238B5CF6'/></linearGradient></defs><circle cx='16' cy='16' r='15' fill='url(%23g)'/><g stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' fill='none'><path d='M8 11L19 11'/><polyline points='16,8 19,11 16,14'/><path d='M24 21L13 21'/><polyline points='16,18 13,21 16,24'/></g></svg>">
+<link rel="stylesheet" href="shared.css">
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.26.9/babel.min.js"></script>
+<script src="shared.js"></script>
+</head>
+<body>
+<a href="#main" class="skip-link">Hoppa till innehåll</a>
+<div id="root"></div>
+<script type="text/babel">
+const sections = [
+  { title: "Vem ansvarar för dina uppgifter?", content: "Byyt.se drivs som enskild firma av Kiakesar Misgari. Vi är personuppgiftsansvariga för den behandling av personuppgifter som sker på byyt.se. Kontakt: kontakt@byyt.se" },
+  { title: "Vilka uppgifter samlar vi in?", content: "Vi samlar inte in några personuppgifter som namn, e-post eller telefonnummer när du använder byyt.se. Vi samlar in anonymiserad besöksstatistik: vilka sidor som besöks, webbläsartyp, enhet och ungefärlig plats (land/region). Detta sker via Google Analytics med anonymiserade IP-adresser." },
+  { title: "Cookies", content: "Vi använder nödvändiga cookies för att sajten ska fungera (t.ex. tema-inställning). Vi använder Google Analytics-cookies för att förstå hur sajten används. Inga tredjepartscookies för reklam. Du kan blockera cookies i din webbläsare — sajten fungerar ändå." },
+  { title: "Affiliate-länkar", content: "Byyt.se är en affiliate-sajt. När du klickar på en länk till en operatör och tecknar ett abonnemang kan vi få en provision (CPA). Ditt pris påverkas aldrig av detta. Affiliate-tracking sker via Adtraction och Addrevenue. Dessa tjänster kan placera cookies för att spåra konverteringar." },
+  { title: "Varför behandlar vi data?", content: "Vi behandlar data för att: förbättra sajten baserat på hur den används, mäta trafik och förstå vilka jämförelser som är mest populära, och rapportera affiliate-konverteringar till våra samarbetspartners. Rättslig grund: berättigat intresse (trafikanalys) och samtycke (affiliate-cookies)." },
+  { title: "Dina rättigheter (GDPR)", content: "Du har rätt att: begära tillgång till dina personuppgifter, begära rättelse eller radering, invända mot behandling, och lämna in klagomål till Integritetsskyddsmyndigheten (IMY). Kontakta oss på kontakt@byyt.se för att utöva dina rättigheter." },
+  { title: "Ändringar", content: "Vi kan uppdatera denna policy. Senast uppdaterad: april 2026." },
+];
+
+function PrivacyPage() {
+  const [open, setOpen] = React.useState(null);
+  return (
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', color: 'var(--text)' }}>
+      <NavBar />
+      <main id="main" className="container">
+        <section className="section fade-in" style={{ maxWidth: 640, margin: '0 auto' }}>
+          <h1 style={{ marginBottom: 4 }}><span className="text-gradient">Integritetspolicy</span></h1>
+          <p style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 24 }}>Senast uppdaterad: april 2026</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            {sections.map((s, i) => {
+              const isOpen = open === i;
+              return (
+                <div key={i} style={{ background: isOpen ? 'var(--card-elevated)' : 'var(--card)', borderRadius: 10, border: `1px solid ${isOpen ? 'var(--border-hover)' : 'var(--border)'}`, overflow: 'hidden' }}>
+                  <button onClick={() => setOpen(isOpen ? null : i)} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 18px', background: 'none', border: 'none', color: 'var(--text)', fontSize: 14, fontWeight: 700, fontFamily: 'inherit', cursor: 'pointer', textAlign: 'left', minHeight: 48 }}
+                    aria-expanded={isOpen}>
+                    {s.title}
+                    <span style={{ color: 'var(--cyan)', transition: 'transform 0.15s', transform: isOpen ? 'rotate(45deg)' : 'none', flexShrink: 0, marginLeft: 8 }}>+</span>
+                  </button>
+                  {isOpen && <div style={{ padding: '0 18px 16px', color: 'var(--sub)', fontSize: 13, lineHeight: 1.7, animation: 'fadeInFast 0.15s' }}>{s.content}</div>}
+                </div>
+              );
+            })}
+          </div>
+          <div style={{ marginTop: 24, padding: 16, background: 'var(--card)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border)' }}>
+            <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 4 }}>Frågor?</div>
+            <div style={{ fontSize: 13, color: 'var(--sub)' }}>Kontakta oss: <a href="mailto:kontakt@byyt.se" style={{ color: 'var(--cyan)' }}>kontakt@byyt.se</a></div>
+          </div>
+        </section>
+      </main>
+      <Footer />
+      <BottomTabs active="" />
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<PrivacyPage />);
+</script>
+</body>
+</html>

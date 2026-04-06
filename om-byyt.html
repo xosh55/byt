@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Om Byyt.se — Oberoende jämförelsesajt</title>
+<meta name="description" content="Byyt.se är Sveriges oberoende jämförelsesajt för mobil, bredband, TV och streaming. Läs mer om oss och hur vi tjänar pengar.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://byyt.se/om-byyt.html">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%2306D6A0'/><stop offset='50%25' stop-color='%2300B4D8'/><stop offset='100%25' stop-color='%238B5CF6'/></linearGradient></defs><circle cx='16' cy='16' r='15' fill='url(%23g)'/><g stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' fill='none'><path d='M8 11L19 11'/><polyline points='16,8 19,11 16,14'/><path d='M24 21L13 21'/><polyline points='16,18 13,21 16,24'/></g></svg>">
+<link rel="stylesheet" href="shared.css">
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.26.9/babel.min.js"></script>
+<script src="shared.js"></script>
+</head>
+<body>
+<a href="#main" class="skip-link">Hoppa till innehåll</a>
+<div id="root"></div>
+<script type="text/babel">
+function AboutPage() {
+  const cards = [
+    { icon: '⚖️', title: 'Oberoende', text: 'Vi ägs inte av någon operatör. Alla planer jämförs på samma villkor — ingen operatör kan betala för bättre placering.' },
+    { icon: '💰', title: 'Hur vi tjänar pengar', text: 'Vi får en provision (affiliate) när du klickar vidare till en operatör och tecknar ett abonnemang. Ditt pris påverkas aldrig. Vi visar alltid billigaste alternativet oavsett vem som betalar oss mest.' },
+    { icon: '🔄', title: 'Uppdaterade priser', text: 'Vi uppdaterar priser regelbundet från operatörernas egna sajter. Om du hittar ett fel — kontakta oss så fixar vi det direkt.' },
+    { icon: '📱', title: 'Allt på ett ställe', text: 'Byyt.se är den enda svenska sajten som jämför mobilabonnemang, bredband, TV, streaming och telefoner i samma flöde. Du slipper hoppa mellan tio olika sajter.' },
+    { icon: '🇸🇪', title: 'Byggd i Sverige', text: 'Byyt.se är ett enmansföretag startat 2026. Vi bygger sajten vi själva ville ha — enkel, ärlig, utan skit.' },
+  ];
+
+  return (
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', color: 'var(--text)' }}>
+      <NavBar />
+      <main id="main" className="container">
+        <section className="section fade-in" style={{ maxWidth: 640, margin: '0 auto' }}>
+          <h1 style={{ marginBottom: 6 }}><span className="text-gradient">Om Byyt</span></h1>
+          <p style={{ fontSize: 14, color: 'var(--sub)', marginBottom: 28, lineHeight: 1.6 }}>
+            Oberoende jämförelsetjänst. Gratis, transparent, på din sida.
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {cards.map((c, i) => (
+              <div key={i} style={{
+                background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)',
+                padding: '18px 20px', borderLeft: '3px solid var(--mint)',
+                animation: `fadeIn 0.3s ease-out ${i * 0.05}s both`
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+                  <span style={{ fontSize: 20 }} aria-hidden="true">{c.icon}</span>
+                  <h2 style={{ fontSize: 15, fontWeight: 800 }}>{c.title}</h2>
+                </div>
+                <p style={{ fontSize: 13, color: 'var(--sub)', lineHeight: 1.7 }}>{c.text}</p>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ marginTop: 28, padding: 20, background: 'var(--card)', borderRadius: 'var(--radius-xl)', border: '1px solid var(--border)', textAlign: 'center' }}>
+            <div style={{ fontSize: 16, fontWeight: 800, marginBottom: 6 }}>Kontakt</div>
+            <a href="mailto:kontakt@byyt.se" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'var(--cyan)', fontSize: 15, fontWeight: 700 }}>
+              kontakt@byyt.se
+            </a>
+            <div style={{ marginTop: 8 }}>
+              <a href="https://instagram.com/byyt.se" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: 'var(--sub)' }}>
+                Instagram: @byyt.se
+              </a>
+            </div>
+          </div>
+        </section>
+      </main>
+      <Footer />
+      <BottomTabs active="" />
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<AboutPage />);
+</script>
+</body>
+</html>

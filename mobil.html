@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jämför mobilabonnemang 2026 — Bäst & billigast | Byyt.se</title>
+<meta name="description" content="Jämför mobilabonnemang från Hallon, Vimla, Fello, Telia och fler. Filter på surf, pris och operatör. Uppdaterade priser dagligen.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://byyt.se/mobil.html">
+<meta property="og:title" content="Jämför mobilabonnemang 2026 | Byyt.se">
+<meta property="og:description" content="Jämför mobilabonnemang från alla svenska operatörer. Hitta billigaste och bästa abonnemanget.">
+<meta property="og:url" content="https://byyt.se/mobil.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="sv_SE">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%2306D6A0'/><stop offset='50%25' stop-color='%2300B4D8'/><stop offset='100%25' stop-color='%238B5CF6'/></linearGradient></defs><circle cx='16' cy='16' r='15' fill='url(%23g)'/><g stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' fill='none'><path d='M8 11L19 11'/><polyline points='16,8 19,11 16,14'/><path d='M24 21L13 21'/><polyline points='16,18 13,21 16,24'/></g></svg>">
+<link rel="stylesheet" href="shared.css">
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.26.9/babel.min.js"></script>
+<script src="data.js"></script>
+<script src="shared.js"></script>
+</head>
+<body>
+<a href="#main" class="skip-link">Hoppa till innehåll</a>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useMemo, useRef, useEffect } = React;
+
+// ── Parse URL params ──
+const params = new URLSearchParams(window.location.search);
+const initialSurf = params.get('surf') || null;
+
+// ── Surf ranges ──
+const SURF_RANGES = {
+  lite: { min: 0, max: 5, label: '1–5 GB' },
+  lagom: { min: 5, max: 15, label: '5–15 GB' },
+  mycket: { min: 15, max: 50, label: '15–50 GB' },
+  obegransad: { min: 9999, max: 99999, label: 'Obegränsad' },
+};
+
+// ── Preference options ──
+const PREFS = [
+  { id: 'price', icon: '💰', label: 'Lägsta pris', sub: 'Billigast möjligt' },
+  { id: 'coverage', icon: '📶', label: 'Bäst täckning', sub: 'Telias nät' },
+  { id: 'nobind', icon: '🔓', label: 'Ingen bindning', sub: 'Byt när du vill' },
+  { id: 'student', icon: '🎓', label: 'Studentrabatt', sub: 'Extra billigt' },
+  { id: 'senior', icon: '☎️', label: 'Senior / enkel', sub: 'Telefonsupport' },
+];
+
+// ── Sort options ──
+const SORTS = [
+  { id: 'recommended', label: 'Rekommenderad' },
+  { id: 'cheapest', label: 'Billigast' },
+  { id: 'mostdata', label: 'Mest surf' },
+  { id: 'rating', label: 'Betyg' },
+];
+
+// ── Category tabs ──
+const CAT_TABS = [
+  { id: 'mobil', label: '📱 Mobil', href: 'mobil.html', active: true },
+  { id: 'bredband', label: '🌐 Bredband', href: 'bredband.html' },
+  { id: 'tv', label: '📺 TV', href: 'tv.html' },
+  { id: 'streaming', label: '🎬 Streaming', href: 'streaming.html' },
+  { id: 'telefoner', label: '📞 Telefoner', href: 'telefoner.html' },
+];
+
+// ── Operator ratings (SKI-baserade placeholder) ──
+const OP_RATINGS = {
+  hallon: 4.3, vimla: 4.2, fello: 4.0, comviq: 3.7, halebop: 3.9,
+  telia: 3.8, tre: 3.5, telenor: 3.6, tele2: 3.6, chilimobil: 3.4,
+};
+
+// ── Result Card ──
+function ResultCard({ plan, index, defaultOpen }) {
+  const [expanded, setExpanded] = useState(defaultOpen || false);
+  const op = OPERATORS.find(o => o.id === plan.operator);
+  const color = op ? op.color : '#94A3B8';
+  const name = op ? op.name : plan.operator;
+  const hasCampaign = plan.campaignPrice !== null;
+  const price = hasCampaign ? plan.campaignPrice : plan.price;
+  const dataLabel = plan.data >= 9999 ? 'Obegränsad' : plan.data + ' GB';
+  const rating = OP_RATINGS[plan.operator] || 3.5;
+  const stars = '★'.repeat(Math.floor(rating)) + (rating % 1 >= 0.5 ? '½' : '');
+  const yearCost = hasCampaign
+    ? plan.campaignPrice * plan.campaignMonths + plan.price * (12 - plan.campaignMonths)
+    : plan.price * 12;
+
+  return (
+    <div
+      className={`result-card ${expanded ? 'expanded' : ''}`}
+      onClick={() => setExpanded(!expanded)}
+      role="button"
+      tabIndex={0}
+      aria-expanded={expanded}
+      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setExpanded(!expanded); }}}
+      style={{ animation: `cardIn 0.15s ease-out ${index * 0.03}s both` }}
+    >
+      {/* Header row */}
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <OperatorLogo name={plan.operator} size={40} />
+        <div style={{ flex: 1, marginLeft: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap', marginBottom: 2 }}>
+            <span style={{ fontSize: 14, fontWeight: 700, color }}>{name}</span>
+            {hasCampaign && <span className="badge badge-campaign">Kampanj</span>}
+            {plan.fiveG && <span className="badge badge-5g">5G</span>}
+          </div>
+          <div style={{ fontSize: 12, color: 'var(--sub)' }}>
+            {dataLabel} · {plan.network} · {plan.bindingMonths === 0 ? 'Ingen bindning' : plan.bindingMonths + ' mån'}
+          </div>
+        </div>
+        <div style={{ textAlign: 'right', flexShrink: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'flex-end', gap: 3 }}>
+            <span style={{ fontSize: 22, fontWeight: 800, fontFamily: "'DM Mono', monospace", color: hasCampaign ? 'var(--mint)' : 'var(--text)' }}>{price}</span>
+            <span style={{ fontSize: 10, color: 'var(--muted)' }}>kr</span>
+          </div>
+          {hasCampaign && <div style={{ fontSize: 10, color: 'var(--muted)', textDecoration: 'line-through' }}>{plan.price} kr</div>}
+        </div>
+      </div>
+
+      {/* Collapsed hint */}
+      {!expanded && (
+        <div style={{ textAlign: 'center', marginTop: 6, paddingTop: 4, borderTop: '1px solid var(--border)' }}>
+          <span style={{ fontSize: 10, fontWeight: 600, color: 'var(--cyan)', opacity: 0.6 }}>Visa detaljer</span>
+        </div>
+      )}
+
+      {/* Expanded details */}
+      {expanded && (
+        <div className="details" onClick={e => e.stopPropagation()} style={{ animation: 'fadeInFast 0.15s' }}>
+          {plan.perks.length > 0 && (
+            <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: 10 }}>
+              {plan.perks.map((p, i) => <span key={i} className="perk">{p}</span>)}
+            </div>
+          )}
+          <div style={{
+            display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px 16px',
+            fontSize: 12, color: 'var(--sub)', marginBottom: 10,
+            padding: '10px 0', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)'
+          }}>
+            <span>Samtal & SMS: <strong style={{ color: 'var(--text)' }}>Fritt</strong></span>
+            <span>5G: <strong style={{ color: 'var(--text)' }}>{plan.fiveG ? 'Ja' : 'Nej'}</strong></span>
+            <span>EU-surf: <strong style={{ color: 'var(--text)' }}>{plan.perks.some(p => p.includes('EU')) ? 'Ja' : 'Nej'}</strong></span>
+            <span>eSIM: <strong style={{ color: 'var(--text)' }}>{plan.perks.some(p => p.includes('eSIM')) ? 'Ja' : 'Nej'}</strong></span>
+            <span>Betyg: <strong style={{ color: 'var(--mint)' }}>{stars} {rating}</strong></span>
+            <span>År 1: <strong style={{ color: 'var(--text)' }}>{yearCost.toLocaleString('sv-SE')} kr</strong></span>
+          </div>
+          {hasCampaign && (
+            <div style={{ fontSize: 11, color: 'var(--sub)', marginBottom: 8 }}>
+              Kampanjpris {plan.campaignMonths} mån, sedan {plan.price} kr/mån
+            </div>
+          )}
+          {plan.bindingOffer && (
+            <div style={{ fontSize: 11, color: 'var(--violet)', marginBottom: 8 }}>{plan.bindingOffer}</div>
+          )}
+          <a
+            href={plan.affiliateUrl}
+            target="_blank"
+            rel="noopener noreferrer sponsored"
+            className="cta cta-operator cta-full"
+            style={{ background: `linear-gradient(135deg, ${color}, ${color}cc)` }}
+            onClick={e => e.stopPropagation()}
+          >
+            Gå till {name} →
+          </a>
+          <div className="disclosure">Vi får provision — ditt pris påverkas inte</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Cross-sell card ──
+function CrossSell() {
+  return (
+    <div style={{
+      background: 'var(--card)', border: '1px solid var(--border)',
+      borderRadius: 'var(--radius-lg)', padding: 16, margin: '6px 0'
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+        <span style={{ fontSize: 16 }} aria-hidden="true">💡</span>
+        <div>
+          <div style={{ fontSize: 14, fontWeight: 800 }}>Spara mer — bunta dina tjänster</div>
+          <div style={{ fontSize: 12, color: 'var(--sub)' }}>Snittfamilj sparar 2 400 kr/år</div>
+        </div>
+      </div>
+      <div style={{ display: 'flex', gap: 8 }}>
+        <a href="bredband.html" className="cta cta-secondary" style={{ flex: 1, fontSize: 12, padding: '10px 12px', minHeight: 40 }}>
+          🌐 Lägg till bredband
+        </a>
+        <a href="tv.html" className="cta cta-secondary" style={{ flex: 1, fontSize: 12, padding: '10px 12px', minHeight: 40 }}>
+          📺 Lägg till TV
+        </a>
+      </div>
+    </div>
+  );
+}
+
+// ── Main Page ──
+function MobilPage() {
+  const [selectedPrefs, setSelectedPrefs] = useState([]);
+  const [showResults, setShowResults] = useState(!initialSurf);
+  const [sort, setSort] = useState('recommended');
+  const resultsRef = useRef(null);
+
+  const surfRange = initialSurf ? SURF_RANGES[initialSurf] : null;
+
+  const togglePref = (id) => {
+    setSelectedPrefs(prev =>
+      prev.includes(id) ? prev.filter(p => p !== id) : [...prev, id]
+    );
+  };
+
+  // ── Filter + sort logic ──
+  const results = useMemo(() => {
+    let filtered = [...PLANS].filter(p => p.categories.includes('privat') || p.categories.includes('student') || p.categories.includes('pensionar'));
+
+    // Surf filter
+    if (surfRange) {
+      if (initialSurf === 'obegransad') {
+        filtered = filtered.filter(p => p.data >= 9999);
+      } else {
+        filtered = filtered.filter(p => p.data >= surfRange.min && p.data <= surfRange.max);
+      }
+    }
+
+    // Preference filters
+    if (selectedPrefs.includes('student')) {
+      filtered = filtered.filter(p => p.categories.includes('student'));
+    }
+    if (selectedPrefs.includes('senior')) {
+      filtered = filtered.filter(p => p.categories.includes('pensionar'));
+    }
+    if (selectedPrefs.includes('coverage')) {
+      filtered = filtered.filter(p => p.network === 'Telia');
+    }
+    if (selectedPrefs.includes('nobind')) {
+      filtered = filtered.filter(p => p.bindingMonths === 0);
+    }
+
+    // Sort
+    const getEffPrice = (p) => p.campaignPrice !== null ? p.campaignPrice : p.price;
+
+    switch (sort) {
+      case 'cheapest':
+        filtered.sort((a, b) => a.price - b.price);
+        break;
+      case 'mostdata':
+        filtered.sort((a, b) => b.data - a.data || a.price - b.price);
+        break;
+      case 'rating':
+        filtered.sort((a, b) => (OP_RATINGS[b.operator] || 0) - (OP_RATINGS[a.operator] || 0) || a.price - b.price);
+        break;
+      case 'recommended':
+      default:
+        filtered.sort((a, b) => getEffPrice(a) - getEffPrice(b));
+        break;
+    }
+
+    // Price preference: already sorted by price in recommended
+    return filtered;
+  }, [surfRange, selectedPrefs, sort]);
+
+  const scrollToResults = () => {
+    setShowResults(true);
+    setTimeout(() => {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  };
+
+  // Active filter labels
+  const filterLabels = [];
+  if (surfRange) filterLabels.push(surfRange.label);
+  selectedPrefs.forEach(p => {
+    const pref = PREFS.find(pr => pr.id === p);
+    if (pref) filterLabels.push(pref.label);
+  });
+
+  return (
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', color: 'var(--text)' }}>
+      <NavBar />
+
+      {/* Category tabs */}
+      <div className="cat-tabs">
+        {CAT_TABS.map(tab => (
+          <a key={tab.id} href={tab.href} className={`cat-tab ${tab.active ? 'active' : ''}`}>
+            {tab.label}
+          </a>
+        ))}
+      </div>
+
+      <main id="main" className="container">
+
+        {/* ── WIZARD (step 2) ── */}
+        {initialSurf && !showResults && (
+          <section className="wizard-section fade-in" aria-label="Filtrera abonnemang">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+              <button
+                onClick={() => window.history.back()}
+                className="cta-secondary"
+                style={{ background: 'none', border: 'none', color: 'var(--sub)', fontSize: 13, fontWeight: 600, padding: '4px 0', cursor: 'pointer', fontFamily: 'inherit' }}
+              >
+                ← Tillbaka
+              </button>
+              <span style={{ fontSize: 12, color: 'var(--muted)' }}>Steg 2 av 2</span>
+            </div>
+            <div className="progress"><div className="progress-fill" style={{ width: '50%' }}></div></div>
+
+            <div style={{ marginTop: 20 }}>
+              <div className="wizard-question">Vad är viktigast för dig?</div>
+              <div className="wizard-sub">Välj ett eller flera</div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {PREFS.map(pref => {
+                  const active = selectedPrefs.includes(pref.id);
+                  return (
+                    <button
+                      key={pref.id}
+                      onClick={() => togglePref(pref.id)}
+                      className={`wizard-option ${active ? 'selected' : ''}`}
+                      style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}
+                      aria-pressed={active}
+                    >
+                      <span style={{ fontSize: 20, flexShrink: 0 }} aria-hidden="true">{pref.icon}</span>
+                      <div style={{ flex: 1, textAlign: 'left' }}>
+                        <div className="wizard-option-title">{pref.label}</div>
+                        <div className="wizard-option-sub">{pref.sub}</div>
+                      </div>
+                      {active && <span style={{ color: 'var(--mint)', fontSize: 18 }} aria-hidden="true">✓</span>}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <button
+                onClick={scrollToResults}
+                className="cta cta-primary cta-full"
+                style={{ marginTop: 16 }}
+              >
+                Visa {results.length} abonnemang →
+              </button>
+            </div>
+          </section>
+        )}
+
+        {/* ── RESULTS ── */}
+        {(showResults || !initialSurf) && (
+          <section ref={resultsRef} className="section fade-in" aria-label="Resultat">
+
+            {/* Back to wizard */}
+            {initialSurf && (
+              <>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                  <button
+                    onClick={() => setShowResults(false)}
+                    style={{ background: 'none', border: 'none', color: 'var(--sub)', fontSize: 13, fontWeight: 600, padding: '4px 0', cursor: 'pointer', fontFamily: 'inherit' }}
+                  >
+                    ← Ändra val
+                  </button>
+                </div>
+                <div className="progress"><div className="progress-fill" style={{ width: '100%' }}></div></div>
+              </>
+            )}
+
+            {/* Sort chips */}
+            <div className="sort-bar" style={{ marginTop: 12 }}>
+              {SORTS.map(s => (
+                <button
+                  key={s.id}
+                  onClick={() => setSort(s.id)}
+                  className={`chip ${sort === s.id ? 'active' : ''}`}
+                  aria-pressed={sort === s.id}
+                >
+                  {s.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Result count + active filters */}
+            <div style={{ fontSize: 12, color: 'var(--sub)', margin: '10px 0 12px', display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+              <strong style={{ color: 'var(--text)' }}>{results.length} abonnemang</strong>
+              {filterLabels.length > 0 && <span>·</span>}
+              {filterLabels.map((l, i) => (
+                <span key={i} style={{ fontSize: 11, padding: '2px 8px', borderRadius: 20, background: 'var(--chip)', color: 'var(--sub)' }}>{l}</span>
+              ))}
+            </div>
+
+            {/* Result cards */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {results.length === 0 && (
+                <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--sub)' }}>
+                  <div style={{ fontSize: 32, marginBottom: 10 }}>🔍</div>
+                  <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 4 }}>Inga resultat</div>
+                  <div style={{ fontSize: 13 }}>Prova att ändra dina filter</div>
+                </div>
+              )}
+              {results.map((plan, i) => (
+                <React.Fragment key={plan.id}>
+                  <ResultCard plan={plan} index={i} defaultOpen={i === 0} />
+                  {i === 2 && results.length > 3 && <CrossSell />}
+                </React.Fragment>
+              ))}
+            </div>
+
+            {/* Trust + operator logos */}
+            <div className="trust-bar" style={{ marginTop: 24 }}>
+              <div className="trust-item"><span aria-hidden="true">🔒</span> Oberoende</div>
+              <div className="trust-item"><span aria-hidden="true">🔄</span> Dagliga priser</div>
+              <div className="trust-item"><span aria-hidden="true">💰</span> Alltid gratis</div>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 8, flexWrap: 'wrap', padding: '8px 0 16px' }}>
+              {OPERATORS.map(op => (
+                <div key={op.id} style={{
+                  width: 28, height: 28, borderRadius: 7,
+                  background: op.color + '20', color: op.color,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 11, fontWeight: 800
+                }} title={op.name} aria-label={op.name}>
+                  {op.name.charAt(0)}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+      </main>
+
+      <Footer />
+      <BottomTabs active="compare" />
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<MobilPage />);
+</script>
+</body>
+</html>
