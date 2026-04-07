@@ -110,6 +110,18 @@ const PLANS=[
 {id:52,operator:"vimla",name:"Vimla Senior 5 GB",categories:["pensionar"],price:100,data:5,speedMbps:150,fiveG:true,network:"Telenor",bindingMonths:0,perks:["Senior 55+"],bindingOffer:null,campaignPrice:20,campaignMonths:3,affiliateUrl:"https://vimla.se/mobilabonnemang/"},
 {id:53,operator:"vimla",name:"Vimla Senior 10 GB",categories:["pensionar"],price:130,data:10,speedMbps:150,fiveG:true,network:"Telenor",bindingMonths:0,perks:["Senior 55+"],bindingOffer:null,campaignPrice:20,campaignMonths:3,affiliateUrl:"https://vimla.se/mobilabonnemang/"},
 {id:54,operator:"vimla",name:"Vimla Senior 25 GB",categories:["pensionar"],price:180,data:25,speedMbps:150,fiveG:true,network:"Telenor",bindingMonths:0,perks:["Senior 55+"],bindingOffer:null,campaignPrice:20,campaignMonths:3,affiliateUrl:"https://vimla.se/mobilabonnemang/"},
+{id:65,operator:"halebop",name:"Halebop 5 GB",categories:["privat"],price:169,data:5,speedMbps:150,fiveG:true,network:"Telia",bindingMonths:0,perks:["Spara surf","EU/EES"],bindingOffer:null,campaignPrice:null,campaignMonths:null,affiliateUrl:"https://www.halebop.se/mobilabonnemang"},
+{id:66,operator:"halebop",name:"Halebop 8 GB",categories:["privat"],price:239,data:8,speedMbps:150,fiveG:true,network:"Telia",bindingMonths:0,perks:["Spara surf","EU/EES"],bindingOffer:null,campaignPrice:null,campaignMonths:null,affiliateUrl:"https://www.halebop.se/mobilabonnemang"},
+{id:67,operator:"halebop",name:"Halebop 30 GB",categories:["privat"],price:339,data:30,speedMbps:150,fiveG:true,network:"Telia",bindingMonths:0,perks:["Spara surf","EU/EES","Kundfavorit"],bindingOffer:null,campaignPrice:null,campaignMonths:null,affiliateUrl:"https://www.halebop.se/mobilabonnemang"},
+{id:68,operator:"halebop",name:"Halebop 100 GB",categories:["privat"],price:399,data:100,speedMbps:150,fiveG:true,network:"Telia",bindingMonths:0,perks:["Spara surf","EU/EES"],bindingOffer:null,campaignPrice:null,campaignMonths:null,affiliateUrl:"https://www.halebop.se/mobilabonnemang"},
+{id:69,operator:"halebop",name:"Halebop Familj 30 GB",categories:["familj"],price:339,data:30,speedMbps:150,fiveG:true,network:"Telia",bindingMonths:0,perks:["Egen surf per person","5G"],bindingOffer:null,campaignPrice:null,campaignMonths:null,affiliateUrl:"https://www.halebop.se/familjeabonnemang",perExtra:179},
+{id:70,operator:"halebop",name:"Halebop Student 30 GB",categories:["student"],price:269,data:30,speedMbps:150,fiveG:true,network:"Telia",bindingMonths:0,perks:["Studentrabatt","Spara surf"],bindingOffer:null,campaignPrice:null,campaignMonths:null,affiliateUrl:"https://www.halebop.se/student"},
+{id:71,operator:"halebop",name:"Halebop Student 100 GB",categories:["student"],price:339,data:100,speedMbps:150,fiveG:true,network:"Telia",bindingMonths:0,perks:["Studentrabatt","Spara surf"],bindingOffer:null,campaignPrice:null,campaignMonths:null,affiliateUrl:"https://www.halebop.se/student"},
+{id:72,operator:"chilimobil",name:"Chilimobil Fri Surf 1 Mbit/s",categories:["privat"],price:179,data:9999,speedMbps:1,fiveG:true,network:"Tre",bindingMonths:0,perks:["Obegränsad surf","Viaplay 3 mån"],bindingOffer:null,campaignPrice:149,campaignMonths:2,affiliateUrl:"https://chilimobil.se/mobilabonnemang/"},
+{id:73,operator:"chilimobil",name:"Chilimobil Fri Surf 10 Mbit/s",categories:["privat"],price:299,data:9999,speedMbps:10,fiveG:true,network:"Tre",bindingMonths:0,perks:["Obegränsad surf","Viaplay 3 mån"],bindingOffer:null,campaignPrice:249,campaignMonths:2,affiliateUrl:"https://chilimobil.se/mobilabonnemang/"},
+{id:74,operator:"chilimobil",name:"Chilimobil Fri Surf 100 Mbit/s",categories:["privat"],price:349,data:9999,speedMbps:100,fiveG:true,network:"Tre",bindingMonths:0,perks:["Obegränsad surf","Viaplay 3 mån"],bindingOffer:null,campaignPrice:199,campaignMonths:2,affiliateUrl:"https://chilimobil.se/mobilabonnemang/"},
+{id:75,operator:"chilimobil",name:"Chilimobil Fri Surf Full Fart",categories:["privat"],price:399,data:9999,speedMbps:150,fiveG:true,network:"Tre",bindingMonths:0,perks:["Obegränsad surf 5G","Viaplay 3 mån"],bindingOffer:null,campaignPrice:349,campaignMonths:2,affiliateUrl:"https://chilimobil.se/mobilabonnemang/"},
+{id:76,operator:"chilimobil",name:"Chilimobil Student 3 Mbit/s",categories:["student"],price:159,data:9999,speedMbps:3,fiveG:true,network:"Tre",bindingMonths:0,perks:["Obegränsad surf","Studentrabatt"],bindingOffer:null,campaignPrice:79,campaignMonths:2,affiliateUrl:"https://chilimobil.se/mobilabonnemang/"},
 ];
 const CATEGORIES=[{id:"privat",label:"Privat"},{id:"familj",label:"Familj"},{id:"student",label:"Student"},{id:"pensionar",label:"Senior"}];
 const SORT_OPTIONS=[{id:"price_asc",label:"Lägst pris"},{id:"price_desc",label:"Högst pris"},{id:"data_desc",label:"Mest surf"},{id:"value",label:"Bäst värde"}];
@@ -618,7 +630,7 @@ function StreamingView(){
 // ═══ PHONE VIEW ═══
 function PhoneView(){
   const[step,setStep]=useState(-1);const[brand,setBrand]=useState(null);const[budget,setBudget]=useState(null);const[sel,setSel]=useState(null);const[detOp,setDetOp]=useState(null);
-  const results=useMemo(()=>{if(step<2)return[];let r=[...PHONES];if(brand)r=r.filter(p=>p.brand===brand);r.sort((a,b)=>Math.min(...a.ops.map(o=>o.p))-Math.min(...b.ops.map(o=>o.p)));if(budget==="low")r=r.filter(p=>Math.min(...p.ops.map(o=>o.p))<400);else if(budget==="mid")r=r.filter(p=>{const m=Math.min(...p.ops.map(o=>o.p));return m>=300&&m<=700;});else if(budget==="high")r=r.filter(p=>Math.min(...p.ops.map(o=>o.p))>500);return r;},[step,brand,budget]);
+  const results=useMemo(()=>{if(step<2)return[];let r=[...PHONES];if(brand)r=r.filter(p=>p.brand===brand);return r;},[step,brand]);
   const popular=PHONES.sort((a,b)=>Math.min(...a.ops.map(o=>o.p))-Math.min(...b.ops.map(o=>o.p))).slice(0,4);
   const Choice=({label,sub,onClick})=>(<button onClick={onClick} style={{flex:"1 1 140px",padding:"16px 12px",borderRadius:14,border:`1px solid rgba(255,255,255,0.06)`,background:"rgba(255,255,255,0.02)",color:C.muted,fontSize:15,fontWeight:700,cursor:"pointer",fontFamily:"inherit",textAlign:"center",transition:"all .15s"}} onMouseEnter={e=>{e.currentTarget.style.borderColor=C.cyan;e.currentTarget.style.color=C.text;}} onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(255,255,255,0.06)";e.currentTarget.style.color=C.muted;}}>{label}{sub&&<div style={{fontSize:11,fontWeight:400,color:C.subtle,marginTop:4}}>{sub}</div>}</button>);
   return(<div>
@@ -633,25 +645,16 @@ function PhoneView(){
       <button onClick={()=>setStep(0)} style={{display:"block",width:"100%",maxWidth:400,margin:"0 auto",padding:"16px 24px",borderRadius:14,background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:15,fontWeight:800,cursor:"pointer",fontFamily:"inherit",border:"none"}}>Jämför alla telefoner →</button>
     </div>}
     {step===0&&<div style={{maxWidth:600,margin:"0 auto",textAlign:"center",animation:"fadeIn .2s"}}>
-      <div style={{fontSize:11,fontWeight:600,color:C.cyan,textTransform:"uppercase",marginBottom:8}}>Steg 1 av 2</div>
+      <button onClick={()=>setStep(-1)} style={{display:"flex",alignItems:"center",gap:4,background:"none",border:"none",color:C.cyan,fontSize:12,fontWeight:600,cursor:"pointer",fontFamily:"inherit",padding:0,marginBottom:16}}>← Tillbaka</button>
       <div style={{fontSize:22,fontWeight:800,color:C.text,marginBottom:24}}>Vilket märke?</div>
       <div style={{display:"flex",gap:10,maxWidth:500,margin:"0 auto",flexWrap:"wrap",justifyContent:"center"}}>
-        <Choice label="Apple" sub="iPhone" onClick={()=>{setBrand("Apple");setStep(1);}}/>
-        <Choice label="Samsung" sub="Galaxy" onClick={()=>{setBrand("Samsung");setStep(1);}}/>
-        <Choice label="Google" sub="Pixel" onClick={()=>{setBrand("Google");setStep(1);}}/>
-        <Choice label="Alla" sub="Visa alla märken" onClick={()=>{setBrand(null);setStep(1);}}/>
+        <Choice label="Apple" sub="iPhone" onClick={()=>{setBrand("Apple");setStep(2);}}/>
+        <Choice label="Samsung" sub="Galaxy" onClick={()=>{setBrand("Samsung");setStep(2);}}/>
+        <Choice label="Google" sub="Pixel" onClick={()=>{setBrand("Google");setStep(2);}}/>
+        <Choice label="Alla" sub="Visa alla märken" onClick={()=>{setBrand(null);setStep(2);}}/>
       </div>
     </div>}
-    {step===1&&<div style={{maxWidth:600,margin:"0 auto",textAlign:"center",animation:"fadeIn .2s"}}>
-      <button onClick={()=>setStep(0)} style={{display:"flex",alignItems:"center",gap:4,background:"none",border:"none",color:C.cyan,fontSize:12,fontWeight:600,cursor:"pointer",fontFamily:"inherit",padding:0,marginBottom:16}}>← Tillbaka</button>
-      <div style={{fontSize:11,fontWeight:600,color:C.cyan,textTransform:"uppercase",marginBottom:8}}>Steg 2 av 2</div>
-      <div style={{fontSize:22,fontWeight:800,color:C.text,marginBottom:24}}>Budget?</div>
-      <div style={{display:"flex",gap:10,maxWidth:480,margin:"0 auto"}}>
-        <Choice label="Budget" sub="Under 400 kr/mån" onClick={()=>{setBudget("low");setStep(2);}}/>
-        <Choice label="Mellan" sub="400–700 kr/mån" onClick={()=>{setBudget("mid");setStep(2);}}/>
-        <Choice label="Premium" sub="700+ kr/mån" onClick={()=>{setBudget("high");setStep(2);}}/>
-      </div>
-    </div>}
+    
     {step===2&&<div style={{maxWidth:640,margin:"0 auto",animation:"fadeIn .2s"}}>
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16}}>
         <button onClick={()=>setStep(1)} style={{background:"none",border:"none",color:C.cyan,fontSize:12,fontWeight:600,cursor:"pointer",fontFamily:"inherit",padding:0}}>← Ändra</button>
