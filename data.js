@@ -1,7 +1,10 @@
-// ═══ BYYT.SE — DATA ═══
-// All plan data, operators, broadband, TV, streaming, phones
-// Loaded via <script src="data.js"></script> in every page
-// Last updated: April 2026
+// ═══════════════════════════════════════════════════════════
+// BYYT.SE — Master data file (V0.6)
+// Allt innehåll exporteras på window.BYYT så index.html kan
+// destrukturera det i sin <script type="text/babel">.
+// Rör inte denna fil utan audit mot BYYT_V05_AUDIT.md §16.
+// ═══════════════════════════════════════════════════════════
+(function(){
 
 const C={mint:"#06D6A0",cyan:"#00B4D8",violet:"#8B5CF6",ink:"#080E1A",dark:"#0F172A",surface:"#1E293B",surface2:"#334155",text:"#F8FAFC",muted:"#94A3B8",subtle:"#64748B",success:"#22C55E"};
 
@@ -201,3 +204,69 @@ const PHONES=[
 {id:"pixel9pro",brand:"Google",name:"Pixel 9 Pro",storage:"128 GB",retail:12990,ops:[{o:"tre",p:529},{o:"tele2",p:569},{o:"telenor",p:579},{o:"telia",p:599}]},
 {id:"oneplus13",brand:"OnePlus",name:"OnePlus 13",storage:"256 GB",retail:11990,ops:[{o:"tre",p:479},{o:"tele2",p:519},{o:"telenor",p:539}]},
 ];
+
+const VIA_OP=[
+  {streaming:"disneyplus",bundles:[
+    {op:"tele2",name:"Tele2 Streaming Flex",price:199,campaign:99,note:"Disney+ ingår + välj 2 till"},
+    {op:"telia",name:"Telia Obegr. Plus Disney+",price:599,note:"Mobil obegränsad + Disney+"},
+    {op:"allente",name:"Allente Flex 4",price:449,campaign:255,note:"Välj 4 tjänster, byt varje mån"},
+  ]},
+  {streaming:"netflix",bundles:[
+    {op:"telia",name:"Telia Obegr. Plus Netflix",price:629,note:"Mobil obegränsad + Netflix Standard"},
+  ]},
+  {streaming:"hbomax",bundles:[
+    {op:"telia",name:"Telia Obegr. Plus HBO",price:609,note:"Mobil obegränsad + HBO Max"},
+    {op:"telenor",name:"Telenor TV Premium",price:899,campaign:499,note:"59 kanaler + Viaplay Total + HBO Max"},
+    {op:"allente",name:"Allente Flex 4",price:449,campaign:255,note:"Välj HBO Max + 3 andra"},
+  ]},
+  {streaming:"prime",bundles:[
+    {op:"allente",name:"Allente Flex 4",price:449,campaign:255,note:"Välj Prime + 3 andra"},
+  ]},
+  {streaming:"skyshowtime",bundles:[
+    {op:"telenor",name:"Telenor TV Premium",price:899,campaign:499,note:"59 kanaler + SkyShowtime"},
+    {op:"allente",name:"Allente Flex 4",price:449,campaign:255,note:"Välj SkyShowtime + 3 andra"},
+  ]},
+  {streaming:"appletv",bundles:[
+    {op:"allente",name:"Allente Flex 4",price:449,campaign:255,note:"Välj Apple TV+ + 3 andra"},
+  ]},
+  {streaming:"viaplaytotal",bundles:[
+    {op:"tele2",name:"Tele2 TV & Streaming Sport",price:1099,campaign:699,note:"Viaplay Total + Disney+ + TV4 Sport + 32 kanaler"},
+    {op:"telenor",name:"Telenor TV Premium",price:899,campaign:499,note:"59 kanaler + Viaplay Total"},
+    {op:"telia",name:"Telia Stora Sportpaketet",price:549,campaign:349,note:"Viaplay Total + Amazon Prime + 45 kanaler"},
+  ]},
+  {streaming:"tv4sport",bundles:[
+    {op:"tele2",name:"Tele2 TV & Streaming Sport",price:1099,campaign:699,note:"TV4 Sport Fotboll ingår + Viaplay Total"},
+    {op:"telia",name:"Telia Största Sportpaketet",price:999,campaign:899,note:"All sport inkl. Allsvenskan"},
+    {op:"allente",name:"Allente Sport Standard",price:599,campaign:399,note:"TV4 Sport + V Sport + 35 kanaler"},
+  ]},
+  {streaming:"tv4hockey",bundles:[
+    {op:"tele2",name:"Tele2 TV & Streaming Sport",price:1099,campaign:699,note:"TV4 Sport Hockey tillval"},
+    {op:"telia",name:"Telia Största Sportpaketet",price:999,campaign:899,note:"All sport inkl. SHL"},
+  ]},
+];
+// Sport cards data: each sport with all ways to watch
+const SPORT_CARDS=[
+  {sport:"Allsvenskan",icon:"⚽",ways:[{name:"TV4 Play Sport Fotboll",price:249,type:"fristående"},{name:"Tele2 TV & Streaming Sport",price:699,type:"operatör",op:"tele2",note:"Kampanj 12 mån, inkl Viaplay Total"},{name:"Telia Största Sport",price:899,type:"operatör",op:"telia",note:"Kampanj, all sport"},{name:"Allente Sport Standard",price:399,type:"operatör",op:"allente",note:"Kampanj 3 mån"}]},
+  {sport:"Premier League",icon:"⚽",ways:[{name:"Viaplay Total",price:449,type:"fristående"},{name:"Tele2 TV & Streaming Sport",price:699,type:"operatör",op:"tele2",note:"Kampanj 12 mån"},{name:"Telenor TV Premium",price:499,type:"operatör",op:"telenor",note:"Kampanj 12 mån, 59 kanaler"},{name:"Telia Stora Sport",price:349,type:"operatör",op:"telia",note:"Kampanj 6 mån"}]},
+  {sport:"Champions League",icon:"⚽",ways:[{name:"Viaplay Total",price:449,type:"fristående"},{name:"Tele2 TV & Streaming Sport",price:699,type:"operatör",op:"tele2"},{name:"Telenor TV Premium",price:499,type:"operatör",op:"telenor"}]},
+  {sport:"F1",icon:"🏎",ways:[{name:"Viaplay Total",price:449,type:"fristående"},{name:"Tele2 TV & Streaming Sport",price:699,type:"operatör",op:"tele2"},{name:"Telenor TV Premium",price:499,type:"operatör",op:"telenor"},{name:"Telia Stora Sport",price:349,type:"operatör",op:"telia"}]},
+  {sport:"SHL",icon:"🏒",ways:[{name:"TV4 Play Sport Hockey",price:249,type:"fristående"},{name:"Tele2 TV & Streaming Sport",price:699,type:"operatör",op:"tele2",note:"Tillval"},{name:"Telia Största Sport",price:899,type:"operatör",op:"telia"}]},
+  {sport:"NHL",icon:"🏒",ways:[{name:"Viaplay Medium",price:199,type:"fristående"},{name:"Viaplay Total",price:449,type:"fristående"},{name:"Tele2 TV & Streaming Sport",price:699,type:"operatör",op:"tele2"}]},
+  {sport:"LaLiga",icon:"⚽",ways:[{name:"TV4 Play Sport Fotboll",price:249,type:"fristående"},{name:"Tele2 TV & Streaming Sport",price:699,type:"operatör",op:"tele2"},{name:"Allente Sport",price:399,type:"operatör",op:"allente"}]},
+  {sport:"Serie A",icon:"⚽",ways:[{name:"TV4 Play Sport Fotboll",price:249,type:"fristående"},{name:"Tele2 TV & Streaming Sport",price:699,type:"operatör",op:"tele2"}]},
+  {sport:"Bundesliga",icon:"⚽",ways:[{name:"Viaplay Medium",price:199,type:"fristående"},{name:"Viaplay Total",price:449,type:"fristående"}]},
+  {sport:"UFC",icon:"🥊",ways:[{name:"Viaplay Medium",price:199,type:"fristående"},{name:"Viaplay Total",price:449,type:"fristående"}]},
+  {sport:"Fotbolls-VM 2026",icon:"🏆",ways:[{name:"SVT + TV4",price:0,type:"fristående",note:"Gratis — public service"}]},
+];
+
+
+window.BYYT = {
+  C, OPERATORS, opColor, opName,
+  PLANS, CATEGORIES, SORT_OPTIONS, BUNDLE_DISCOUNTS, BYYT_TIPS,
+  BROADBAND, BB_OPERATORS,
+  TV_OPERATORS, TV_PLANS,
+  URLS, getUrl,
+  STREAMING, SPORT_RIGHTS, PHONES,
+  VIA_OP, SPORT_CARDS
+};
+})();
