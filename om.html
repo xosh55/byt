@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Om Byyt — Oberoende jämförelse</title>
+<meta name="description" content="Om Byyt.se — Sveriges enda samlade jämförelsetjänst för mobil, bredband, TV, streaming och telefoner." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://byyt.se/om.html" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://byyt.se/om.html" />
+<meta property="og:title" content="Om Byyt — Oberoende jämförelse" />
+<meta property="og:description" content="Om Byyt.se — Sveriges enda samlade jämförelsetjänst för mobil, bredband, TV, streaming och telefoner." />
+<meta property="og:site_name" content="Byyt.se" />
+<meta property="og:locale" content="sv_SE" />
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%2306D6A0'/><stop offset='50%25' stop-color='%2300B4D8'/><stop offset='100%25' stop-color='%238B5CF6'/></linearGradient></defs><circle cx='16' cy='16' r='15' fill='url(%23g)'/><g stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' fill='none'><path d='M8 11L19 11'/><polyline points='16,8 19,11 16,14'/><path d='M24 21L13 21'/><polyline points='16,18 13,21 16,24'/></g></svg>" />
+<link rel="stylesheet" href="shared.css">
+<script src="data.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.26.9/babel.min.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1R75D4WR44"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-1R75D4WR44');</script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" src="shared.js" data-presets="react"></script>
+<script type="text/babel" data-presets="react">
+const { C } = window.BYYT;
+const { Page } = window.Byyt;
+
+function OmPage() {
+  const cards = [
+    { t: "Vad vi gör", x: "Jämför mobil, bredband, TV, streaming och telefoner. Unik familjekalkylator." },
+    { t: "Byggt för alla", x: "Pris, surf, operatör, 5G. Sveriges mest kompletta jämförelseverktyg." },
+    { t: "Kontakt", x: "kontakt@byyt.se" },
+  ];
+  return (
+    <Page active="om">
+      <div style={{ maxWidth: 640, margin: "0 auto", padding: "48px 20px" }}>
+        <h1 style={{
+          fontSize: "clamp(28px,5vw,44px)", fontWeight: 800, letterSpacing: "-0.03em", marginBottom: 10,
+          background: `linear-gradient(135deg,${C.mint},${C.cyan},${C.violet})`,
+          WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent"
+        }}>Om Byyt</h1>
+        <p style={{ fontSize: 16, color: C.muted, marginBottom: 32 }}>
+          Oberoende jämförelsetjänst. Gratis, transparent, på din sida.
+        </p>
+        {cards.map((i, idx) => (
+          <div key={idx} style={{
+            background: C.dark, border: `1px solid ${C.surface}`, borderRadius: 16,
+            padding: "20px 24px", borderLeft: `3px solid ${C.mint}`, marginBottom: 12
+          }}>
+            <h2 style={{ fontSize: 15, fontWeight: 700, color: C.text, marginBottom: 6 }}>{i.t}</h2>
+            <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.7 }}>{i.x}</p>
+          </div>
+        ))}
+      </div>
+    </Page>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<OmPage/>);
+</script>
+</body>
+</html>
