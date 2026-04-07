@@ -1,159 +1,103 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jämför TV-paket 2026 — Bästa erbjudandena | Byyt.se</title>
-<meta name="description" content="Jämför TV-paket med sport, film och serier. Se vilken operatör som ger mest för pengarna.">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://byyt.se/tv.html">
-<meta property="og:title" content="Jämför TV-paket 2026 | Byyt.se">
-<meta property="og:description" content="Jämför TV-paket med sport, film och serier från alla operatörer.">
-<meta property="og:url" content="https://byyt.se/tv.html">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="sv_SE">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jämför TV-paket 2026 — Kanaler, sport & streaming | Byyt.se</title>
+<meta name="description" content="Jämför alla TV-paket från Telia, Tele2, Telenor, Boxer, Allente och Sappa. Hitta rätt paket för film, sport och familjen." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://byyt.se/tv.html" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://byyt.se/tv.html" />
+<meta property="og:title" content="Jämför TV-paket 2026 — Kanaler, sport & streaming | Byyt.se" />
+<meta property="og:description" content="Jämför alla TV-paket från Telia, Tele2, Telenor, Boxer, Allente och Sappa. Hitta rätt paket för film, sport och familjen." />
+<meta property="og:site_name" content="Byyt.se" />
+<meta property="og:locale" content="sv_SE" />
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%2306D6A0'/><stop offset='50%25' stop-color='%2300B4D8'/><stop offset='100%25' stop-color='%238B5CF6'/></linearGradient></defs><circle cx='16' cy='16' r='15' fill='url(%23g)'/><g stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' fill='none'><path d='M8 11L19 11'/><polyline points='16,8 19,11 16,14'/><path d='M24 21L13 21'/><polyline points='16,18 13,21 16,24'/></g></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%2306D6A0'/><stop offset='50%25' stop-color='%2300B4D8'/><stop offset='100%25' stop-color='%238B5CF6'/></linearGradient></defs><circle cx='16' cy='16' r='15' fill='url(%23g)'/><g stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' fill='none'><path d='M8 11L19 11'/><polyline points='16,8 19,11 16,14'/><path d='M24 21L13 21'/><polyline points='16,18 13,21 16,24'/></g></svg>" />
 <link rel="stylesheet" href="shared.css">
+<script src="data.js"></script>
 <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
 <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.26.9/babel.min.js"></script>
-<script src="data.js"></script>
-<script src="shared.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1R75D4WR44"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-1R75D4WR44');</script>
 </head>
 <body>
-<a href="#main" class="skip-link">Hoppa till innehåll</a>
 <div id="root"></div>
-<script type="text/babel">
+<script type="text/babel" src="shared.js" data-presets="react"></script>
+<script type="text/babel" data-presets="react">
+const { C, OPERATORS, opColor, opName, PLANS, BROADBAND, BB_OPERATORS, TV_OPERATORS, TV_PLANS, BUNDLE_DISCOUNTS } = window.BYYT;
+const { Page, ModePills } = window.Byyt;
 const { useState, useMemo } = React;
 
-const CAT_TABS = [
-  { id: 'mobil', label: '📱 Mobil', href: 'mobil.html' },
-  { id: 'bredband', label: '🌐 Bredband', href: 'bredband.html' },
-  { id: 'tv', label: '📺 TV', href: 'tv.html', active: true },
-  { id: 'streaming', label: '🎬 Streaming', href: 'streaming.html' },
-  { id: 'telefoner', label: '📞 Telefoner', href: 'telefoner.html' },
-];
-const SIZES = [
-  { id: 'all', label: 'Alla' },
-  { id: 'bas', label: 'Bas' },
-  { id: 'mellan', label: 'Mellan' },
-  { id: 'stor', label: 'Stor' },
-  { id: 'sport', label: '⚽ Sport' },
-];
-
-function TVCard({ plan, index }) {
-  const [ex, setEx] = useState(index === 0);
-  const op = TV_OPERATORS.find(o => o.id === plan.operator);
-  const color = op ? op.color : '#94A3B8';
-  const name = op ? op.name : plan.operator;
-  const hasCampaign = plan.campaignPrice !== null;
-  const price = hasCampaign ? plan.campaignPrice : plan.price;
-
-  return (
-    <div className={`result-card ${ex ? 'expanded' : ''}`} onClick={() => setEx(!ex)} role="button" tabIndex={0}
-      aria-expanded={ex} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setEx(!ex); }}}
-      style={{ animation: `cardIn 0.15s ease-out ${index * 0.03}s both` }}>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <div className="op-logo" style={{ width: 40, height: 40, background: color + '20', color, fontSize: 16 }}>{name.charAt(0)}</div>
-        <div style={{ flex: 1, marginLeft: 12 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
-            <span style={{ fontSize: 14, fontWeight: 700, color }}>{name}</span>
-            {plan.size === 'sport' && <span className="badge badge-5g">Sport</span>}
-            {hasCampaign && <span className="badge badge-campaign">Kampanj</span>}
-          </div>
-          <div style={{ fontSize: 12, color: 'var(--sub)' }}>{plan.name.replace(name + ' ', '')} · {plan.channels} kanaler</div>
-        </div>
-        <div style={{ textAlign: 'right' }}>
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'flex-end', gap: 3 }}>
-            <span style={{ fontSize: 22, fontWeight: 800, fontFamily: "'DM Mono', monospace", color: hasCampaign ? 'var(--mint)' : 'var(--text)' }}>{price}</span>
-            <span style={{ fontSize: 10, color: 'var(--muted)' }}>kr</span>
-          </div>
-          {hasCampaign && <div style={{ fontSize: 10, color: 'var(--muted)', textDecoration: 'line-through' }}>{plan.price} kr</div>}
-        </div>
+// ═══ TV VIEW ═══
+function TvViewTab(){
+  const[step,setStep]=useState(-1);const[size,setSize]=useState(null);const[sport,setSport]=useState(null);
+  const results=useMemo(()=>{if(step<2)return[];let r=TV_PLANS.filter(t=>t.type!=="streaming");if(size==="bas")r=r.filter(t=>t.channels<=25);else if(size==="mellan")r=r.filter(t=>t.channels>20&&t.channels<=50);else if(size==="stor")r=r.filter(t=>t.channels>40);if(sport)r=r.filter(t=>t.streaming.some(s=>s.toLowerCase().includes("sport")||s.toLowerCase().includes("viaplay")));r.sort((a,b)=>(a.campaignPrice||a.price)-(b.campaignPrice||b.price));return r;},[step,size,sport]);
+  const popular=TV_PLANS.filter(t=>t.type!=="streaming").sort((a,b)=>(a.campaignPrice||a.price)-(b.campaignPrice||b.price)).slice(0,4);
+  const Choice=({label,sub,onClick})=>(<button onClick={onClick} style={{flex:"1 1 140px",padding:"16px 12px",borderRadius:14,border:`1px solid rgba(255,255,255,0.06)`,background:"rgba(255,255,255,0.02)",color:C.muted,fontSize:15,fontWeight:700,cursor:"pointer",fontFamily:"inherit",textAlign:"center",transition:"all .15s"}} onMouseEnter={e=>{e.currentTarget.style.borderColor=C.cyan;e.currentTarget.style.color=C.text;}} onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(255,255,255,0.06)";e.currentTarget.style.color=C.muted;}}>{label}{sub&&<div style={{fontSize:11,fontWeight:400,color:C.subtle,marginTop:4}}>{sub}</div>}</button>);
+  return(<div>
+    <section style={{textAlign:"center",padding:"36px 20px 20px"}}><h2 style={{fontSize:"clamp(24px,4vw,40px)",fontWeight:800,letterSpacing:"-0.03em",marginBottom:6,color:C.text}}>Jämför <span style={{background:`linear-gradient(135deg,${C.mint},${C.cyan})`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>TV-paket</span></h2><p style={{fontSize:14,color:C.subtle}}>Kanalpaket och linjär TV.</p></section>
+    {step===-1&&<div style={{maxWidth:640,margin:"0 auto"}}>
+      <div style={{fontSize:13,fontWeight:700,color:C.text,marginBottom:10,textAlign:"center"}}>Populärast just nu</div>
+      <div style={{display:"flex",flexDirection:"column",gap:4,marginBottom:20}}>{popular.map(tv=>{const oc=(TV_OPERATORS.find(o=>o.id===tv.operator)||{}).color||C.muted;const on=opName(tv.operator);const hc=tv.campaignPrice;return(<div key={tv.id} style={{display:"flex",alignItems:"center",padding:"10px 14px",borderRadius:10,background:"rgba(255,255,255,0.02)",border:"1px solid rgba(255,255,255,0.04)"}}>
+        <div style={{display:"flex",alignItems:"center",gap:6,flex:1}}><div style={{width:7,height:7,borderRadius:"50%",background:oc}}/><span style={{fontSize:13,fontWeight:700,color:oc}}>{on}</span><span style={{fontSize:11,color:C.muted}}>{tv.channels} kanaler</span></div>
+        <span style={{fontSize:20,fontWeight:800,fontFamily:"'DM Mono',monospace",color:hc?C.mint:C.text}}>{hc||tv.price}</span><span style={{fontSize:10,color:C.subtle,marginLeft:4}}>kr/mån</span>
+        {hc&&<span style={{fontSize:10,color:C.subtle,textDecoration:"line-through",marginLeft:6}}>{tv.price}</span>}
+      </div>);})}</div>
+      <button onClick={()=>setStep(0)} style={{display:"block",width:"100%",maxWidth:400,margin:"0 auto",padding:"16px 24px",borderRadius:14,background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:15,fontWeight:800,cursor:"pointer",fontFamily:"inherit",border:"none"}}>Jämför alla TV-paket →</button>
+    </div>}
+    {step===0&&<div style={{maxWidth:600,margin:"0 auto",textAlign:"center",animation:"fadeIn .2s"}}>
+      <div style={{fontSize:11,fontWeight:600,color:C.cyan,textTransform:"uppercase",marginBottom:8}}>Steg 1 av 2</div>
+      <div style={{fontSize:22,fontWeight:800,color:C.text,marginBottom:24}}>Hur stort TV-paket?</div>
+      <div style={{display:"flex",gap:10,maxWidth:480,margin:"0 auto"}}>
+        <Choice label="Bas" sub="~20 kanaler" onClick={()=>{setSize("bas");setStep(1);}}/>
+        <Choice label="Mellan" sub="~40 kanaler" onClick={()=>{setSize("mellan");setStep(1);}}/>
+        <Choice label="Stort" sub="60+ kanaler" onClick={()=>{setSize("stor");setStep(1);}}/>
       </div>
-      {!ex && <div style={{ textAlign: 'center', marginTop: 6, paddingTop: 4, borderTop: '1px solid var(--border)' }}><span style={{ fontSize: 10, fontWeight: 600, color: 'var(--cyan)', opacity: 0.6 }}>Visa detaljer</span></div>}
-      {ex && (
-        <div className="details" onClick={e => e.stopPropagation()} style={{ animation: 'fadeInFast 0.15s' }}>
-          {plan.perks.length > 0 && <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: 10 }}>{plan.perks.map((p, i) => <span key={i} className="perk">{p}</span>)}</div>}
-          {plan.streaming.length > 0 && (
-            <div style={{ fontSize: 12, color: 'var(--sub)', marginBottom: 8 }}>
-              Streaming inkl: <strong style={{ color: 'var(--text)' }}>{plan.streaming.join(', ')}</strong>
-            </div>
-          )}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px 16px', fontSize: 12, color: 'var(--sub)', marginBottom: 10, padding: '10px 0', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
-            <span>Kanaler: <strong style={{ color: 'var(--text)' }}>{plan.channels}</strong></span>
-            <span>Typ: <strong style={{ color: 'var(--text)' }}>{plan.type === 'fiber' ? 'Fiber-TV' : 'Streaming'}</strong></span>
-            <span>Play: <strong style={{ color: 'var(--text)' }}>{plan.playService}</strong></span>
-            {hasCampaign && <span>Kampanj: <strong style={{ color: 'var(--mint)' }}>{plan.campaignMonths} mån</strong></span>}
-          </div>
-          <a href={plan.affiliateUrl} target="_blank" rel="noopener noreferrer sponsored" className="cta cta-operator cta-full"
-            style={{ background: `linear-gradient(135deg, ${color}, ${color}cc)` }} onClick={e => e.stopPropagation()}>
-            Gå till {name} →
-          </a>
-          <div className="disclosure">Vi får provision — ditt pris påverkas inte</div>
+    </div>}
+    {step===1&&<div style={{maxWidth:600,margin:"0 auto",textAlign:"center",animation:"fadeIn .2s"}}>
+      <button onClick={()=>setStep(0)} style={{display:"flex",alignItems:"center",gap:4,background:"none",border:"none",color:C.cyan,fontSize:12,fontWeight:600,cursor:"pointer",fontFamily:"inherit",padding:0,marginBottom:16}}>← Tillbaka</button>
+      <div style={{fontSize:11,fontWeight:600,color:C.cyan,textTransform:"uppercase",marginBottom:8}}>Steg 2 av 2</div>
+      <div style={{fontSize:22,fontWeight:800,color:C.text,marginBottom:24}}>Vill du ha sport?</div>
+      <div style={{display:"flex",gap:12,maxWidth:400,margin:"0 auto"}}>
+        <Choice label="Ja, sport" sub="Allsvenskan, PL, F1..." onClick={()=>{setSport(true);setStep(2);}}/>
+        <Choice label="Nej tack" sub="Kanaler räcker" onClick={()=>{setSport(false);setStep(2);}}/>
+      </div>
+    </div>}
+    {step===2&&<div style={{maxWidth:640,margin:"0 auto",animation:"fadeIn .2s"}}>
+      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16}}>
+        <button onClick={()=>setStep(1)} style={{background:"none",border:"none",color:C.cyan,fontSize:12,fontWeight:600,cursor:"pointer",fontFamily:"inherit",padding:0}}>← Ändra</button>
+        <div style={{fontSize:12,color:C.subtle}}>{results.length} paket · {size} · {sport?"med sport":"utan sport"}</div>
+      </div>
+      {results.length===0&&<div style={{textAlign:"center",padding:40,color:C.subtle}}>Inga TV-paket matchar. Prova annan storlek.</div>}
+      <div style={{display:"flex",flexDirection:"column",gap:4}}>{results.map((tv,i)=>{const oc=(TV_OPERATORS.find(o=>o.id===tv.operator)||{}).color||C.muted;const on=opName(tv.operator);const hc=tv.campaignPrice;return(<div key={tv.id} style={{display:"flex",alignItems:"center",padding:"12px 16px",borderRadius:12,background:"rgba(255,255,255,0.02)",border:"1px solid rgba(255,255,255,0.04)",animation:`cardIn .15s ease-out ${i*.02}s both`}}>
+        <div style={{flex:1}}><div style={{display:"flex",alignItems:"center",gap:6,marginBottom:2}}><div style={{width:8,height:8,borderRadius:"50%",background:oc}}/><span style={{fontSize:14,fontWeight:700,color:oc}}>{on}</span><span style={{fontSize:10,color:C.subtle}}>{tv.channels} kan.</span></div>
+          <div style={{fontSize:12,color:C.muted,paddingLeft:14}}>{tv.name.replace(on+" ","")}</div>
+          {tv.streaming.length>0&&<div style={{display:"flex",gap:3,flexWrap:"wrap",paddingLeft:14,marginTop:2}}>{tv.streaming.map((s,j)=>(<span key={j} style={{fontSize:8,fontWeight:600,padding:"1px 5px",borderRadius:4,background:"rgba(0,180,216,0.06)",color:C.cyan}}>{s}</span>))}</div>}
         </div>
-      )}
-    </div>
-  );
+        <div style={{textAlign:"right",marginRight:12}}><span style={{fontSize:24,fontWeight:800,fontFamily:"'DM Mono',monospace",color:hc?C.mint:C.text}}>{hc||tv.price}</span><span style={{fontSize:10,color:C.subtle,marginLeft:4}}>kr/mån</span>{hc&&<div style={{fontSize:10,color:C.subtle,textDecoration:"line-through"}}>{tv.price} kr</div>}</div>
+        <a href={tv.affiliateUrl} target="_blank" rel="noopener noreferrer sponsored" style={{padding:"8px 14px",borderRadius:8,background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:11,fontWeight:800,textDecoration:"none",flexShrink:0}}>Välj →</a>
+      </div>);})}
+      </div>
+    </div>}
+  </div>);
 }
 
-function TVPage() {
-  const [size, setSize] = useState('all');
-  const [sort, setSort] = useState('cheapest');
-
-  const results = useMemo(() => {
-    let f = [...TV_PLANS];
-    if (size !== 'all') f = f.filter(p => p.size === size);
-    const getP = p => p.campaignPrice || p.price;
-    if (sort === 'cheapest') f.sort((a, b) => getP(a) - getP(b));
-    else if (sort === 'channels') f.sort((a, b) => b.channels - a.channels || getP(a) - getP(b));
-    return f;
-  }, [size, sort]);
-
+function TvPage() {
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg)', color: 'var(--text)' }}>
-      <NavBar />
-      <div className="cat-tabs">{CAT_TABS.map(t => <a key={t.id} href={t.href} className={`cat-tab ${t.active ? 'active' : ''}`}>{t.label}</a>)}</div>
-      <main id="main" className="container">
-        <section className="section fade-in">
-          <h1 style={{ fontSize: 22, marginBottom: 4 }}>Jämför TV-paket</h1>
-          <p style={{ fontSize: 13, color: 'var(--sub)', marginBottom: 16 }}>Sport, film och serier — se vilken operatör som ger mest</p>
-
-          <div style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--sub)', marginBottom: 6 }}>Storlek</div>
-            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-              {SIZES.map(s => <button key={s.id} onClick={() => setSize(s.id)} className={`chip ${size === s.id ? 'active' : ''}`} aria-pressed={size === s.id}>{s.label}</button>)}
-            </div>
-          </div>
-
-          <div className="sort-bar">
-            <button onClick={() => setSort('cheapest')} className={`chip ${sort === 'cheapest' ? 'active' : ''}`} aria-pressed={sort === 'cheapest'}>Billigast</button>
-            <button onClick={() => setSort('channels')} className={`chip ${sort === 'channels' ? 'active' : ''}`} aria-pressed={sort === 'channels'}>Flest kanaler</button>
-          </div>
-
-          <div style={{ fontSize: 12, color: 'var(--sub)', margin: '10px 0 12px' }}><strong style={{ color: 'var(--text)' }}>{results.length} TV-paket</strong></div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-            {results.length === 0 && <div style={{ textAlign: 'center', padding: 40, color: 'var(--sub)' }}><div style={{ fontSize: 32, marginBottom: 10 }}>🔍</div><div style={{ fontSize: 15, fontWeight: 700 }}>Inga resultat</div></div>}
-            {results.map((p, i) => <TVCard key={p.id} plan={p} index={i} />)}
-          </div>
-
-          <div className="trust-bar" style={{ marginTop: 24 }}>
-            <div className="trust-item"><span aria-hidden="true">🔒</span> Oberoende</div>
-            <div className="trust-item"><span aria-hidden="true">🔄</span> Dagliga priser</div>
-            <div className="trust-item"><span aria-hidden="true">💰</span> Alltid gratis</div>
-          </div>
-        </section>
-      </main>
-      <Footer />
-      <BottomTabs active="compare" />
-    </div>
+    <Page active="jamfor">
+      <div style={{paddingTop:28}}>
+        <ModePills active="tv"/>
+      </div>
+      <TvViewTab/>
+    </Page>
   );
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(<TVPage />);
+ReactDOM.createRoot(document.getElementById('root')).render(<TvPage/>);
 </script>
 </body>
 </html>

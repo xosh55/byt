@@ -158,5 +158,37 @@ function ByytPage({ active, children }) {
   );
 }
 
+// ─── Mode-pills (delas mellan jämför-sidorna) ────────────────
+function ByytModePills({ active }) {
+  const MODES = [
+    { id: "mobil",     l: "Mobil",           href: "/" },
+    { id: "bredband",  l: "Bredband",        href: "/bredband.html" },
+    { id: "tv",        l: "TV",              href: "/tv.html" },
+    { id: "streaming", l: "Streaming",       href: "/streaming.html" },
+    { id: "telefoner", l: "Telefoner",       href: "/telefoner.html" },
+    { id: "paket",     l: "Allt-i-ett",      href: "/paket.html" },
+    { id: "radgivare", l: "Kolla ditt pris", href: "/radgivare.html" },
+  ];
+  return (
+    <div style={{ display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "center", marginBottom: 24, position: "relative", zIndex: 1 }}>
+      {MODES.map(m => {
+        const a = active === m.id;
+        return (
+          <a key={m.id} href={m.href} style={{
+            padding: "10px 20px", borderRadius: 24,
+            border: a ? "none" : `1px solid ${C.surface}`,
+            textDecoration: "none", fontSize: 13, fontWeight: 700,
+            background: a ? `linear-gradient(135deg,${C.mint},${C.cyan})` : C.dark,
+            color: a ? C.ink : C.muted
+          }}>{m.l}</a>
+        );
+      })}
+    </div>
+  );
+}
+
 // Exponera globalt så mount-skripten kan använda dem
-window.Byyt = { Logo: ByytLogo, Header: ByytHeader, Footer: ByytFooter, Page: ByytPage };
+window.Byyt = {
+  Logo: ByytLogo, Header: ByytHeader, Footer: ByytFooter,
+  Page: ByytPage, ModePills: ByytModePills
+};
