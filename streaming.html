@@ -1,161 +1,351 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jämför streamingtjänster 2026 | Byyt.se</title>
-<meta name="description" content="Netflix, HBO Max, Disney+, Viaplay — vilken streamingtjänst är bäst och billigast? Komplett jämförelse.">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://byyt.se/streaming.html">
-<meta property="og:title" content="Jämför streamingtjänster 2026 | Byyt.se">
-<meta property="og:description" content="Vilken streamingtjänst är bäst och billigast? Komplett jämförelse.">
-<meta property="og:url" content="https://byyt.se/streaming.html">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="sv_SE">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jämför streaming 2026 — Netflix, HBO, Disney+ & sport | Byyt.se</title>
+<meta name="description" content="Jämför alla streamingtjänster: Netflix, HBO Max, Disney+, Viaplay, TV4 Play. Se billigaste sättet att titta på sport." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://byyt.se/streaming.html" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://byyt.se/streaming.html" />
+<meta property="og:title" content="Jämför streaming 2026 — Netflix, HBO, Disney+ & sport | Byyt.se" />
+<meta property="og:description" content="Jämför alla streamingtjänster: Netflix, HBO Max, Disney+, Viaplay, TV4 Play. Se billigaste sättet att titta på sport." />
+<meta property="og:site_name" content="Byyt.se" />
+<meta property="og:locale" content="sv_SE" />
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%2306D6A0'/><stop offset='50%25' stop-color='%2300B4D8'/><stop offset='100%25' stop-color='%238B5CF6'/></linearGradient></defs><circle cx='16' cy='16' r='15' fill='url(%23g)'/><g stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' fill='none'><path d='M8 11L19 11'/><polyline points='16,8 19,11 16,14'/><path d='M24 21L13 21'/><polyline points='16,18 13,21 16,24'/></g></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%2306D6A0'/><stop offset='50%25' stop-color='%2300B4D8'/><stop offset='100%25' stop-color='%238B5CF6'/></linearGradient></defs><circle cx='16' cy='16' r='15' fill='url(%23g)'/><g stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' fill='none'><path d='M8 11L19 11'/><polyline points='16,8 19,11 16,14'/><path d='M24 21L13 21'/><polyline points='16,18 13,21 16,24'/></g></svg>" />
 <link rel="stylesheet" href="shared.css">
+<script src="data.js"></script>
 <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
 <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.26.9/babel.min.js"></script>
-<script src="data.js"></script>
-<script src="shared.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1R75D4WR44"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-1R75D4WR44');</script>
 </head>
 <body>
-<a href="#main" class="skip-link">Hoppa till innehåll</a>
 <div id="root"></div>
-<script type="text/babel">
+<script type="text/babel" data-presets="react">
+const { C, OPERATORS, opColor, opName, PLANS, CATEGORIES, SORT_OPTIONS, BUNDLE_DISCOUNTS, BYYT_TIPS, BROADBAND, BB_OPERATORS, TV_OPERATORS, TV_PLANS, URLS, getUrl, STREAMING, SPORT_RIGHTS, PHONES, VIA_OP, SPORT_CARDS } = window.BYYT;
 const { useState, useMemo } = React;
 
-const CAT_TABS = [
-  { id: 'mobil', label: '📱 Mobil', href: 'mobil.html' },
-  { id: 'bredband', label: '🌐 Bredband', href: 'bredband.html' },
-  { id: 'tv', label: '📺 TV', href: 'tv.html' },
-  { id: 'streaming', label: '🎬 Streaming', href: 'streaming.html', active: true },
-  { id: 'telefoner', label: '📞 Telefoner', href: 'telefoner.html' },
-];
-const FILTERS = [
-  { id: 'all', label: 'Alla' },
-  { id: 'film', label: '🎬 Film & Serier' },
-  { id: 'sport', label: '⚽ Sport' },
-];
+// ─── inlined shared.js ───
 
-const STREAM_COLORS = {
-  netflix: '#E50914', hbomax: '#B835FC', disneyplus: '#0063E5', viaplayfilm: '#FF5A00', viaplaytotal: '#FF5A00',
-  prime: '#00A8E1', skyshowtime: '#6B3FA0', tv4play: '#FF2D55', tv4sport: '#FF2D55', tv4hockey: '#FF2D55',
-  appletv: '#333', discoveryplus: '#003B6F', svtplay: '#1B8B2D',
-};
+// ─── Logo ────────────────────────────────────────────────────
+function ByytLogo({ size = 40, href = "/" }) {
+  const inner = (
+    <div style={{ display: "flex", alignItems: "center", gap: 10, cursor: href ? "pointer" : "default" }}>
+      <svg width={size} height={size} viewBox="0 0 120 120">
+        <defs>
+          <linearGradient id="logoG" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor={C.mint} />
+            <stop offset="50%" stopColor={C.cyan} />
+            <stop offset="100%" stopColor={C.violet} />
+          </linearGradient>
+        </defs>
+        <circle cx="60" cy="60" r="56" fill="url(#logoG)" />
+        <g stroke="#FFF" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" fill="none">
+          <path d="M36 44L67 44" />
+          <polyline points="59,36 67,44 59,52" />
+          <path d="M84 76L53 76" />
+          <polyline points="61,68 53,76 61,84" />
+        </g>
+      </svg>
+      <span style={{
+        fontSize: size * 0.62, fontWeight: 800, letterSpacing: "-0.03em",
+        background: `linear-gradient(135deg,${C.mint},${C.cyan},${C.violet})`,
+        WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent"
+      }}>byyt</span>
+    </div>
+  );
+  if (!href) return inner;
+  return <a href={href} style={{ textDecoration: "none" }}>{inner}</a>;
+}
 
-function StreamCard({ service, index }) {
-  const [ex, setEx] = useState(index === 0);
-  const color = STREAM_COLORS[service.id] || '#94A3B8';
-  const cheapest = service.tiers[0];
-  const url = (typeof URLS !== 'undefined' && URLS[service.id]) || '#';
-
+// ─── Header med riktig URL-navigation ────────────────────────
+function ByytHeader({ active }) {
+  const [mm, setMm] = React.useState(false);
+  const NAV = [
+    { id: "jamfor",     l: "Jämför",     href: "/" },
+    { id: "om",         l: "Om oss",     href: "/om.html" },
+    { id: "integritet", l: "Integritet", href: "/integritet.html" },
+    { id: "kontakt",    l: "Kontakt",    href: "/kontakt.html" },
+  ];
   return (
-    <div className={`result-card ${ex ? 'expanded' : ''}`} onClick={() => setEx(!ex)} role="button" tabIndex={0}
-      aria-expanded={ex} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setEx(!ex); }}}
-      style={{ animation: `cardIn 0.15s ease-out ${index * 0.03}s both` }}>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <div className="op-logo" style={{ width: 40, height: 40, background: color + '20', color, fontSize: 14, fontWeight: 800 }}>{service.name.charAt(0)}</div>
-        <div style={{ flex: 1, marginLeft: 12 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
-            <span style={{ fontSize: 14, fontWeight: 700, color }}>{service.name}</span>
-            {service.sport && <span className="badge badge-5g">Sport</span>}
-            {cheapest.p === 0 && <span className="badge badge-tip">Gratis</span>}
-          </div>
-          <div style={{ fontSize: 12, color: 'var(--sub)' }}>{service.focus}</div>
-        </div>
-        <div style={{ textAlign: 'right' }}>
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'flex-end', gap: 3 }}>
-            <span style={{ fontSize: 22, fontWeight: 800, fontFamily: "'DM Mono', monospace", color: cheapest.p === 0 ? 'var(--mint)' : 'var(--text)' }}>
-              {cheapest.p === 0 ? 'Gratis' : cheapest.p}
-            </span>
-            {cheapest.p > 0 && <span style={{ fontSize: 10, color: 'var(--muted)' }}>kr</span>}
-          </div>
-          {service.tiers.length > 1 && <div style={{ fontSize: 10, color: 'var(--muted)' }}>från</div>}
-        </div>
-      </div>
-      {!ex && <div style={{ textAlign: 'center', marginTop: 6, paddingTop: 4, borderTop: '1px solid var(--border)' }}><span style={{ fontSize: 10, fontWeight: 600, color: 'var(--cyan)', opacity: 0.6 }}>Visa detaljer</span></div>}
-      {ex && (
-        <div className="details" onClick={e => e.stopPropagation()} style={{ animation: 'fadeInFast 0.15s' }}>
-          <div style={{ marginBottom: 10 }}>
-            {service.tiers.map((t, i) => (
-              <div key={i} style={{
-                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                padding: '8px 0', borderBottom: i < service.tiers.length - 1 ? '1px solid var(--border)' : 'none'
-              }}>
-                <span style={{ fontSize: 13, color: 'var(--text)', fontWeight: 600 }}>{t.n}</span>
-                <span style={{ fontSize: 15, fontWeight: 800, fontFamily: "'DM Mono', monospace", color: t.p === 0 ? 'var(--mint)' : 'var(--text)' }}>
-                  {t.p === 0 ? 'Gratis' : t.p + ' kr/mån'}
-                </span>
-              </div>
-            ))}
-          </div>
-          {service.sport && service.sports && (
-            <div style={{ marginBottom: 10 }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--sub)', marginBottom: 4 }}>Sporter</div>
-              <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-                {service.sports.map((s, i) => <span key={i} className="perk">{s}</span>)}
-              </div>
-            </div>
-          )}
-          <a href={url} target="_blank" rel="noopener noreferrer sponsored" className="cta cta-operator cta-full"
-            style={{ background: `linear-gradient(135deg, ${color}, ${color}cc)` }} onClick={e => e.stopPropagation()}>
-            Gå till {service.name} →
-          </a>
-          <div className="disclosure">Vi får provision — ditt pris påverkas inte</div>
+    <>
+      <header style={{
+        padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between",
+        borderBottom: "1px solid rgba(255,255,255,.04)", backdropFilter: "blur(20px)",
+        position: "sticky", top: 0, zIndex: 100, background: "rgba(8,14,26,.92)", height: 60
+      }}>
+        <ByytLogo size={30} href="/" />
+        <nav style={{ display: "flex", gap: 2 }} className="dn">
+          {NAV.map(n => {
+            const a = active === n.id;
+            return (
+              <a key={n.id} href={n.href} style={{
+                padding: "6px 12px", borderRadius: 8, textDecoration: "none",
+                background: a ? "rgba(0,180,216,.08)" : "transparent",
+                color: a ? C.cyan : C.muted, fontSize: 13, fontWeight: a ? 700 : 500
+              }}>{n.l}</a>
+            );
+          })}
+        </nav>
+        <button onClick={() => setMm(!mm)} className="mb" style={{
+          display: "none", background: "none", border: `1px solid ${C.surface}`,
+          borderRadius: 8, padding: "5px 8px", color: C.muted, cursor: "pointer", fontSize: 14
+        }}>☰</button>
+      </header>
+      {mm && (
+        <div style={{
+          position: "fixed", top: 60, left: 0, right: 0, zIndex: 99,
+          background: C.dark, borderBottom: `1px solid ${C.surface}`,
+          padding: 10, display: "flex", flexDirection: "column", gap: 2,
+          animation: "fadeIn .15s"
+        }}>
+          {NAV.map(n => {
+            const a = active === n.id;
+            return (
+              <a key={n.id} href={n.href} style={{
+                padding: "10px 16px", borderRadius: 10, textDecoration: "none",
+                background: a ? "rgba(0,180,216,.06)" : "transparent",
+                color: a ? C.cyan : C.muted, fontSize: 14, fontWeight: 600, textAlign: "left"
+              }}>{n.l}</a>
+            );
+          })}
         </div>
       )}
+    </>
+  );
+}
+
+// ─── Footer med riktig URL-navigation ────────────────────────
+function ByytFooter() {
+  const links = [
+    { l: "Jämför",     href: "/" },
+    { l: "Om oss",     href: "/om.html" },
+    { l: "Integritet", href: "/integritet.html" },
+    { l: "Kontakt",    href: "/kontakt.html" },
+  ];
+  return (
+    <footer style={{
+      borderTop: "1px solid rgba(255,255,255,.03)", padding: "32px 24px 24px",
+      background: C.dark, marginTop: 40
+    }}>
+      <div style={{ maxWidth: 960, margin: "0 auto" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 24, marginBottom: 20 }}>
+          <div>
+            <ByytLogo size={28} href="/" />
+            <p style={{ fontSize: 11, color: C.subtle, marginTop: 6, maxWidth: 220, lineHeight: 1.5 }}>
+              Oberoende jämförelse för mobil, bredband, TV, streaming och telefoner.
+            </p>
+          </div>
+          <div style={{ display: "flex", gap: 28 }}>
+            <div>
+              <div style={{ fontSize: 10, color: C.subtle, fontWeight: 600, textTransform: "uppercase", marginBottom: 8 }}>Sidor</div>
+              {links.map(i => (
+                <a key={i.href} href={i.href} style={{
+                  display: "block", padding: "2px 0", color: C.muted,
+                  fontSize: 12, textDecoration: "none"
+                }}>{i.l}</a>
+              ))}
+            </div>
+            <div>
+              <div style={{ fontSize: 10, color: C.subtle, fontWeight: 600, textTransform: "uppercase", marginBottom: 8 }}>Socialt</div>
+              <a href="https://instagram.com/byyt.se" target="_blank" rel="noopener noreferrer" style={{ color: C.muted, textDecoration: "none", fontSize: 12 }}>Instagram</a>
+            </div>
+          </div>
+        </div>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, color: C.surface2 }}>
+          <span>© 2026 Byyt.se</span>
+          <span>Priser: mars 2026</span>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ─── Page wrapper — minimal layout används av alla sidor ─────
+function ByytPage({ active, children }) {
+  return (
+    <div style={{
+      minHeight: "100vh", background: C.ink, color: C.text,
+      fontFamily: "'Plus Jakarta Sans',system-ui,sans-serif", overflowX: "hidden"
+    }}>
+      <ByytHeader active={active} />
+      <main style={{ maxWidth: 1200, margin: "0 auto", padding: "0 20px", position: "relative", zIndex: 1 }} className="mw">
+        {children}
+      </main>
+      <ByytFooter />
     </div>
   );
 }
+
+// ─── Mode-pills (delas mellan jämför-sidorna) ────────────────
+function ByytModePills({ active }) {
+  const MODES = [
+    { id: "mobil",     l: "Mobil",           href: "/" },
+    { id: "bredband",  l: "Bredband",        href: "/bredband.html" },
+    { id: "tv",        l: "TV",              href: "/tv.html" },
+    { id: "streaming", l: "Streaming",       href: "/streaming.html" },
+    { id: "telefoner", l: "Telefoner",       href: "/telefoner.html" },
+    { id: "paket",     l: "Allt-i-ett",      href: "/paket.html" },
+    { id: "radgivare", l: "Kolla ditt pris", href: "/radgivare.html" },
+  ];
+  return (
+    <div style={{ display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "center", marginBottom: 24, position: "relative", zIndex: 1 }}>
+      {MODES.map(m => {
+        const a = active === m.id;
+        return (
+          <a key={m.id} href={m.href} style={{
+            padding: "10px 20px", borderRadius: 24,
+            border: a ? "none" : `1px solid ${C.surface}`,
+            textDecoration: "none", fontSize: 13, fontWeight: 700,
+            background: a ? `linear-gradient(135deg,${C.mint},${C.cyan})` : C.dark,
+            color: a ? C.ink : C.muted
+          }}>{m.l}</a>
+        );
+      })}
+    </div>
+  );
+}
+
+// Exponera globalt så mount-skripten kan använda dem
+window.Byyt = {
+  Logo: ByytLogo, Header: ByytHeader, Footer: ByytFooter,
+  Page: ByytPage, ModePills: ByytModePills
+};
+
+// ─── end shared ───
+
+const { Page, ModePills } = window.Byyt;
+
+function StreamingView(){
+  const[step,setStep]=useState(-1);const[tab,setTab]=useState("alla");const[sel,setSel]=useState(null);const[selSport,setSelSport]=useState(null);
+  const filmServices=STREAMING.filter(s=>!s.sport);
+  const sportServices=STREAMING.filter(s=>s.sport);
+  const popular=[{n:"Netflix",p:109},{n:"Disney+",p:69},{n:"HBO Max",p:79},{n:"SVT Play",p:0}];
+  const Choice=({label,sub,onClick})=>(<button onClick={onClick} style={{flex:"1 1 140px",padding:"16px 12px",borderRadius:14,border:`1px solid rgba(255,255,255,0.06)`,background:"rgba(255,255,255,0.02)",color:C.muted,fontSize:15,fontWeight:700,cursor:"pointer",fontFamily:"inherit",textAlign:"center",transition:"all .15s"}} onMouseEnter={e=>{e.currentTarget.style.borderColor=C.cyan;e.currentTarget.style.color=C.text;}} onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(255,255,255,0.06)";e.currentTarget.style.color=C.muted;}}>{label}{sub&&<div style={{fontSize:11,fontWeight:400,color:C.subtle,marginTop:4}}>{sub}</div>}</button>);
+  return(<div>
+    <section style={{textAlign:"center",padding:"36px 20px 20px"}}><h2 style={{fontSize:"clamp(24px,4vw,40px)",fontWeight:800,letterSpacing:"-0.03em",marginBottom:6,color:C.text}}>Jämför <span style={{background:`linear-gradient(135deg,${C.mint},${C.cyan})`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>streaming</span></h2><p style={{fontSize:14,color:C.subtle}}>Film, serier, sport — fristående och via operatör.</p></section>
+    {step===-1&&<div style={{maxWidth:640,margin:"0 auto"}}>
+      <div style={{fontSize:13,fontWeight:700,color:C.text,marginBottom:10,textAlign:"center"}}>Billigaste streaming</div>
+      <div style={{display:"flex",flexDirection:"column",gap:4,marginBottom:20}}>{popular.map((s,i)=>(<div key={i} style={{display:"flex",alignItems:"center",padding:"10px 14px",borderRadius:10,background:"rgba(255,255,255,0.02)",border:"1px solid rgba(255,255,255,0.04)"}}>
+        <span style={{fontSize:13,fontWeight:700,color:C.text,flex:1}}>{s.n}</span>
+        <span style={{fontSize:20,fontWeight:800,fontFamily:"'DM Mono',monospace",color:s.p===0?C.success:C.mint}}>{s.p===0?"Gratis":s.p+" kr"}</span>{s.p>0&&<span style={{fontSize:10,color:C.subtle,marginLeft:4}}>kr/mån</span>}
+      </div>))}</div>
+      <button onClick={()=>setStep(0)} style={{display:"block",width:"100%",maxWidth:400,margin:"0 auto",padding:"16px 24px",borderRadius:14,background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:15,fontWeight:800,cursor:"pointer",fontFamily:"inherit",border:"none"}}>Jämför all streaming →</button>
+    </div>}
+    {step===0&&<div style={{maxWidth:600,margin:"0 auto",textAlign:"center",animation:"fadeIn .2s"}}>
+      <div style={{fontSize:22,fontWeight:800,color:C.text,marginBottom:6}}>Vad vill du titta på?</div>
+      <div style={{fontSize:13,color:C.subtle,marginBottom:24}}>Vi visar rätt tjänster och priser</div>
+      <div style={{display:"flex",gap:10,maxWidth:500,margin:"0 auto",flexWrap:"wrap"}}>
+        <Choice label="Film & Serier" sub="Netflix, HBO, Disney+..." onClick={()=>{setTab("film");setStep(1);}}/>
+        <Choice label="Sport" sub="Allsvenskan, PL, F1..." onClick={()=>{setTab("sport");setStep(1);}}/>
+        <Choice label="Visa allt" sub="All streaming" onClick={()=>{setTab("alla");setStep(1);}}/>
+      </div>
+    </div>}
+    {step===1&&<div style={{animation:"fadeIn .2s"}}>
+      <button onClick={()=>{setStep(0);setSel(null);setSelSport(null);}} style={{display:"flex",alignItems:"center",gap:4,background:"none",border:"none",color:C.cyan,fontSize:12,fontWeight:600,cursor:"pointer",fontFamily:"inherit",padding:0,marginBottom:16}}>← Ändra</button>
+
+    {/* ═══ SPORT SECTION ═══ */}
+    {(tab==="alla"||tab==="sport")&&<div style={{marginBottom:28}}>
+      {tab==="alla"&&<div style={{fontSize:16,fontWeight:800,color:C.text,marginBottom:12,display:"flex",alignItems:"center",gap:8}}>Sport <span style={{fontSize:11,fontWeight:600,color:C.subtle}}>— klicka för att se alla sätt att titta</span></div>}
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(300px,1fr))",gap:12}}>
+        {SPORT_CARDS.map(sc=>{const isOpen=selSport===sc.sport;const cheapest=sc.ways[0];return(<div key={sc.sport} style={{background:C.dark,border:`1px solid ${isOpen?"rgba(139,92,246,0.3)":C.surface}`,borderRadius:16,padding:"18px 20px",cursor:"pointer",transition:"all .2s"}} onClick={()=>setSelSport(isOpen?null:sc.sport)}>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
+            <div style={{fontSize:16,fontWeight:800,color:C.text}}>{sc.sport}</div>
+            <div style={{textAlign:"right"}}><div style={{fontSize:10,color:C.subtle}}>Från</div><div style={{fontSize:22,fontWeight:800,color:cheapest.price===0?C.success:C.mint,fontFamily:"'DM Mono',monospace",lineHeight:1}}>{cheapest.price===0?"Gratis":cheapest.price+" kr"}</div></div>
+          </div>
+          <div style={{fontSize:11,color:C.cyan}}>{cheapest.name}</div>
+          {isOpen&&<div style={{marginTop:12,borderTop:`1px solid ${C.surface}`,paddingTop:12,display:"flex",flexDirection:"column",gap:6,animation:"fadeIn .15s"}} onClick={e=>e.stopPropagation()}>
+            <div style={{fontSize:10,fontWeight:600,color:C.subtle,textTransform:"uppercase"}}>Alla sätt att se {sc.sport}</div>
+            {sc.ways.map((w,i)=>(<a key={i} href={w.op?getUrl(w.op):getUrl(w.name.toLowerCase().includes("viaplay")?"viaplaytotal":w.name.toLowerCase().includes("tv4")?"tv4sport":"svtplay")} target="_blank" rel="noopener noreferrer sponsored" style={{display:"flex",alignItems:"center",gap:10,padding:"10px 12px",borderRadius:10,background:i===0?"rgba(6,214,160,0.06)":"rgba(255,255,255,0.02)",border:i===0?`1px solid rgba(6,214,160,0.2)`:`1px solid ${C.surface}`,textDecoration:"none",transition:"all .15s"}} onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(0,180,216,0.3)";}} onMouseLeave={e=>{e.currentTarget.style.borderColor=i===0?"rgba(6,214,160,0.2)":C.surface;}}>
+              {w.op&&<span style={{width:8,height:8,borderRadius:"50%",background:opColor(w.op),flexShrink:0}}/>}
+              <div style={{flex:1}}>
+                <div style={{fontSize:12,fontWeight:600,color:C.text}}>{w.name}</div>
+                {w.note&&<div style={{fontSize:10,color:C.subtle}}>{w.note}</div>}
+              </div>
+              <div style={{textAlign:"right"}}><span style={{fontSize:16,fontWeight:800,color:w.price===0?C.success:i===0?C.mint:C.text,fontFamily:"'DM Mono',monospace"}}>{w.price===0?"Gratis":w.price+" kr"}</span><div style={{fontSize:9,color:w.type==="operatör"?C.cyan:C.subtle}}>{w.type==="operatör"?"via operatör":"fristående"}</div></div>
+              <span style={{fontSize:10,fontWeight:700,color:i===0?C.mint:C.cyan,flexShrink:0}}>{w.price===0?"Se →":"Teckna →"}</span>
+            </a>))}
+          </div>}
+          {!isOpen&&<div style={{fontSize:11,color:C.cyan,marginTop:6,textAlign:"center"}}>{sc.ways.length} alternativ — klicka för att se alla →</div>}
+        </div>);})}
+      </div>
+    </div>}
+
+    {/* ═══ FILM & SERIER SECTION ═══ */}
+    {(tab==="alla"||tab==="film")&&<div>
+      {tab==="alla"&&<div style={{fontSize:16,fontWeight:800,color:C.text,marginBottom:12}}>Film & Serier</div>}
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(300px,1fr))",gap:12}}>
+        {filmServices.map(s=>{const isOpen=sel===s.id;const viaOp=VIA_OP.find(v=>v.streaming===s.id);return(<div key={s.id} style={{background:C.dark,border:`1px solid ${isOpen?"rgba(0,180,216,0.3)":C.surface}`,borderRadius:16,padding:"18px 20px",cursor:"pointer",transition:"all .2s"}} onClick={()=>setSel(isOpen?null:s.id)}>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><span style={{fontSize:16,fontWeight:800,color:C.text}}>{s.name}</span><span style={{fontSize:11,color:C.subtle}}>{s.focus}</span></div>
+          {/* Prisplaner */}
+          <div style={{display:"flex",flexDirection:"column",gap:4,marginTop:10}}>{s.tiers.map((t,i)=>(<div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"6px 10px",borderRadius:8,background:i===0?"rgba(6,214,160,0.06)":"rgba(255,255,255,0.02)"}}><span style={{fontSize:12,color:C.muted}}>{t.n}</span><span style={{fontSize:16,fontWeight:800,color:t.p===0?C.success:i===0?C.mint:C.text,fontFamily:"'DM Mono',monospace"}}>{t.p===0?"Gratis":t.p+" kr"}</span></div>))}</div>
+          {/* CTA */}
+          <a href={getUrl(s.id)} target="_blank" rel="noopener noreferrer sponsored" onClick={e=>e.stopPropagation()} style={{display:"block",marginTop:10,padding:"10px",borderRadius:10,textAlign:"center",background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:12,fontWeight:800,textDecoration:"none"}}>Teckna {s.name} →</a>
+          {/* Via operatör — expanderbar */}
+          {isOpen&&viaOp&&<div style={{marginTop:12,borderTop:`1px solid ${C.surface}`,paddingTop:12,animation:"fadeIn .15s"}} onClick={e=>e.stopPropagation()}>
+            <div style={{fontSize:10,fontWeight:700,color:C.cyan,textTransform:"uppercase",marginBottom:8}}>Billigare via operatör</div>
+            {viaOp.bundles.map((b,i)=>(<a key={i} href={getUrl(b.op)} target="_blank" rel="noopener noreferrer sponsored" style={{display:"flex",alignItems:"center",gap:10,padding:"10px 12px",borderRadius:10,background:"rgba(0,180,216,0.04)",border:`1px solid ${C.surface}`,marginBottom:4,textDecoration:"none",transition:"all .15s"}} onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(0,180,216,0.3)";}} onMouseLeave={e=>{e.currentTarget.style.borderColor=C.surface;}}>
+              <span style={{width:8,height:8,borderRadius:"50%",background:opColor(b.op),flexShrink:0}}/>
+              <div style={{flex:1}}><div style={{fontSize:12,fontWeight:600,color:opColor(b.op)}}>{b.name}</div><div style={{fontSize:10,color:C.subtle}}>{b.note}</div></div>
+              <div style={{textAlign:"right"}}><span style={{fontSize:16,fontWeight:800,color:C.mint,fontFamily:"'DM Mono',monospace"}}>{b.campaign||b.price} kr</span>{b.campaign&&<div style={{fontSize:9,color:C.subtle,textDecoration:"line-through"}}>{b.price} kr</div>}</div>
+              <span style={{fontSize:10,fontWeight:700,color:C.cyan,flexShrink:0}}>Välj →</span>
+            </a>))}
+          </div>}
+          {!isOpen&&viaOp&&<div style={{fontSize:11,color:C.cyan,marginTop:8,textAlign:"center"}}>Finns billigare via operatör — klicka →</div>}
+          {!isOpen&&!viaOp&&<div style={{fontSize:11,color:C.subtle,marginTop:8,textAlign:"center"}}>Klicka för mer info</div>}
+        </div>);})}
+      </div>
+    </div>}
+
+    {/* ═══ TV VIA STREAMING SECTION ═══ */}
+    {tab==="tvstream"&&<div>
+      <div style={{fontSize:14,fontWeight:800,color:C.text,marginBottom:6}}>TV-kanaler via streaming</div>
+      <div style={{fontSize:12,color:C.subtle,marginBottom:16}}>Operatörer som säljer TV-paket med kanaler och streaming samlat</div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(300px,1fr))",gap:12}}>
+        {[
+          {name:"Tele2 Streaming Flex",op:"tele2",price:199,campaign:99,channels:7,streaming:["Disney+","Välj 2 till (HBO Max, SkyShowtime, TV4 Play)"],note:"Byt streaming varje månad. Ingen TV-box."},
+          {name:"Tele2 TV Bas",op:"tele2",price:299,campaign:199,channels:30,streaming:["Tele2 Play"],note:"TV Hub ingår. 12 mån bindning."},
+          {name:"Tele2 TV & Streaming Sport",op:"tele2",price:1099,campaign:699,channels:32,streaming:["Disney+","Viaplay Total","TV4 Play Sport"],note:"All sport inkl. PL, F1, Allsvenskan. 12 mån bindning."},
+          {name:"Telenor TV Bas",op:"telenor",price:299,campaign:99,channels:21,streaming:["Telenor Stream"],note:"TV-hubb ingår. 6 mån kampanj."},
+          {name:"Telenor TV Premium",op:"telenor",price:899,campaign:499,channels:59,streaming:["Viaplay Total","HBO Max eller SkyShowtime"],note:"All sport + serier. 12 mån bindning."},
+          {name:"Telia TV Mini",op:"telia",price:249,campaign:149,channels:20,streaming:["Telia Play"],note:"Grundpaket. 6 mån kampanj."},
+          {name:"Telia Stora Sport",op:"telia",price:549,campaign:349,channels:45,streaming:["Viaplay Total","Amazon Prime"],note:"All stor sport. 6 mån kampanj."},
+          {name:"Allente Stream Flex 4",op:"allente",price:449,campaign:255,channels:19,streaming:["Välj 4: Viaplay, HBO Max, Prime, Apple TV, TV4 Play, SkyShowtime"],note:"Max flexibilitet. Byt varje månad."},
+          {name:"Allente Stream Basic",op:"allente",price:249,campaign:129,channels:19,streaming:[],note:"Bara kanaler. 3 mån kampanj."},
+          {name:"Boxer TV Bas",op:"boxer",price:299,campaign:99,channels:19,streaming:[],note:"Marknät. TV Hub mini ingår."},
+          {name:"Sappa Play Fem",op:"sappa",price:209,campaign:99,channels:15,streaming:[],note:"IPTV/kabel. 3 mån kampanj."},
+        ].map((tv,i)=>(<div key={i} style={{background:C.dark,border:`1px solid ${C.surface}`,borderRadius:16,padding:"18px 20px",display:"flex",flexDirection:"column",gap:8}}>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><span style={{fontSize:12,fontWeight:700,color:opColor(tv.op)}}>{opName(tv.op)}</span><span style={{fontSize:9,fontWeight:700,padding:"2px 6px",borderRadius:16,background:"rgba(255,107,0,0.08)",color:"#FF6B00"}}>{tv.channels} kanaler</span></div>
+          <div style={{fontSize:14,fontWeight:800,color:C.text}}>{tv.name}</div>
+          <div style={{display:"flex",alignItems:"baseline",gap:6}}><span style={{fontSize:24,fontWeight:800,color:tv.campaign?C.mint:C.text,fontFamily:"'DM Mono',monospace"}}>{tv.campaign||tv.price}</span><span style={{fontSize:11,color:C.subtle}}>kr/mån</span>{tv.campaign&&<span style={{fontSize:10,color:C.subtle,textDecoration:"line-through"}}>{tv.price} kr</span>}</div>
+          {tv.streaming.length>0&&<div style={{display:"flex",gap:3,flexWrap:"wrap"}}>{tv.streaming.map((s,j)=>(<span key={j} style={{fontSize:9,fontWeight:600,padding:"2px 6px",borderRadius:10,background:"rgba(0,180,216,0.06)",color:C.cyan}}>{s}</span>))}</div>}
+          <div style={{fontSize:10,color:C.subtle}}>{tv.note}</div>
+          <a href={getUrl(tv.op)} target="_blank" rel="noopener noreferrer sponsored" style={{display:"block",marginTop:4,padding:"9px",borderRadius:10,textAlign:"center",background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:11,fontWeight:800,textDecoration:"none"}}>Välj hos {opName(tv.op)} →</a>
+        </div>))}
+      </div>
+    </div>}
+    </div>}
+  </div>);
+}
+
 
 function StreamingPage() {
-  const [filter, setFilter] = useState('all');
-
-  const results = useMemo(() => {
-    let f = [...STREAMING];
-    if (filter === 'film') f = f.filter(s => !s.sport);
-    if (filter === 'sport') f = f.filter(s => s.sport);
-    f.sort((a, b) => a.tiers[0].p - b.tiers[0].p);
-    return f;
-  }, [filter]);
-
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg)', color: 'var(--text)' }}>
-      <NavBar />
-      <div className="cat-tabs">{CAT_TABS.map(t => <a key={t.id} href={t.href} className={`cat-tab ${t.active ? 'active' : ''}`}>{t.label}</a>)}</div>
-      <main id="main" className="container">
-        <section className="section fade-in">
-          <h1 style={{ fontSize: 22, marginBottom: 4 }}>Jämför streaming</h1>
-          <p style={{ fontSize: 13, color: 'var(--sub)', marginBottom: 16 }}>Film, serier och sport — alla tjänster på ett ställe</p>
-
-          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 16 }}>
-            {FILTERS.map(f => <button key={f.id} onClick={() => setFilter(f.id)} className={`chip ${filter === f.id ? 'active' : ''}`} aria-pressed={filter === f.id}>{f.label}</button>)}
-          </div>
-
-          <div style={{ fontSize: 12, color: 'var(--sub)', margin: '0 0 12px' }}><strong style={{ color: 'var(--text)' }}>{results.length} tjänster</strong></div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-            {results.map((s, i) => <StreamCard key={s.id} service={s} index={i} />)}
-          </div>
-
-          <div className="trust-bar" style={{ marginTop: 24 }}>
-            <div className="trust-item"><span aria-hidden="true">🔒</span> Oberoende</div>
-            <div className="trust-item"><span aria-hidden="true">🔄</span> Dagliga priser</div>
-            <div className="trust-item"><span aria-hidden="true">💰</span> Alltid gratis</div>
-          </div>
-        </section>
-      </main>
-      <Footer />
-      <BottomTabs active="compare" />
-    </div>
+    <Page active="jamfor">
+      <div style={{paddingTop:28}}>
+        <ModePills active="streaming"/>
+      </div>
+      <StreamingView/>
+    </Page>
   );
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(<StreamingPage />);
+ReactDOM.createRoot(document.getElementById('root')).render(<StreamingPage/>);
 </script>
 </body>
 </html>

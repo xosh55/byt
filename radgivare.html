@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kolla ditt pris — Hur mycket kan du spara? | Byyt.se</title>
+<meta name="description" content="Fyll i vad du betalar idag för mobil, bredband, TV och streaming. Se hur mycket du kan spara genom att byta operatör." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://byyt.se/radgivare.html" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://byyt.se/radgivare.html" />
+<meta property="og:title" content="Kolla ditt pris — Hur mycket kan du spara? | Byyt.se" />
+<meta property="og:description" content="Fyll i vad du betalar idag för mobil, bredband, TV och streaming. Se hur mycket du kan spara genom att byta operatör." />
+<meta property="og:site_name" content="Byyt.se" />
+<meta property="og:locale" content="sv_SE" />
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%2306D6A0'/><stop offset='50%25' stop-color='%2300B4D8'/><stop offset='100%25' stop-color='%238B5CF6'/></linearGradient></defs><circle cx='16' cy='16' r='15' fill='url(%23g)'/><g stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' fill='none'><path d='M8 11L19 11'/><polyline points='16,8 19,11 16,14'/><path d='M24 21L13 21'/><polyline points='16,18 13,21 16,24'/></g></svg>" />
+<link rel="stylesheet" href="shared.css">
+<script src="data.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.26.9/babel.min.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1R75D4WR44"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-1R75D4WR44');</script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" data-presets="react">
+const { C, OPERATORS, opColor, opName, PLANS, CATEGORIES, SORT_OPTIONS, BUNDLE_DISCOUNTS, BYYT_TIPS, BROADBAND, BB_OPERATORS, TV_OPERATORS, TV_PLANS, URLS, getUrl, STREAMING, SPORT_RIGHTS, PHONES, VIA_OP, SPORT_CARDS } = window.BYYT;
+const { useState, useMemo } = React;
+
+// ─── inlined shared.js ───
+
+// ─── Logo ────────────────────────────────────────────────────
+function ByytLogo({ size = 40, href = "/" }) {
+  const inner = (
+    <div style={{ display: "flex", alignItems: "center", gap: 10, cursor: href ? "pointer" : "default" }}>
+      <svg width={size} height={size} viewBox="0 0 120 120">
+        <defs>
+          <linearGradient id="logoG" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor={C.mint} />
+            <stop offset="50%" stopColor={C.cyan} />
+            <stop offset="100%" stopColor={C.violet} />
+          </linearGradient>
+        </defs>
+        <circle cx="60" cy="60" r="56" fill="url(#logoG)" />
+        <g stroke="#FFF" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" fill="none">
+          <path d="M36 44L67 44" />
+          <polyline points="59,36 67,44 59,52" />
+          <path d="M84 76L53 76" />
+          <polyline points="61,68 53,76 61,84" />
+        </g>
+      </svg>
+      <span style={{
+        fontSize: size * 0.62, fontWeight: 800, letterSpacing: "-0.03em",
+        background: `linear-gradient(135deg,${C.mint},${C.cyan},${C.violet})`,
+        WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent"
+      }}>byyt</span>
+    </div>
+  );
+  if (!href) return inner;
+  return <a href={href} style={{ textDecoration: "none" }}>{inner}</a>;
+}
+
+// ─── Header med riktig URL-navigation ────────────────────────
+function ByytHeader({ active }) {
+  const [mm, setMm] = React.useState(false);
+  const NAV = [
+    { id: "jamfor",     l: "Jämför",     href: "/" },
+    { id: "om",         l: "Om oss",     href: "/om.html" },
+    { id: "integritet", l: "Integritet", href: "/integritet.html" },
+    { id: "kontakt",    l: "Kontakt",    href: "/kontakt.html" },
+  ];
+  return (
+    <>
+      <header style={{
+        padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between",
+        borderBottom: "1px solid rgba(255,255,255,.04)", backdropFilter: "blur(20px)",
+        position: "sticky", top: 0, zIndex: 100, background: "rgba(8,14,26,.92)", height: 60
+      }}>
+        <ByytLogo size={30} href="/" />
+        <nav style={{ display: "flex", gap: 2 }} className="dn">
+          {NAV.map(n => {
+            const a = active === n.id;
+            return (
+              <a key={n.id} href={n.href} style={{
+                padding: "6px 12px", borderRadius: 8, textDecoration: "none",
+                background: a ? "rgba(0,180,216,.08)" : "transparent",
+                color: a ? C.cyan : C.muted, fontSize: 13, fontWeight: a ? 700 : 500
+              }}>{n.l}</a>
+            );
+          })}
+        </nav>
+        <button onClick={() => setMm(!mm)} className="mb" style={{
+          display: "none", background: "none", border: `1px solid ${C.surface}`,
+          borderRadius: 8, padding: "5px 8px", color: C.muted, cursor: "pointer", fontSize: 14
+        }}>☰</button>
+      </header>
+      {mm && (
+        <div style={{
+          position: "fixed", top: 60, left: 0, right: 0, zIndex: 99,
+          background: C.dark, borderBottom: `1px solid ${C.surface}`,
+          padding: 10, display: "flex", flexDirection: "column", gap: 2,
+          animation: "fadeIn .15s"
+        }}>
+          {NAV.map(n => {
+            const a = active === n.id;
+            return (
+              <a key={n.id} href={n.href} style={{
+                padding: "10px 16px", borderRadius: 10, textDecoration: "none",
+                background: a ? "rgba(0,180,216,.06)" : "transparent",
+                color: a ? C.cyan : C.muted, fontSize: 14, fontWeight: 600, textAlign: "left"
+              }}>{n.l}</a>
+            );
+          })}
+        </div>
+      )}
+    </>
+  );
+}
+
+// ─── Footer med riktig URL-navigation ────────────────────────
+function ByytFooter() {
+  const links = [
+    { l: "Jämför",     href: "/" },
+    { l: "Om oss",     href: "/om.html" },
+    { l: "Integritet", href: "/integritet.html" },
+    { l: "Kontakt",    href: "/kontakt.html" },
+  ];
+  return (
+    <footer style={{
+      borderTop: "1px solid rgba(255,255,255,.03)", padding: "32px 24px 24px",
+      background: C.dark, marginTop: 40
+    }}>
+      <div style={{ maxWidth: 960, margin: "0 auto" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 24, marginBottom: 20 }}>
+          <div>
+            <ByytLogo size={28} href="/" />
+            <p style={{ fontSize: 11, color: C.subtle, marginTop: 6, maxWidth: 220, lineHeight: 1.5 }}>
+              Oberoende jämförelse för mobil, bredband, TV, streaming och telefoner.
+            </p>
+          </div>
+          <div style={{ display: "flex", gap: 28 }}>
+            <div>
+              <div style={{ fontSize: 10, color: C.subtle, fontWeight: 600, textTransform: "uppercase", marginBottom: 8 }}>Sidor</div>
+              {links.map(i => (
+                <a key={i.href} href={i.href} style={{
+                  display: "block", padding: "2px 0", color: C.muted,
+                  fontSize: 12, textDecoration: "none"
+                }}>{i.l}</a>
+              ))}
+            </div>
+            <div>
+              <div style={{ fontSize: 10, color: C.subtle, fontWeight: 600, textTransform: "uppercase", marginBottom: 8 }}>Socialt</div>
+              <a href="https://instagram.com/byyt.se" target="_blank" rel="noopener noreferrer" style={{ color: C.muted, textDecoration: "none", fontSize: 12 }}>Instagram</a>
+            </div>
+          </div>
+        </div>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, color: C.surface2 }}>
+          <span>© 2026 Byyt.se</span>
+          <span>Priser: mars 2026</span>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ─── Page wrapper — minimal layout används av alla sidor ─────
+function ByytPage({ active, children }) {
+  return (
+    <div style={{
+      minHeight: "100vh", background: C.ink, color: C.text,
+      fontFamily: "'Plus Jakarta Sans',system-ui,sans-serif", overflowX: "hidden"
+    }}>
+      <ByytHeader active={active} />
+      <main style={{ maxWidth: 1200, margin: "0 auto", padding: "0 20px", position: "relative", zIndex: 1 }} className="mw">
+        {children}
+      </main>
+      <ByytFooter />
+    </div>
+  );
+}
+
+// ─── Mode-pills (delas mellan jämför-sidorna) ────────────────
+function ByytModePills({ active }) {
+  const MODES = [
+    { id: "mobil",     l: "Mobil",           href: "/" },
+    { id: "bredband",  l: "Bredband",        href: "/bredband.html" },
+    { id: "tv",        l: "TV",              href: "/tv.html" },
+    { id: "streaming", l: "Streaming",       href: "/streaming.html" },
+    { id: "telefoner", l: "Telefoner",       href: "/telefoner.html" },
+    { id: "paket",     l: "Allt-i-ett",      href: "/paket.html" },
+    { id: "radgivare", l: "Kolla ditt pris", href: "/radgivare.html" },
+  ];
+  return (
+    <div style={{ display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "center", marginBottom: 24, position: "relative", zIndex: 1 }}>
+      {MODES.map(m => {
+        const a = active === m.id;
+        return (
+          <a key={m.id} href={m.href} style={{
+            padding: "10px 20px", borderRadius: 24,
+            border: a ? "none" : `1px solid ${C.surface}`,
+            textDecoration: "none", fontSize: 13, fontWeight: 700,
+            background: a ? `linear-gradient(135deg,${C.mint},${C.cyan})` : C.dark,
+            color: a ? C.ink : C.muted
+          }}>{m.l}</a>
+        );
+      })}
+    </div>
+  );
+}
+
+// Exponera globalt så mount-skripten kan använda dem
+window.Byyt = {
+  Logo: ByytLogo, Header: ByytHeader, Footer: ByytFooter,
+  Page: ByytPage, ModePills: ByytModePills
+};
+
+// ─── end shared ───
+
+const { Page, ModePills } = window.Byyt;
+
+function AdvisorView(){
+  const[step,setStep]=useState(0);
+  const[curOp,setCurOp]=useState(null);const[curPrice,setCurPrice]=useState("");
+  const[hasBB,setHasBB]=useState(null);const[bbPrice,setBbPrice]=useState("");
+  const[hasTV,setHasTV]=useState(null);const[tvPrice,setTvPrice]=useState("");
+  const[curStr,setCurStr]=useState([]);
+  const[wSurf,setWSurf]=useState("obegr");const[wSport,setWSport]=useState(false);
+
+  const allOps=OPERATORS.map(o=>o.id);
+  const bundleOps=["telia","tele2","telenor","tre"];
+  const stPicks=[
+    {id:"netflix",name:"Netflix",price:149},{id:"hbomax",name:"HBO Max",price:119},{id:"disneyplus",name:"Disney+",price:109},
+    {id:"viaplaytotal",name:"Viaplay Total",price:449},{id:"prime",name:"Amazon Prime",price:69},
+    {id:"skyshowtime",name:"SkyShowtime",price:89},{id:"tv4sport",name:"TV4 Sport",price:249},
+    {id:"appletv",name:"Apple TV+",price:99},{id:"discoveryplus",name:"Discovery+",price:79},
+  ];
+  const toggleCS=id=>setCurStr(p=>p.includes(id)?p.filter(x=>x!==id):[...p,id]);
+  const curTotal=(parseInt(curPrice)||0)+(parseInt(bbPrice)||0)+(parseInt(tvPrice)||0)+curStr.reduce((s,id)=>{const f=stPicks.find(x=>x.id===id);return s+(f?f.price:0);},0);
+
+  const alts=useMemo(()=>{
+    if(step<6)return[];
+    const surfMin=wSurf==="10gb"?5:wSurf==="30gb"?20:9999;
+    return bundleOps.map(op=>{
+      const plans=PLANS.filter(p=>p.operator===op&&p.data>=surfMin).sort((a,b)=>a.price-b.price);
+      if(!plans.length)return null;
+      const mob=plans[0];let mP=mob.campaignPrice||mob.price;
+      const bbs=BROADBAND.filter(b=>b.operator===op).sort((a,b)=>(a.campaignPrice||a.price)-(b.campaignPrice||b.price));
+      const bb=bbs[0];const bP=bb?(bb.campaignPrice||bb.price):0;
+      const disc=bb?BUNDLE_DISCOUNTS[op]||0:0;
+      const tvs=TV_PLANS.filter(t=>t.operator===op&&t.type!=="streaming");
+      let tv=null,tP=0;
+      if(tvs.length){if(wSport)tv=tvs.find(t=>t.streaming.some(s=>s.toLowerCase().includes("sport")))||tvs[tvs.length-1];else tv=tvs[0];if(tv)tP=tv.campaignPrice||tv.price;}
+      const inc=new Set();
+      if(op==="telia"&&mob.name){if(mob.name.includes("3-i-1")){["netflix","hbomax","disneyplus"].forEach(s=>inc.add(s));}else if(mob.name.includes("Netflix"))inc.add("netflix");else if(mob.name.includes("Disney"))inc.add("disneyplus");else if(mob.name.includes("HBO"))inc.add("hbomax");}
+      const strP=curStr.reduce((s,id)=>{if(inc.has(id))return s;const f=stPicks.find(x=>x.id===id);return s+(f?f.price:0);},0);
+      const total=mP+bP+tP+strP-disc;
+      const saving=curTotal-total;
+      return{op,mob,bb,tv,mP,bP,tP,strP,disc,total,saving,inc,yearSaving:saving*12};
+    }).filter(Boolean).sort((a,b)=>a.total-b.total);
+  },[step,curTotal,wSurf,wSport,curStr]);
+
+  const Choice=({label,sub,onClick,active})=>(<button onClick={onClick} style={{flex:"1 1 140px",padding:"16px 12px",borderRadius:14,border:active?`1.5px solid ${C.cyan}`:`1px solid rgba(255,255,255,0.06)`,background:active?"rgba(0,180,216,0.06)":"rgba(255,255,255,0.02)",color:active?C.text:C.muted,fontSize:15,fontWeight:700,cursor:"pointer",fontFamily:"inherit",textAlign:"center",transition:"all .15s"}}>{label}{sub&&<div style={{fontSize:11,fontWeight:400,color:C.subtle,marginTop:4}}>{sub}</div>}</button>);
+  const Back=({to})=>(<button onClick={()=>setStep(to)} style={{display:"flex",alignItems:"center",gap:4,background:"none",border:"none",color:C.cyan,fontSize:12,fontWeight:600,cursor:"pointer",fontFamily:"inherit",padding:0,marginBottom:16}}>← Tillbaka</button>);
+  const stepOf=n=><div style={{fontSize:11,fontWeight:600,color:C.cyan,textTransform:"uppercase",letterSpacing:"0.05em",marginBottom:8}}>Steg {n} av 5</div>;
+
+  return(<div>
+    <section style={{textAlign:"center",padding:"36px 20px 20px"}}><h2 style={{fontSize:"clamp(24px,4vw,40px)",fontWeight:800,letterSpacing:"-0.03em",marginBottom:6,color:C.text}}>Kolla <span style={{background:`linear-gradient(135deg,${C.mint},${C.cyan})`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>ditt pris</span></h2><p style={{fontSize:14,color:C.subtle}}>Steg för steg — se om du kan spara.</p></section>
+    <div style={{maxWidth:600,margin:"0 auto"}}>
+    {step===0&&<div style={{textAlign:"center",animation:"fadeIn .2s"}}>{stepOf(1)}
+      <div style={{fontSize:22,fontWeight:800,color:C.text,marginBottom:6}}>Vilken mobiloperatör har du?</div>
+      <div style={{fontSize:13,color:C.subtle,marginBottom:20}}>Välj din nuvarande operatör</div>
+      <div style={{display:"flex",gap:6,flexWrap:"wrap",justifyContent:"center"}}>{allOps.map(op=>(<button key={op} onClick={()=>{setCurOp(op);setStep(1);}} style={{display:"flex",alignItems:"center",gap:6,padding:"10px 16px",borderRadius:10,border:`1px solid rgba(255,255,255,0.06)`,background:"rgba(255,255,255,0.02)",color:C.muted,fontSize:13,fontWeight:700,cursor:"pointer",fontFamily:"inherit",transition:"all .15s"}} onMouseEnter={e=>{e.currentTarget.style.borderColor=opColor(op);e.currentTarget.style.color=opColor(op);}} onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(255,255,255,0.06)";e.currentTarget.style.color=C.muted;}}><div style={{width:8,height:8,borderRadius:"50%",background:opColor(op)}}/>{opName(op)}</button>))}</div>
+    </div>}
+    {step===1&&<div style={{textAlign:"center",animation:"fadeIn .2s"}}><Back to={0}/>{stepOf(2)}
+      <div style={{fontSize:22,fontWeight:800,color:C.text,marginBottom:6}}>Vad betalar du för mobilen?</div>
+      <div style={{fontSize:13,color:C.subtle,marginBottom:20}}>Totalt per månad</div>
+      <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:8,marginBottom:20}}>
+        <input type="number" placeholder="399" value={curPrice} onChange={e=>setCurPrice(e.target.value)} style={{width:120,padding:"12px 16px",borderRadius:12,border:"1px solid rgba(255,255,255,0.06)",background:"rgba(255,255,255,0.03)",color:C.text,fontSize:24,fontWeight:800,fontFamily:"'DM Mono',monospace",outline:"none",textAlign:"center"}}/>
+        <span style={{fontSize:14,color:C.subtle}}>kr/mån</span>
+      </div>
+      <button onClick={()=>setStep(2)} disabled={!curPrice} style={{padding:"14px 40px",borderRadius:14,background:curPrice?`linear-gradient(135deg,${C.mint},${C.cyan})`:"rgba(255,255,255,0.04)",color:curPrice?C.ink:C.subtle,fontSize:15,fontWeight:800,cursor:curPrice?"pointer":"not-allowed",border:"none",fontFamily:"inherit"}}>Fortsätt →</button>
+    </div>}
+    {step===2&&<div style={{textAlign:"center",animation:"fadeIn .2s"}}><Back to={1}/>{stepOf(3)}
+      <div style={{fontSize:22,fontWeight:800,color:C.text,marginBottom:6}}>Har du bredband?</div>
+      <div style={{display:"flex",gap:12,justifyContent:"center",marginTop:20,marginBottom:16}}>
+        <Choice label="Ja" active={hasBB===true} onClick={()=>setHasBB(true)}/>
+        <Choice label="Nej" active={hasBB===false} onClick={()=>{setHasBB(false);setBbPrice("");setStep(3);}}/>
+      </div>
+      {hasBB&&<div style={{animation:"fadeIn .15s"}}><div style={{fontSize:13,color:C.subtle,marginBottom:12}}>Vad betalar du per månad?</div>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:8,marginBottom:16}}>
+          <input type="number" placeholder="369" value={bbPrice} onChange={e=>setBbPrice(e.target.value)} style={{width:120,padding:"12px 16px",borderRadius:12,border:"1px solid rgba(255,255,255,0.06)",background:"rgba(255,255,255,0.03)",color:C.text,fontSize:24,fontWeight:800,fontFamily:"'DM Mono',monospace",outline:"none",textAlign:"center"}}/>
+          <span style={{fontSize:14,color:C.subtle}}>kr/mån</span>
+        </div>
+        <button onClick={()=>setStep(3)} disabled={!bbPrice} style={{padding:"14px 40px",borderRadius:14,background:bbPrice?`linear-gradient(135deg,${C.mint},${C.cyan})`:"rgba(255,255,255,0.04)",color:bbPrice?C.ink:C.subtle,fontSize:15,fontWeight:800,cursor:bbPrice?"pointer":"not-allowed",border:"none",fontFamily:"inherit"}}>Fortsätt →</button>
+      </div>}
+    </div>}
+    {step===3&&<div style={{textAlign:"center",animation:"fadeIn .2s"}}><Back to={2}/>{stepOf(4)}
+      <div style={{fontSize:22,fontWeight:800,color:C.text,marginBottom:6}}>Har du TV-paket?</div>
+      <div style={{display:"flex",gap:12,justifyContent:"center",marginTop:20,marginBottom:16}}>
+        <Choice label="Ja" active={hasTV===true} onClick={()=>setHasTV(true)}/>
+        <Choice label="Nej" active={hasTV===false} onClick={()=>{setHasTV(false);setTvPrice("");setStep(4);}}/>
+      </div>
+      {hasTV&&<div style={{animation:"fadeIn .15s"}}><div style={{fontSize:13,color:C.subtle,marginBottom:12}}>Vad betalar du per månad?</div>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:8,marginBottom:16}}>
+          <input type="number" placeholder="499" value={tvPrice} onChange={e=>setTvPrice(e.target.value)} style={{width:120,padding:"12px 16px",borderRadius:12,border:"1px solid rgba(255,255,255,0.06)",background:"rgba(255,255,255,0.03)",color:C.text,fontSize:24,fontWeight:800,fontFamily:"'DM Mono',monospace",outline:"none",textAlign:"center"}}/>
+          <span style={{fontSize:14,color:C.subtle}}>kr/mån</span>
+        </div>
+        <button onClick={()=>setStep(4)} disabled={!tvPrice} style={{padding:"14px 40px",borderRadius:14,background:tvPrice?`linear-gradient(135deg,${C.mint},${C.cyan})`:"rgba(255,255,255,0.04)",color:tvPrice?C.ink:C.subtle,fontSize:15,fontWeight:800,cursor:tvPrice?"pointer":"not-allowed",border:"none",fontFamily:"inherit"}}>Fortsätt →</button>
+      </div>}
+    </div>}
+    {step===4&&<div style={{textAlign:"center",animation:"fadeIn .2s"}}><Back to={3}/>{stepOf(5)}
+      <div style={{fontSize:22,fontWeight:800,color:C.text,marginBottom:6}}>Streaming du betalar för?</div>
+      <div style={{fontSize:13,color:C.subtle,marginBottom:20}}>Välj alla du har — eller hoppa över</div>
+      <div style={{display:"flex",gap:6,flexWrap:"wrap",justifyContent:"center",marginBottom:16}}>{stPicks.map(s=>(<button key={s.id} onClick={()=>toggleCS(s.id)} style={{padding:"8px 14px",borderRadius:10,border:curStr.includes(s.id)?`1px solid ${C.cyan}`:`1px solid rgba(255,255,255,0.06)`,background:curStr.includes(s.id)?"rgba(0,180,216,0.06)":"rgba(255,255,255,0.02)",color:curStr.includes(s.id)?C.text:C.muted,fontSize:12,fontWeight:600,cursor:"pointer",fontFamily:"inherit"}}>{s.name} {s.price} kr</button>))}</div>
+      {curTotal>0&&<div style={{marginBottom:16}}><span style={{fontSize:13,color:C.muted}}>Idag: </span><span style={{fontSize:24,fontWeight:800,color:"#f87171",fontFamily:"'DM Mono',monospace"}}>{curTotal} kr/mån</span></div>}
+      <button onClick={()=>setStep(5)} style={{padding:"14px 40px",borderRadius:14,background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:15,fontWeight:800,cursor:"pointer",border:"none",fontFamily:"inherit"}}>Visa vad jag kan spara →</button>
+    </div>}
+    {step===5&&<div style={{textAlign:"center",animation:"fadeIn .2s"}}><Back to={4}/>
+      <div style={{fontSize:22,fontWeight:800,color:C.text,marginBottom:6}}>Sista frågan — surfbehov?</div>
+      <div style={{display:"flex",gap:10,justifyContent:"center",marginTop:16,marginBottom:16}}>
+        {[{id:"10gb",l:"10 GB"},{id:"30gb",l:"30 GB"},{id:"obegr",l:"Obegränsad"}].map(s=>(<button key={s.id} onClick={()=>{setWSurf(s.id);setStep(6);}} style={{padding:"14px 24px",borderRadius:12,border:`1px solid rgba(255,255,255,0.06)`,background:"rgba(255,255,255,0.02)",color:C.muted,fontSize:16,fontWeight:700,cursor:"pointer",fontFamily:"'DM Mono',monospace",transition:"all .15s"}} onMouseEnter={e=>{e.currentTarget.style.borderColor=C.mint;e.currentTarget.style.color=C.mint;}} onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(255,255,255,0.06)";e.currentTarget.style.color=C.muted;}}>{s.l}</button>))}
+      </div>
+      <button onClick={()=>{setWSport(!wSport);}} style={{padding:"10px 20px",borderRadius:10,border:wSport?`1.5px solid ${C.violet}`:`1px solid rgba(255,255,255,0.06)`,background:wSport?"rgba(139,92,246,0.06)":"rgba(255,255,255,0.02)",color:wSport?C.text:C.muted,fontSize:14,fontWeight:700,cursor:"pointer",fontFamily:"inherit"}}>Jag vill ha sport</button>
+    </div>}
+    {step===6&&<div style={{animation:"fadeIn .2s"}}><Back to={5}/>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
+        <div style={{fontSize:16,fontWeight:700,color:C.text}}>Dina alternativ</div>
+        <div style={{fontSize:12,color:C.subtle}}>Idag: <span style={{color:"#f87171",fontWeight:700,fontFamily:"'DM Mono',monospace"}}>{curTotal} kr/mån</span></div>
+      </div>
+      {alts.length===0&&<div style={{padding:20,textAlign:"center",color:C.subtle}}>Inga billigare alternativ hittades.</div>}
+      {alts.map(a=>(<div key={a.op} style={{background:"rgba(255,255,255,0.02)",border:"1px solid rgba(255,255,255,0.04)",borderRadius:12,padding:16,marginBottom:8}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
+          <div style={{display:"flex",alignItems:"center",gap:6}}><div style={{width:8,height:8,borderRadius:"50%",background:opColor(a.op)}}/><span style={{fontSize:15,fontWeight:800,color:opColor(a.op)}}>{opName(a.op)}</span></div>
+          {a.saving>0&&<span style={{fontSize:11,fontWeight:800,color:C.ink,background:`linear-gradient(135deg,${C.mint},${C.cyan})`,padding:"4px 12px",borderRadius:16}}>Spara {a.saving} kr/mån</span>}
+        </div>
+        <div style={{display:"flex",flexDirection:"column",gap:3,marginBottom:10}}>
+          <div style={{display:"flex",justifyContent:"space-between",fontSize:12}}><span style={{color:C.muted}}>Mobil: {a.mob.name}</span><span style={{color:C.text,fontWeight:700,fontFamily:"'DM Mono',monospace"}}>{a.mP} kr</span></div>
+          {a.bb&&<div style={{display:"flex",justifyContent:"space-between",fontSize:12}}><span style={{color:C.muted}}>Bredband: {a.bb.name}</span><span style={{color:C.text,fontWeight:700,fontFamily:"'DM Mono',monospace"}}>{a.bP} kr</span></div>}
+          {a.tv&&<div style={{display:"flex",justifyContent:"space-between",fontSize:12}}><span style={{color:C.muted}}>TV: {a.tv.name}</span><span style={{color:C.text,fontWeight:700,fontFamily:"'DM Mono',monospace"}}>{a.tP} kr</span></div>}
+          {a.strP>0&&<div style={{display:"flex",justifyContent:"space-between",fontSize:12}}><span style={{color:C.muted}}>Streaming</span><span style={{color:C.text,fontWeight:700,fontFamily:"'DM Mono',monospace"}}>{a.strP} kr</span></div>}
+          {a.inc.size>0&&<div style={{display:"flex",gap:4,flexWrap:"wrap"}}>{[...a.inc].map(id=>{const f=stPicks.find(x=>x.id===id);return f?<span key={id} style={{fontSize:9,fontWeight:700,color:C.success,padding:"2px 6px",borderRadius:6,background:"rgba(34,197,94,0.06)"}}>{f.name} INGÅR</span>:null;})}</div>}
+          {a.disc>0&&<div style={{display:"flex",justifyContent:"space-between",fontSize:12}}><span style={{color:C.success}}>Samlingsrabatt</span><span style={{color:C.success,fontWeight:700,fontFamily:"'DM Mono',monospace"}}>-{a.disc} kr</span></div>}
+        </div>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",paddingTop:10,borderTop:"1px solid rgba(255,255,255,0.04)"}}>
+          <div><span style={{fontSize:28,fontWeight:800,color:C.text,fontFamily:"'DM Mono',monospace"}}>{a.total}</span><span style={{fontSize:11,color:C.subtle,marginLeft:4}}>kr/mån</span>{a.saving>0&&<div style={{fontSize:11,color:C.success,fontWeight:700}}>= {a.yearSaving.toLocaleString("sv")} kr/år sparad</div>}</div>
+          <a href={getUrl(a.op)} target="_blank" rel="noopener noreferrer sponsored" style={{padding:"10px 20px",borderRadius:10,textDecoration:"none",background:`linear-gradient(135deg,${C.mint},${C.cyan})`,color:C.ink,fontSize:12,fontWeight:800}}>Gå till {opName(a.op)} →</a>
+        </div>
+      </div>))}
+    </div>}
+    </div>
+  </div>);
+}
+
+function RadgivarePage() {
+  return (
+    <Page active="jamfor">
+      <div style={{paddingTop:28}}>
+        <ModePills active="radgivare"/>
+      </div>
+      <AdvisorView/>
+    </Page>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<RadgivarePage/>);
+</script>
+</body>
+</html>
